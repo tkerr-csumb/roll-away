@@ -147,4 +147,24 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    private void OnCollisionStay(Collision collision)
+{
+    if (collision.gameObject.CompareTag("Ground"))
+    {
+        // Avoid double jump if we're still moving upwards from a jump
+        if (rb.linearVelocity.y <= 0.1f) 
+        {
+            foreach (ContactPoint contact in collision.contacts)
+            {
+                if (contact.normal.y > 0.5f)
+                {
+                    isGrounded = true;
+                    hasBurstCharge = true;
+                    break;
+                }
+            }
+        }
+    }
+}
 }
