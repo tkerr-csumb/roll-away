@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 1ea79760da6aee44fb3ca474891711e5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Scripts/Core/Enums/ClickShiftControlState.cs
+  uploadId: 466768

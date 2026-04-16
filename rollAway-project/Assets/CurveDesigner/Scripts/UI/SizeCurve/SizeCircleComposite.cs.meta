@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: c20fae201c13f3445b8033c7c238e8ec
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Scripts/UI/SizeCurve/SizeCircleComposite.cs
+  uploadId: 466768

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 6f75ddc0c5391f54f8cec6050a26e9ff
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Art/Shaders/VertexTintedStandard.shader
+  uploadId: 466768
