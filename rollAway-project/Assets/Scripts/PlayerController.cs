@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Vector2 movementInput;
     public float speed;
-    public float jumpPower = 7f; 
+    public float jumpPower = 7f;
     public float dashPower = 5f;
     public TextMeshProUGUI countText;
     private int count;
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
         winTextObject.SetActive(false);
     }
 
-    void OnMove(InputAction.CallbackContext context)
+    public void OnMove(InputAction.CallbackContext context)
     {
         movementInput = context.ReadValue<Vector2>();
     }
@@ -62,10 +62,10 @@ public class PlayerController : MonoBehaviour
     void OnJumpPerformed(InputAction.CallbackContext context)
     {
         if (isGrounded)
-    {
-        rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-        isGrounded = false;
-    }
+        {
+            rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            isGrounded = false;
+        }
     }
 
     void OnDashPerformed(InputAction.CallbackContext context)
@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
         if (hasBurstCharge)
         {
             ExecuteBurst();
-            hasBurstCharge = false; 
+            hasBurstCharge = false;
         }
     }
 
@@ -84,17 +84,19 @@ public class PlayerController : MonoBehaviour
 
         // The forward dash logic
         Vector3 dashDirection = new Vector3(movementInput.x, 0, movementInput.y);
-        
+
         // If there's no input, we can default to the current facing direction or forward
-        if (dashDirection == Vector3.zero) dashDirection = rb.linearVelocity.normalized;
-        if (dashDirection == Vector3.zero) dashDirection = Vector3.forward;
+        if (dashDirection == Vector3.zero)
+            dashDirection = rb.linearVelocity.normalized;
+        if (dashDirection == Vector3.zero)
+            dashDirection = Vector3.forward;
 
         // Apply the forces for the dash
         rb.AddForce(dashDirection * dashPower, ForceMode.VelocityChange);
-        
+
         // Adding slight upward lift
         rb.AddForce(Vector3.up * 3f, ForceMode.VelocityChange);
-        
+
         // sound would go here
     }
 
@@ -134,7 +136,7 @@ public class PlayerController : MonoBehaviour
             winTextObject.GetComponent<TextMeshProUGUI>().text =
                 "HAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHA";
         }
-        
+
         if (collision.gameObject.CompareTag("Ground"))
         {
             Vector3 normal = collision.contacts[0].normal;
@@ -149,22 +151,22 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnCollisionStay(Collision collision)
-{
-    if (collision.gameObject.CompareTag("Ground"))
     {
-        // Avoid double jump if we're still moving upwards from a jump
-        if (rb.linearVelocity.y <= 0.1f) 
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            foreach (ContactPoint contact in collision.contacts)
+            // Avoid double jump if we're still moving upwards from a jump
+            if (rb.linearVelocity.y <= 0.1f)
             {
-                if (contact.normal.y > 0.5f)
+                foreach (ContactPoint contact in collision.contacts)
                 {
-                    isGrounded = true;
-                    hasBurstCharge = true;
-                    break;
+                    if (contact.normal.y > 0.5f)
+                    {
+                        isGrounded = true;
+                        hasBurstCharge = true;
+                        break;
+                    }
                 }
             }
         }
     }
-}
 }
