@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: dd3dc8bcf65e9884491d84c9f138d8da
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Scripts/Core/Enums/Curve3DEditMode.cs
+  uploadId: 466768

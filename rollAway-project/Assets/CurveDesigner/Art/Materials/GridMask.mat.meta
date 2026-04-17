@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8dc082e0f6c0b7243a11663e7f66c83e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Art/Materials/GridMask.mat
+  uploadId: 466768

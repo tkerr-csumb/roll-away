@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ecb6775a08183394b84faa7022bf3ba2
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Scripts/Core/Samplers/ANoteOnWhyTheSamplerCodeIsSoUgly.txt
+  uploadId: 466768

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a3e9e3cbe6a5c284bbe531e6dd156e33
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Art/Materials/TintableMetal.mat
+  uploadId: 466768

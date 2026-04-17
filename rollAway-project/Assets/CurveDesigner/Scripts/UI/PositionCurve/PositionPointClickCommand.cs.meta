@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 63fb13bc123817441838681820795ea4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Scripts/UI/PositionCurve/PositionPointClickCommand.cs
+  uploadId: 466768

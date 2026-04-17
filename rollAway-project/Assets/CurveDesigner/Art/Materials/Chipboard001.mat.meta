@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e4941b2f2ed8ed048a698b7dce864848
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Art/Materials/Chipboard001.mat
+  uploadId: 466768
