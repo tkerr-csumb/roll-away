@@ -1,10 +1,8 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class Goal : MonoBehaviour
 {
-    
-
     public TextMeshProUGUI winText;
 
     private void OnTriggerEnter(Collider other)
