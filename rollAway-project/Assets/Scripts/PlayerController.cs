@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private bool hasBurstCharge = true;
     private InputActions inputActions;
     private bool isGrounded = true;
+    public Transform lastCheckpoint;
 
     void Awake()
     {
@@ -123,6 +124,12 @@ public class PlayerController : MonoBehaviour
             other.gameObject.SetActive(false);
             count = count + 1;
             SetCountText();
+        } else if (other.gameObject.CompareTag("OutOfBounds"))
+        {
+            // Respawn the player to the last set checkpoint, and set momentum to zero
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            transform.position = lastCheckpoint.position;
         }
     }
 
