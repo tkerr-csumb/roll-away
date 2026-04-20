@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 40f659ac3676dba4f8e961a950724363
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/README.md
+  uploadId: 466768

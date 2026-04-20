@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 7e7db3837119e8646b9eb855ca89bf13
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Art/Shaders/TransparentTexture.shader
+  uploadId: 466768

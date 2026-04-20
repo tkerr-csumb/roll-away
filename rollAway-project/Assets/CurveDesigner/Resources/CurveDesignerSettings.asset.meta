@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8871c79c537415748bb7ba49f5fcb187
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Resources/CurveDesignerSettings.asset
+  uploadId: 466768

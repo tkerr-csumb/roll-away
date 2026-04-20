@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: fb8386fee224cbf47b4cfea6933e31d9
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Scripts/Core/Samplers/SamplerPoint.cs
+  uploadId: 466768

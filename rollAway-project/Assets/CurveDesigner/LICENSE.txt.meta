@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8131281014f42f242ba433fb273ca935
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/LICENSE.txt
+  uploadId: 466768

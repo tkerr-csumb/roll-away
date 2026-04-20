@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 0d73bde3802a2c94fb850bb3c0978813
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Scripts/UI/Misc/SplitCommands.cs
+  uploadId: 466768

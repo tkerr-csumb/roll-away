@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 0cbe0f1ca9fb749419ac7e013a10a9e5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Scripts/UI/Interfaces/IWindowDrawer.cs
+  uploadId: 466768
