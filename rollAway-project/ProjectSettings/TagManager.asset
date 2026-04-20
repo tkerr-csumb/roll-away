@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - PickUp
   - Ground
+  - Ice
   layers:
   - Default
   - TransparentFX

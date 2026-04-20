@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private bool hasBurstCharge = true;
     private InputActions inputActions;
     private bool isGrounded = true;
+    private bool onIce = false;
 
     void Awake()
     {
@@ -113,6 +115,15 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 movement = new Vector3(movementInput.x, 0.0f, movementInput.y);
+        // change behavior of player movement if on ice (more slidey)
+        if(onIce)
+        {
+            rb.drag = 0.05f; // very low = slidey
+        }
+        else
+        {
+            rb.drag = 1f; // normal
+        }
         rb.AddForce(movement * speed);
     }
 
@@ -147,6 +158,19 @@ public class PlayerController : MonoBehaviour
                 hasBurstCharge = true;
                 isGrounded = true;
             }
+        }
+        if (collision.gameObject.CompareTag("Ice"))
+        {
+            onIce = true;
+            Debug.Log("ice");
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ice"))
+        {
+            onIce = false;
         }
     }
 
