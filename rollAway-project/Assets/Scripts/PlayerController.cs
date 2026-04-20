@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     private bool hasBurstCharge = true;
     private InputActions inputActions;
     private bool isGrounded = true;
+    public GameObject cameraObject;
+    private GravityControl gravityControl;
 
     void Awake()
     {
@@ -46,9 +48,10 @@ public class PlayerController : MonoBehaviour
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
+    void Start() {
         rb = GetComponent<Rigidbody>();
+        gravityControl = GetComponent<GravityControl>();
+
         count = 0;
         SetCountText();
         winTextObject.SetActive(false);
@@ -59,11 +62,12 @@ public class PlayerController : MonoBehaviour
         movementInput = context.ReadValue<Vector2>();
     }
 
-    void OnJumpPerformed(InputAction.CallbackContext context)
-    {
-        if (isGrounded)
-        {
-            rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+    void OnJumpPerformed(InputAction.CallbackContext context) {
+        if (isGrounded) {
+            Vector3 gravityDir = gravityControl.GetGravityDirection();
+            Vector3 up = -gravityDir;
+
+            rb.AddForce(up * jumpPower, ForceMode.Impulse);
             isGrounded = false;
         }
     }
@@ -77,25 +81,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void ExecuteBurst()
-    {
-        // This resets the vertical velocity to zero, allowing for a consistent dash
-        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+    void ExecuteBurst() {
+        Vector3 gravityDir = gravityControl.GetGravityDirection();
+        Vector3 up = -gravityDir;
 
-        // The forward dash logic
-        Vector3 dashDirection = new Vector3(movementInput.x, 0, movementInput.y);
+        Vector3 camForward = cameraObject.transform.forward;
+        Vector3 camRight = cameraObject.transform.right;
+
+        camForward = Vector3.ProjectOnPlane(camForward, up).normalized;
+        camRight = Vector3.ProjectOnPlane(camRight, up).normalized;
+
+        // This resets the velocity along the up axis, allowing for a consistent dash
+        rb.linearVelocity = Vector3.ProjectOnPlane(rb.linearVelocity, up);
+
+        // The forward dash logic (camera-relative input)
+        Vector3 dashDirection = camForward * movementInput.y + camRight * movementInput.x;
 
         // If there's no input, we can default to the current facing direction or forward
         if (dashDirection == Vector3.zero)
-            dashDirection = rb.linearVelocity.normalized;
+            dashDirection = Vector3.ProjectOnPlane(cameraObject.transform.forward, up).normalized;
         if (dashDirection == Vector3.zero)
-            dashDirection = Vector3.forward;
+            dashDirection = camForward;
 
         // Apply the forces for the dash
         rb.AddForce(dashDirection * dashPower, ForceMode.VelocityChange);
 
-        // Adding slight upward lift
-        rb.AddForce(Vector3.up * 3f, ForceMode.VelocityChange);
+        // Adding slight upward lift (relative to gravity)
+        rb.AddForce(up * 3f, ForceMode.VelocityChange);
 
         // sound would go here
     }
@@ -110,10 +122,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
-    {
-        Vector3 movement = new Vector3(movementInput.x, 0.0f, movementInput.y);
-        rb.AddForce(movement * speed);
+    void FixedUpdate() {
+        Vector3 gravityDir = gravityControl.GetGravityDirection();
+        Vector3 up = -gravityDir;
+
+        Vector3 camForward = cameraObject.transform.forward;
+        Vector3 camRight = cameraObject.transform.right;
+
+        camForward = Vector3.ProjectOnPlane(camForward, up).normalized;
+        camRight = Vector3.ProjectOnPlane(camRight, up).normalized;
+
+        Vector3 move = camForward * movementInput.y + camRight * movementInput.x;
+
+        rb.AddForce(move * speed);
     }
 
     void OnTriggerEnter(Collider other)
