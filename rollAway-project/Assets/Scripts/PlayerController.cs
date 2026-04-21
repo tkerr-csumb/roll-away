@@ -7,24 +7,32 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; private set; }
-    private Rigidbody rb;
-    private Vector2 movementInput;
-    public float speed;
+    [Header("Movement Settings")]
+    public float speed = 10f;
     public float jumpPower = 7f;
     public float dashPower = 5f;
-    public TextMeshProUGUI countText;
-    private int count;
-    public GameObject winTextObject;
-    private InputActions inputActions;
-    private bool isGrounded = true;
-    public float currentDashEnergy = 0f;
+
+    [Header("Dash & Energy System")]
     public float maxDashEnergy = 100f;
-    public float energyGainMultiplier = 5f;
+    public float currentDashEnergy = 0f;
+    public float energyGainMultiplier = 2f;
+
+    [Header("Visual Effects")]
     public ParticleSystem dashEffect;
     public GameObject landingVFXPrefab;
     public float impactThreshold = 8.5f;
 
+    [Header("UI References")]
+    public TextMeshProUGUI countText;
+    public GameObject winTextObject;
+
+    [Header("Internal State")]
+    private Rigidbody rb;
+    private Vector2 movementInput;
+    private int count;
+    private bool isGrounded = true;
     private Vector3 lastPosition;
+    private InputActions inputActions;
 
     void Awake()
     {
