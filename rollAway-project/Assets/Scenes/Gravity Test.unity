@@ -1052,7 +1052,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
   player: {fileID: 1952175805}
   sensitivity: 3
-  distance: 5
+  distance: 7
+  alignmentSpeed: 10
+  mouseSmoothing: 0.08
 --- !u!114 &1379791144
 MonoBehaviour:
   m_ObjectHideFlags: 0

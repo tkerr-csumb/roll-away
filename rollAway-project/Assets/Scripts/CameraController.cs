@@ -4,55 +4,74 @@ using UnityEngine.InputSystem;
 public class CameraController : MonoBehaviour
 {
     public GameObject player;
-    public float sensitivity = 3f;
+    public float sensitivity = 2f;
     public float distance = 7f;
-    private GravityControl gravityControl;
-    private Vector3 thisSideUp;
     public float alignmentSpeed = 10f;
+    public float mouseSmoothing = 0.08f;
 
-    void Start() {
+    private GravityControl gravityControl;
+
+    private Vector3 thisSideUp;
+
+    private float yaw;
+    private float pitch;
+
+    private Vector2 smoothedMouse;
+    private Vector2 mouseVelocity;
+
+    private Vector3 followVelocity;
+
+    void Start()
+    {
         gravityControl = player.GetComponent<GravityControl>();
         thisSideUp = Vector3.up;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
-    void LateUpdate() {
+    void LateUpdate()
+    {
         Vector2 mouseDelta = Mouse.current.delta.ReadValue();
 
-        Vector3 gravityDir = gravityControl.GetGravityDirection();
-        Vector3 targetUp = -gravityDir;
-        thisSideUp = Vector3.Slerp(thisSideUp, targetUp, alignmentSpeed * Time.deltaTime);
-
-        Quaternion currentRotation = transform.rotation;
-
-        Quaternion yawRotation = Quaternion.AngleAxis(
-            mouseDelta.x * sensitivity,
-            thisSideUp
+        smoothedMouse = Vector2.SmoothDamp(
+            smoothedMouse,
+            mouseDelta,
+            ref mouseVelocity,
+            mouseSmoothing
         );
 
-        Vector3 right = currentRotation * Vector3.right;
+        Vector3 targetUp = -gravityControl.GetGravityDirection();
 
-        Quaternion pitchRotation = Quaternion.AngleAxis(
-            -mouseDelta.y * sensitivity,
-            right
+        thisSideUp = Vector3.Slerp(
+            thisSideUp,
+            targetUp,
+            alignmentSpeed * Time.deltaTime
         );
 
-        Quaternion targetRotation = yawRotation * pitchRotation * currentRotation;
+        float mouseScale = sensitivity * 0.02f;
 
-        Vector3 forward = targetRotation * Vector3.forward;
-        float angleFromUp = Vector3.Angle(forward, thisSideUp);
+        yaw += smoothedMouse.x * mouseScale;
+        pitch -= smoothedMouse.y * mouseScale;
 
-        if (angleFromUp < 10f || angleFromUp > 170f) {
-            targetRotation = yawRotation * currentRotation;
-        }
+        pitch = Mathf.Clamp(pitch, -80f, 80f);
 
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
-            targetRotation,
-            15f * Time.deltaTime
+        Quaternion yawRot = Quaternion.AngleAxis(yaw, thisSideUp);
+
+        Vector3 right = yawRot * Vector3.right;
+
+        Vector3 forward = Quaternion.AngleAxis(pitch, right) * (yawRot * Vector3.forward);
+
+        transform.rotation = Quaternion.LookRotation(forward, thisSideUp);
+
+        Vector3 desiredPosition =
+            player.transform.position - transform.forward * distance;
+
+        transform.position = Vector3.SmoothDamp(
+            transform.position,
+            desiredPosition,
+            ref followVelocity,
+            0.12f
         );
-
-        transform.position = player.transform.position - transform.forward * distance;
     }
 }
