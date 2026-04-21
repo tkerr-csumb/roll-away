@@ -8,6 +8,7 @@ TagManager:
   - PickUp
   - Ground
   - Ice
+  - Rubber
   layers:
   - Default
   - TransparentFX

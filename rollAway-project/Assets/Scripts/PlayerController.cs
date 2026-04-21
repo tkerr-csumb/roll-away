@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public float jumpPower = 7f;
     public float dashPower = 5f;
+    public float bounceBoost = 10f;
     public TextMeshProUGUI countText;
     private int count;
     public GameObject winTextObject;
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private InputActions inputActions;
     private bool isGrounded = true;
     private bool onIce = false;
+    private bool onRubber = false;
 
     void Awake()
     {
@@ -65,7 +67,15 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded)
         {
-            rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            if (onRubber)
+            {
+                rb.AddForce(Vector3.up * bounceBoost, ForceMode.Impulse);
+            }
+            else
+            {
+
+                rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            }
             isGrounded = false;
         }
     }
@@ -118,11 +128,11 @@ public class PlayerController : MonoBehaviour
         // change behavior of player movement if on ice (more slidey)
         if(onIce)
         {
-            rb.drag = 0.05f; // very low = slidey
+            rb.linearDamping = 0.05f; // very low = slidey
         }
         else
         {
-            rb.drag = 1f; // normal
+            rb.linearDamping = 1f; // normal
         }
         rb.AddForce(movement * speed);
     }
@@ -161,10 +171,33 @@ public class PlayerController : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Ice"))
         {
+            Vector3 normal = collision.contacts[0].normal;
+            
             onIce = true;
+            // Surface has to face up enough to be floor for now
+            if (normal.y > 0.5f)
+            {
+                hasBurstCharge = true;
+                isGrounded = true;
+            }
             Debug.Log("ice");
         }
+        if (collision.gameObject.CompareTag("Rubber"))
+        {
+            Vector3 normal = collision.contacts[0].normal;
+            
+            onRubber = true;
+            // Surface has to face up enough to be floor for now
+            if (normal.y > 0.5f)
+            {
+                hasBurstCharge = true;
+                isGrounded = true;
+            }
+            Debug.Log("rubber");
+        }
     }
+
+    private int test = 0;
 
     private void OnCollisionExit(Collision collision)
     {
@@ -172,11 +205,15 @@ public class PlayerController : MonoBehaviour
         {
             onIce = false;
         }
+        if (collision.gameObject.CompareTag("Rubber"))
+        {
+            onRubber = false;
+        }
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") ||  collision.gameObject.CompareTag("Ice") || collision.gameObject.CompareTag("Rubber"))
         {
             // Avoid double jump if we're still moving upwards from a jump
             if (rb.linearVelocity.y <= 0.1f)
