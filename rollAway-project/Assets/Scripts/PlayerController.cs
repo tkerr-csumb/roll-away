@@ -147,46 +147,36 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            // Destroy the current object
+    private void OnCollisionEnter(Collision collision) {
+        HandleGroundCollision(collision);
+
+        if (collision.gameObject.CompareTag("Enemy")) {
             Destroy(gameObject);
             winTextObject.gameObject.SetActive(true);
             winTextObject.GetComponent<TextMeshProUGUI>().text =
                 "HAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHA";
         }
-
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            Vector3 normal = collision.contacts[0].normal;
-
-            // Surface has to face up enough to be floor for now
-            if (normal.y > 0.5f)
-            {
-                hasBurstCharge = true;
-                isGrounded = true;
-            }
-        }
     }
 
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            // Avoid double jump if we're still moving upwards from a jump
-            if (rb.linearVelocity.y <= 0.1f)
-            {
-                foreach (ContactPoint contact in collision.contacts)
-                {
-                    if (contact.normal.y > 0.5f)
-                    {
-                        isGrounded = true;
-                        hasBurstCharge = true;
-                        break;
-                    }
-                }
+    private void OnCollisionStay(Collision collision) {
+        HandleGroundCollision(collision);
+    }
+
+    private void HandleGroundCollision(Collision collision) {
+        if (!collision.gameObject.CompareTag("Ground")) return;
+
+        Vector3 gravityDir = gravityControl.GetGravityDirection();
+        Vector3 up = -gravityDir;
+
+        float verticalVelocity = Vector3.Dot(rb.linearVelocity, up);
+
+        if (verticalVelocity > 0.1f) return;
+
+        foreach (ContactPoint contact in collision.contacts) {
+            if (Vector3.Dot(contact.normal, up) > 0.5f) {
+                isGrounded = true;
+                hasBurstCharge = true;
+                return;
             }
         }
     }
