@@ -4,7 +4,6 @@ public class MeterBar : MonoBehaviour
 {
    public Image dashFillImage; 
     
-    // Drag your Player object here
     public PlayerController player; 
 
     void Update()
