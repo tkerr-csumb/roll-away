@@ -970,7 +970,7 @@ MonoBehaviour:
   _filter: {fileID: 205018570302639426}
   _renderer: {fileID: 6279064686756334853}
   displayMesh: {fileID: 0}
-  displayMeshCreatorId: 52432
+  displayMeshCreatorId: 52472
   isInitialized: 1
   old_constSize: 0.2
   old_constRotation: 0

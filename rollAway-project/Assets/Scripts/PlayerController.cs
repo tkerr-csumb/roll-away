@@ -15,9 +15,16 @@ public class PlayerController : MonoBehaviour
     public TextMeshProUGUI countText;
     private int count;
     public GameObject winTextObject;
-    private bool hasBurstCharge = true;
     private InputActions inputActions;
     private bool isGrounded = true;
+    public float currentDashEnergy = 0f;
+    public float maxDashEnergy = 100f;
+    public float energyGainMultiplier = 5f;
+    public ParticleSystem dashEffect;
+    public GameObject landingVFXPrefab;
+    public float impactThreshold = 8.5f;
+
+    private Vector3 lastPosition;
 
     void Awake()
     {
@@ -27,8 +34,8 @@ public class PlayerController : MonoBehaviour
 
     void OnEnable()
     {
-        inputActions.Player.Move.performed += OnMove;
-        inputActions.Player.Move.canceled += OnMove;
+        inputActions.Player.Move.performed += HandleMoveInput;
+        inputActions.Player.Move.canceled += HandleMoveInput;
 
         inputActions.Player.Jump.performed += OnJumpPerformed;
         inputActions.Player.Dash.performed += OnDashPerformed;
@@ -38,8 +45,8 @@ public class PlayerController : MonoBehaviour
 
     void OnDisable()
     {
-        inputActions.Player.Move.performed -= OnMove;
-        inputActions.Player.Move.canceled -= OnMove;
+        inputActions.Player.Move.performed -= HandleMoveInput;
+        inputActions.Player.Move.canceled -= HandleMoveInput;
         inputActions.Player.Jump.performed -= OnJumpPerformed;
         inputActions.Player.Dash.performed -= OnDashPerformed;
         inputActions.Player.Disable();
@@ -47,14 +54,35 @@ public class PlayerController : MonoBehaviour
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
-    {
+    {   
+        lastPosition = transform.position;
+
         rb = GetComponent<Rigidbody>();
         count = 0;
         SetCountText();
         winTextObject.SetActive(false);
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+    void Update()
+{
+    // Calculate the distance covered (ignoring vertical movement)
+    Vector3 currentPosFlat = new Vector3(transform.position.x, 0, transform.position.z);
+    Vector3 lastPosFlat = new Vector3(lastPosition.x, 0, lastPosition.z);
+    float distanceMoved = Vector3.Distance(currentPosFlat, lastPosFlat);
+    
+    // Only add energy if touching the ground
+    if (isGrounded && currentDashEnergy < maxDashEnergy)
+    {
+        currentDashEnergy += distanceMoved * energyGainMultiplier;
+        
+        // Keep it from going over the max
+        currentDashEnergy = Mathf.Clamp(currentDashEnergy, 0, maxDashEnergy);
+    }
+
+    lastPosition = transform.position;
+}
+
+    public void HandleMoveInput(InputAction.CallbackContext context)
     {
         movementInput = context.ReadValue<Vector2>();
     }
@@ -70,10 +98,12 @@ public class PlayerController : MonoBehaviour
 
     void OnDashPerformed(InputAction.CallbackContext context)
     {
-        if (hasBurstCharge)
+        // Check if the bar is full enough to dash
+        if (currentDashEnergy >= maxDashEnergy)
         {
             ExecuteBurst();
-            hasBurstCharge = false;
+            // Reset the energy so the bar empties
+            currentDashEnergy = 0f; 
         }
     }
 
@@ -96,6 +126,12 @@ public class PlayerController : MonoBehaviour
 
         // Adding slight upward lift
         rb.AddForce(Vector3.up * 3f, ForceMode.VelocityChange);
+
+        if (dashEffect != null)
+    {
+        dashEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); 
+        dashEffect.Play();
+    }
 
         // sound would go here
     }
@@ -139,12 +175,24 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Ground"))
         {
+            // Only show dust if we fall from a certain height/speed
+        if (collision.relativeVelocity.magnitude > impactThreshold)
+        {
+            if (landingVFXPrefab != null)
+            {
+                ContactPoint contact = collision.contacts[0];
+                
+                // Lift the spawn point up slightly so the dust is fully visible
+                Vector3 spawnPos = contact.point + Vector3.up * 0.02f;
+                
+                Instantiate(landingVFXPrefab, spawnPos, Quaternion.identity);
+            }
+        }
             Vector3 normal = collision.contacts[0].normal;
 
             // Surface has to face up enough to be floor for now
             if (normal.y > 0.5f)
             {
-                hasBurstCharge = true;
                 isGrounded = true;
             }
         }
@@ -162,7 +210,6 @@ public class PlayerController : MonoBehaviour
                     if (contact.normal.y > 0.5f)
                     {
                         isGrounded = true;
-                        hasBurstCharge = true;
                         break;
                     }
                 }
