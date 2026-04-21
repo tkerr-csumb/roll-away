@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 10f;
     public float jumpPower = 7f;
     public float dashPower = 5f;
+    public float bounceBoost = 10f;
 
     [Header("Dash & Energy System")]
     public float maxDashEnergy = 100f;
@@ -31,6 +33,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 movementInput;
     private int count;
     private bool isGrounded = true;
+    public bool onIce = false;
+    private bool onRubber = false;
     private Vector3 lastPosition;
     private InputActions inputActions;
 
@@ -72,23 +76,23 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
-{
-    // Calculate the distance covered (ignoring vertical movement)
-    Vector3 currentPosFlat = new Vector3(transform.position.x, 0, transform.position.z);
-    Vector3 lastPosFlat = new Vector3(lastPosition.x, 0, lastPosition.z);
-    float distanceMoved = Vector3.Distance(currentPosFlat, lastPosFlat);
-    
-    // Only add energy if touching the ground
-    if (isGrounded && currentDashEnergy < maxDashEnergy)
     {
-        currentDashEnergy += distanceMoved * energyGainMultiplier;
+        // Calculate the distance covered (ignoring vertical movement)
+        Vector3 currentPosFlat = new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 lastPosFlat = new Vector3(lastPosition.x, 0, lastPosition.z);
+        float distanceMoved = Vector3.Distance(currentPosFlat, lastPosFlat);
         
-        // Keep it from going over the max
-        currentDashEnergy = Mathf.Clamp(currentDashEnergy, 0, maxDashEnergy);
-    }
+        // Only add energy if touching the ground
+        if (isGrounded && currentDashEnergy < maxDashEnergy)
+        {
+            currentDashEnergy += distanceMoved * energyGainMultiplier;
+            
+            // Keep it from going over the max
+            currentDashEnergy = Mathf.Clamp(currentDashEnergy, 0, maxDashEnergy);
+        }
 
-    lastPosition = transform.position;
-}
+        lastPosition = transform.position;
+    }
 
     public void HandleMoveInput(InputAction.CallbackContext context)
     {
@@ -99,7 +103,14 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded)
         {
-            rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            if (onRubber)
+            {
+                rb.AddForce(Vector3.up * bounceBoost, ForceMode.Impulse);
+            }
+            else
+            {
+                rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            }
             isGrounded = false;
         }
     }
@@ -136,10 +147,10 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(Vector3.up * 3f, ForceMode.VelocityChange);
 
         if (dashEffect != null)
-    {
-        dashEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); 
-        dashEffect.Play();
-    }
+        {
+            dashEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); 
+            dashEffect.Play();
+        }
 
         // sound would go here
     }
@@ -157,6 +168,17 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 movement = new Vector3(movementInput.x, 0.0f, movementInput.y);
+        
+        // change behavior of player movement if on ice (more slidey)
+        if(onIce)
+        {
+            rb.linearDamping = 0.05f; // very low = slidey
+        }
+        else
+        {
+            rb.linearDamping = 1f; // normal
+        }
+
         rb.AddForce(movement * speed);
     }
 
@@ -181,21 +203,20 @@ public class PlayerController : MonoBehaviour
                 "HAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHA";
         }
 
-        if (collision.gameObject.CompareTag("Ground"))
+        // Handle ground, ice, and rubber for landing particles
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Ice") || collision.gameObject.CompareTag("Rubber"))
         {
             // Only show dust if we fall from a certain height/speed
-        if (collision.relativeVelocity.magnitude > impactThreshold)
-        {
-            if (landingVFXPrefab != null)
+            if (collision.relativeVelocity.magnitude > impactThreshold)
             {
-                ContactPoint contact = collision.contacts[0];
-                
-                // Lift the spawn point up slightly so the dust is fully visible
-                Vector3 spawnPos = contact.point + Vector3.up * 0.02f;
-                
-                Instantiate(landingVFXPrefab, spawnPos, Quaternion.identity);
+                if (landingVFXPrefab != null)
+                {
+                    ContactPoint contact = collision.contacts[0];
+                    Vector3 spawnPos = contact.point + Vector3.up * 0.02f;
+                    Instantiate(landingVFXPrefab, spawnPos, Quaternion.identity);
+                }
             }
-        }
+
             Vector3 normal = collision.contacts[0].normal;
 
             // Surface has to face up enough to be floor for now
@@ -204,11 +225,34 @@ public class PlayerController : MonoBehaviour
                 isGrounded = true;
             }
         }
+
+        if (collision.gameObject.CompareTag("Ice"))
+        {
+            onIce = true;
+            Debug.Log("ice");
+        }
+        if (collision.gameObject.CompareTag("Rubber"))
+        {
+            onRubber = true;
+            Debug.Log("rubber");
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ice"))
+        {
+            onIce = false;
+        }
+        if (collision.gameObject.CompareTag("Rubber"))
+        {
+            onRubber = false;
+        }
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Ice") || collision.gameObject.CompareTag("Rubber"))
         {
             // Avoid double jump if we're still moving upwards from a jump
             if (rb.linearVelocity.y <= 0.1f)
@@ -218,6 +262,7 @@ public class PlayerController : MonoBehaviour
                     if (contact.normal.y > 0.5f)
                     {
                         isGrounded = true;
+                        currentDashEnergy = maxDashEnergy;
                         break;
                     }
                 }
