@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     private bool hasBurstCharge = true;
     private InputActions inputActions;
     private bool isGrounded = true;
-    private bool onIce = false;
+    public bool onIce = false;
     private bool onRubber = false;
 
     void Awake()
