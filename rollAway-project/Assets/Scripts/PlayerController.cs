@@ -30,11 +30,10 @@ public class PlayerController : MonoBehaviour
     private int count;
     private float maxSpeed = 11.5f;
     public GameObject winTextObject;
-    private bool hasBurstCharge = true; 
-//     private InputActions inputActions;
 
     [Header("Internal State")]
     private Rigidbody rb;
+    private bool hasBurstCharge = true;
     private Vector2 movementInput;
     private bool isGrounded = true;
     private bool onRubber = false;
