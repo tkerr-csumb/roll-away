@@ -262,7 +262,6 @@ public class PlayerController : MonoBehaviour
                     if (contact.normal.y > 0.5f)
                     {
                         isGrounded = true;
-                        currentDashEnergy = maxDashEnergy;
                         break;
                     }
                 }
