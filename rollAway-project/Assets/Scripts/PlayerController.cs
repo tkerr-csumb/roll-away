@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("UI References")]
     public TextMeshProUGUI countText;
+    private int count;
+    private float maxSpeed = 11.5f;
     public GameObject winTextObject;
 
     [Header("Internal State")]
@@ -35,13 +37,18 @@ public class PlayerController : MonoBehaviour
     private Vector2 movementInput;
     private int count;
     private bool isGrounded = true;
-    public bool onIce = false;
     private bool onRubber = false;
     private Vector3 lastPosition;
     private InputActions inputActions;
     public GameObject cameraObject;
     private GravityControl gravityControl;
 
+    public float stickyMoveMultiplier = 4f;
+    public float stickyClimbForce = 25f;
+    [NonSerialized] public bool onIce = false;
+    private bool onSticky = false;
+    private Vector3 stickyNormal;
+    
     void Awake()
     {
         Instance = this;
@@ -185,6 +192,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        
         Vector3 gravityDir = gravityControl.GetGravityDirection();
         Vector3 up = -gravityDir;
 
@@ -196,12 +204,45 @@ public class PlayerController : MonoBehaviour
 
         Vector3 move = camForward * movementInput.y + camRight * movementInput.x;
         if (onIce)
+        {if (onSticky){
+            rb.linearDamping = 2f;
+            rb.angularDamping = 2f;
+            // Wall climbing (no cielings)
+            if (stickyNormal.y < 0.5f && stickyNormal.y > -0.5f)
+            {
+                Vector3 climbingMovement = Vector3.ProjectOnPlane(movement, stickyNormal);
+                //keep ball attached and not fall off
+                rb.AddForce(-stickyNormal*20f, ForceMode.Force);
+                // offset gravity while climbing (not all the way though)
+                rb.AddForce(Vector3.up *9.81f, ForceMode.Force);
+                Vector3 climbDir = climbingMovement.normalized;
+                // rb.AddForce(climbDir * stickyClimbForce, ForceMode.Acceleration);
+                rb.AddForce(climbingMovement * (speed * stickyMoveMultiplier), ForceMode.Force);
+                return;
+            }
+        }
+        else if (onIce)
         {
-            rb.linearDamping = 0.05f; // very low = slidey
+            speed += 0.1f * Time.deltaTime;
+
+            rb.linearDamping = 0.05f;
+            rb.angularDamping = 0.05f;
+            // Apply movement
+            rb.AddForce(movement * speed, ForceMode.Force);
+
+            //clamp velocity
+            if (rb.linearVelocity.magnitude > maxSpeed)
+            {
+                rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed);
+            }
+
+            return;
         }
         else
         {
+            speed = 10f;
             rb.linearDamping = 1f; // normal
+            // rb.angularDamping = 1f;
         }
         rb.AddForce(move * speed);
     }
@@ -227,6 +268,9 @@ public class PlayerController : MonoBehaviour
             winTextObject.GetComponent<TextMeshProUGUI>().text =
                 "HAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHA";
         }
+        Vector3 normal = collision.contacts[0].normal;
+        if (collision.gameObject.CompareTag("Ground"))
+        {
     }
 
     private void HandleGroundCollision(Collision collision)
@@ -271,13 +315,25 @@ public class PlayerController : MonoBehaviour
             if (collision.gameObject.CompareTag("Ice"))
             {
                 onIce = true;
-                Debug.Log("ice");
             }
             if (collision.gameObject.CompareTag("Rubber"))
             {
                 onRubber = true;
-                Debug.Log("rubber");
             }
+            // Debug.Log("rubber");
+        }
+
+        if (collision.gameObject.CompareTag("Flypaper"))
+        {
+            //Vector3 normal = collision.contacts[0].normal;
+            stickyNormal = normal;
+            onSticky = true;
+            if (normal.y > 0.5f)
+            {
+                hasBurstCharge = true;
+                isGrounded = true;
+            }
+            // Debug.Log("Flypaper");
         }
     }
 
@@ -290,6 +346,12 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Rubber"))
         {
             onRubber = false;
+        }
+
+        if (collision.gameObject.CompareTag("Flypaper"))
+        {
+            onSticky = false;
+            stickyNormal = Vector3.zero;
         }
     }
 

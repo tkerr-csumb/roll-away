@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - Ice
   - Rubber
+  - Flypaper
   - OutOfBounds
   layers:
   - Default

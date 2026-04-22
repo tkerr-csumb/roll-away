@@ -3,8 +3,8 @@ using UnityEngine;
 public class BowlingBallEffect : MonoBehaviour
 {
     public PlayerController playerController;
-    public Vector3 spinAxis = Vector3.right;
-    public float spinSpeed = 360f;
+    private Vector3 spinAxis = Vector3.right;
+    private float spinSpeed = 360f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,7 +17,7 @@ public class BowlingBallEffect : MonoBehaviour
         if (playerController.onIce)
         {
             transform.Rotate(spinAxis, spinSpeed * Time.deltaTime, Space.Self);
-            Debug.Log("Woah slidey");
+            // Debug.Log("Woah slidey");
         }
     }
 }
