@@ -8,28 +8,48 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; private set; }
-    private Rigidbody rb;
-    private Vector2 movementInput;
-    public float speed;
+
+    [Header("Movement Settings")]
+    public float speed = 10f;
     public float jumpPower = 7f;
     public float dashPower = 5f;
-    public float bounceBoost = 14f;
+    public float bounceBoost = 10f;
+
+    [Header("Dash & Energy System")]
+    public float maxDashEnergy = 100f;
+    public float currentDashEnergy = 0f;
+    public float energyGainMultiplier = 2f;
+
+    [Header("Visual Effects")]
+    public ParticleSystem dashEffect;
+    public GameObject landingVFXPrefab;
+    public float impactThreshold = 8.5f;
+
+    [Header("UI References")]
     public TextMeshProUGUI countText;
     private int count;
     private float maxSpeed = 11.5f;
     public GameObject winTextObject;
+
+    [Header("Internal State")]
+    private Rigidbody rb;
     private bool hasBurstCharge = true;
-    private InputActions inputActions;
+    private Vector2 movementInput;
     private bool isGrounded = true;
-    public float stickyMoveMultiplier = 4f;
-    public float stickyClimbForce = 25f;
+    private bool onRubber = false;
+    private Vector3 lastPosition;
+    private InputActions inputActions;
     public GameObject cameraObject;
     private GravityControl gravityControl;
-    [NonSerialized] public bool onIce = false;
-    private bool onRubber = false;
+
+    public float stickyMoveMultiplier = 4f;
+    public float stickyClimbForce = 25f;
+
+    [NonSerialized]
+    public bool onIce = false;
     private bool onSticky = false;
     private Vector3 stickyNormal;
-    
+
     void Awake()
     {
         Instance = this;
@@ -38,8 +58,8 @@ public class PlayerController : MonoBehaviour
 
     void OnEnable()
     {
-        inputActions.Player.Move.performed += OnMove;
-        inputActions.Player.Move.canceled += OnMove;
+        inputActions.Player.Move.performed += HandleMoveInput;
+        inputActions.Player.Move.canceled += HandleMoveInput;
 
         inputActions.Player.Jump.performed += OnJumpPerformed;
         inputActions.Player.Dash.performed += OnDashPerformed;
@@ -49,8 +69,8 @@ public class PlayerController : MonoBehaviour
 
     void OnDisable()
     {
-        inputActions.Player.Move.performed -= OnMove;
-        inputActions.Player.Move.canceled -= OnMove;
+        inputActions.Player.Move.performed -= HandleMoveInput;
+        inputActions.Player.Move.canceled -= HandleMoveInput;
         inputActions.Player.Jump.performed -= OnJumpPerformed;
         inputActions.Player.Dash.performed -= OnDashPerformed;
         inputActions.Player.Disable();
@@ -59,6 +79,8 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        lastPosition = transform.position;
+
         rb = GetComponent<Rigidbody>();
         gravityControl = GetComponent<GravityControl>();
 
@@ -67,7 +89,26 @@ public class PlayerController : MonoBehaviour
         winTextObject.SetActive(false);
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+    void Update()
+    {
+        // Calculate the distance covered (ignoring vertical movement)
+        Vector3 currentPosFlat = new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 lastPosFlat = new Vector3(lastPosition.x, 0, lastPosition.z);
+        float distanceMoved = Vector3.Distance(currentPosFlat, lastPosFlat);
+
+        // Only add energy if touching the ground
+        if (isGrounded && currentDashEnergy < maxDashEnergy)
+        {
+            currentDashEnergy += distanceMoved * energyGainMultiplier;
+
+            // Keep it from going over the max
+            currentDashEnergy = Mathf.Clamp(currentDashEnergy, 0, maxDashEnergy);
+        }
+
+        lastPosition = transform.position;
+    }
+
+    public void HandleMoveInput(InputAction.CallbackContext context)
     {
         movementInput = context.ReadValue<Vector2>();
     }
@@ -85,21 +126,20 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                {
-                    rb.AddForce(Vector3.up * bounceBoost, ForceMode.Impulse);
-                }
-
-                isGrounded = false;
+                rb.AddForce(Vector3.up * bounceBoost, ForceMode.Impulse);
             }
+            isGrounded = false;
         }
     }
 
     void OnDashPerformed(InputAction.CallbackContext context)
     {
-        if (hasBurstCharge)
+        // Check if the bar is full enough to dash
+        if (currentDashEnergy >= maxDashEnergy)
         {
             ExecuteBurst();
-            hasBurstCharge = false;
+            // Reset the energy so the bar empties
+            currentDashEnergy = 0f;
         }
     }
 
@@ -132,6 +172,12 @@ public class PlayerController : MonoBehaviour
         // Adding slight upward lift (relative to gravity)
         rb.AddForce(up * 3f, ForceMode.VelocityChange);
 
+        if (dashEffect != null)
+        {
+            dashEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            dashEffect.Play();
+        }
+
         // sound would go here
     }
 
@@ -147,7 +193,6 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        
         Vector3 gravityDir = gravityControl.GetGravityDirection();
         Vector3 up = -gravityDir;
 
@@ -159,56 +204,59 @@ public class PlayerController : MonoBehaviour
 
         Vector3 move = camForward * movementInput.y + camRight * movementInput.x;
         if (onIce)
-        {if (onSticky){
-            rb.linearDamping = 2f;
-            rb.angularDamping = 2f;
-            // Wall climbing (no cielings)
-            if (stickyNormal.y < 0.5f && stickyNormal.y > -0.5f)
+        {
+            if (onSticky)
             {
-                Vector3 climbingMovement = Vector3.ProjectOnPlane(movement, stickyNormal);
-                //keep ball attached and not fall off
-                rb.AddForce(-stickyNormal*20f, ForceMode.Force);
-                // offset gravity while climbing (not all the way though)
-                rb.AddForce(Vector3.up *9.81f, ForceMode.Force);
-                Vector3 climbDir = climbingMovement.normalized;
-                // rb.AddForce(climbDir * stickyClimbForce, ForceMode.Acceleration);
-                rb.AddForce(climbingMovement * (speed * stickyMoveMultiplier), ForceMode.Force);
+                rb.linearDamping = 2f;
+                rb.angularDamping = 2f;
+                // Wall climbing (no cielings)
+                if (stickyNormal.y < 0.5f && stickyNormal.y > -0.5f)
+                {
+                    Vector3 climbingMovement = Vector3.ProjectOnPlane(move, stickyNormal);
+                    //keep ball attached and not fall off
+                    rb.AddForce(-stickyNormal * 20f, ForceMode.Force);
+                    // offset gravity while climbing (not all the way though)
+                    rb.AddForce(Vector3.up * 9.81f, ForceMode.Force);
+                    Vector3 climbDir = climbingMovement.normalized;
+                    // rb.AddForce(climbDir * stickyClimbForce, ForceMode.Acceleration);
+                    rb.AddForce(climbingMovement * (speed * stickyMoveMultiplier), ForceMode.Force);
+                    return;
+                }
+            }
+            else if (onIce)
+            {
+                speed += 0.1f * Time.deltaTime;
+
+                rb.linearDamping = 0.05f;
+                rb.angularDamping = 0.05f;
+                // Apply movement
+                rb.AddForce(move * speed, ForceMode.Force);
+
+                //clamp velocity
+                if (rb.linearVelocity.magnitude > maxSpeed)
+                {
+                    rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed);
+                }
+
                 return;
             }
-        }
-        else if (onIce)
-        {
-            speed += 0.1f * Time.deltaTime;
-
-            rb.linearDamping = 0.05f;
-            rb.angularDamping = 0.05f;
-            // Apply movement
-            rb.AddForce(movement * speed, ForceMode.Force);
-
-            //clamp velocity
-            if (rb.linearVelocity.magnitude > maxSpeed)
+            else
             {
-                rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed);
+                speed = 10f;
+                rb.linearDamping = 1f; // normal
+                // rb.angularDamping = 1f;
             }
-
-            return;
+            rb.AddForce(move * speed);
         }
-        else
-        {
-            speed = 10f;
-            rb.linearDamping = 1f; // normal
-            // rb.angularDamping = 1f;
-        }
-        rb.AddForce(move * speed);
-    }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("PickUp"))
+        void OnTriggerEnter(Collider other)
         {
-            other.gameObject.SetActive(false);
-            count = count + 1;
-            SetCountText();
+            if (other.gameObject.CompareTag("PickUp"))
+            {
+                other.gameObject.SetActive(false);
+                count = count + 1;
+                SetCountText();
+            }
         }
     }
 
@@ -224,87 +272,62 @@ public class PlayerController : MonoBehaviour
                 "HAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHA";
         }
         Vector3 normal = collision.contacts[0].normal;
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        HandleGroundCollision(collision);
+        if (collision.gameObject.CompareTag("Ground")) { }
     }
 
     private void HandleGroundCollision(Collision collision)
     {
-        if (!collision.gameObject.CompareTag("Ground"))
-            return;
-
-        Vector3 gravityDir = gravityControl.GetGravityDirection();
-        Vector3 up = -gravityDir;
-
-        float verticalVelocity = Vector3.Dot(rb.linearVelocity, up);
-
-        if (verticalVelocity > 0.1f)
-            return;
-
-        foreach (ContactPoint contact in collision.contacts)
+        if (
+            collision.gameObject.CompareTag("Ground")
+            || collision.gameObject.CompareTag("Ice")
+            || collision.gameObject.CompareTag("Rubber")
+        )
         {
-            if (Vector3.Dot(contact.normal, up) > 0.5f)
+            // Only show dust if we fall from a certain height/speed
+            if (collision.relativeVelocity.magnitude > impactThreshold)
             {
-                isGrounded = true;
-                hasBurstCharge = true;
+                if (landingVFXPrefab != null)
+                {
+                    ContactPoint contact = collision.contacts[0];
+                    Vector3 spawnPos = contact.point + Vector3.up * 0.02f;
+                    Instantiate(landingVFXPrefab, spawnPos, Quaternion.identity);
+                }
+            }
+            // if (!collision.gameObject.CompareTag("Ground"))
+            //  return;
+
+            Vector3 gravityDir = gravityControl.GetGravityDirection();
+            Vector3 up = -gravityDir;
+
+            float verticalVelocity = Vector3.Dot(rb.linearVelocity, up);
+
+            if (verticalVelocity > 0.1f)
                 return;
-            }
-            if (collision.gameObject.CompareTag("Ground"))
-            {
-                Vector3 normal = collision.contacts[0].normal;
 
-                // Surface has to face up enough to be floor for now
-                if (normal.y > 0.5f)
+            foreach (ContactPoint contact in collision.contacts)
+            {
+                if (Vector3.Dot(contact.normal, up) > 0.5f)
                 {
-                    hasBurstCharge = true;
                     isGrounded = true;
+                    hasBurstCharge = true;
+                    return;
                 }
             }
-            // Debug.Log("ice");
-        }
-        if (collision.gameObject.CompareTag("Rubber"))
-        {
-            //Vector3 normal = collision.contacts[0].normal;
-            
-            onRubber = true;
-            // Surface has to face up enough to be floor for now
-            if (normal.y > 0.5f)
-            {
-                Vector3 normal = collision.contacts[0].normal;
 
+            if (collision.gameObject.CompareTag("Ice"))
+            {
                 onIce = true;
-                // Surface has to face up enough to be floor for now
-                if (normal.y > 0.5f)
-                {
-                    hasBurstCharge = true;
-                    isGrounded = true;
-                }
-                Debug.Log("ice");
             }
             if (collision.gameObject.CompareTag("Rubber"))
             {
-                //Vector3 normal = collision.contacts[0].normal;
-
                 onRubber = true;
-                // Surface has to face up enough to be floor for now
-                if (normal.y > 0.5f)
-                {
-                    hasBurstCharge = true;
-                    isGrounded = true;
-                }
-                Debug.Log("rubber");
             }
             // Debug.Log("rubber");
         }
 
         if (collision.gameObject.CompareTag("Flypaper"))
         {
-            //Vector3 normal = collision.contacts[0].normal;
+            Vector3 normal = collision.contacts[0].normal;
             stickyNormal = normal;
             onSticky = true;
             if (normal.y > 0.5f)
@@ -315,7 +338,6 @@ public class PlayerController : MonoBehaviour
             // Debug.Log("Flypaper");
         }
     }
-
 
     private void OnCollisionExit(Collision collision)
     {
@@ -332,6 +354,65 @@ public class PlayerController : MonoBehaviour
         {
             onSticky = false;
             stickyNormal = Vector3.zero;
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        HandleGroundCollision(collision);
+        if (
+            collision.gameObject.CompareTag("Ground")
+            || collision.gameObject.CompareTag("Ice")
+            || collision.gameObject.CompareTag("Rubber")
+        )
+        {
+            // Avoid double jump if we're still moving upwards from a jump
+            if (rb.linearVelocity.y <= 0.1f)
+                if (collision.gameObject.CompareTag("Ground"))
+                {
+                    Vector3 normal = collision.contacts[0].normal;
+
+                    // Surface has to face up enough to be floor for now
+                    if (normal.y > 0.5f)
+                    {
+                        hasBurstCharge = true;
+                        isGrounded = true;
+                    }
+                }
+            if (collision.gameObject.CompareTag("Ice"))
+            {
+                Vector3 normal = collision.contacts[0].normal;
+
+                onIce = true;
+                // Surface has to face up enough to be floor for now
+                foreach (ContactPoint contact in collision.contacts)
+                    if (normal.y > 0.5f)
+                    {
+                        if (contact.normal.y > 0.5f)
+                        {
+                            isGrounded = true;
+                            currentDashEnergy = maxDashEnergy;
+                            hasBurstCharge = true;
+
+                            break;
+                        }
+                    }
+                Debug.Log("ice");
+            }
+            if (collision.gameObject.CompareTag("Rubber"))
+            {
+                Vector3 normal = collision.contacts[0].normal;
+
+                onRubber = true;
+                // Surface has to face up enough to be floor for now
+                if (normal.y > 0.5f)
+                {
+                    hasBurstCharge = true;
+                    isGrounded = true;
+                }
+                //burst used to  be here
+                Debug.Log("rubber");
+            }
         }
     }
 }
