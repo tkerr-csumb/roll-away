@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour
 
     void SetCountText()
     {
-        countText.text = "Polyhedrons: " + count.ToString();
+        countText.text = " " + count.ToString();
         if (count >= 12)
         {
             winTextObject.SetActive(true);
