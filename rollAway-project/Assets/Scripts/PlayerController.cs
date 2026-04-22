@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
     private bool onRubber = false;
     private Vector3 lastPosition;
     private InputActions inputActions;
+    public GameObject cameraObject;
+    private GravityControl gravityControl;
 
     void Awake()
     {
@@ -70,6 +72,8 @@ public class PlayerController : MonoBehaviour
         lastPosition = transform.position;
 
         rb = GetComponent<Rigidbody>();
+        gravityControl = GetComponent<GravityControl>();
+
         count = 0;
         SetCountText();
         winTextObject.SetActive(false);
@@ -103,15 +107,20 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded)
         {
-            if (onRubber)
+            if (!onRubber)
             {
-                rb.AddForce(Vector3.up * bounceBoost, ForceMode.Impulse);
+                Vector3 gravityDir = gravityControl.GetGravityDirection();
+                Vector3 up = -gravityDir;
+
+                rb.AddForce(up * jumpPower, ForceMode.Impulse);
             }
             else
             {
-                rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+                
+                    rb.AddForce(Vector3.up * bounceBoost, ForceMode.Impulse);
+                
             }
-            isGrounded = false;
+             isGrounded = false;
         }
     }
 
@@ -128,23 +137,32 @@ public class PlayerController : MonoBehaviour
 
     void ExecuteBurst()
     {
-        // This resets the vertical velocity to zero, allowing for a consistent dash
-        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+        Vector3 gravityDir = gravityControl.GetGravityDirection();
+        Vector3 up = -gravityDir;
 
-        // The forward dash logic
-        Vector3 dashDirection = new Vector3(movementInput.x, 0, movementInput.y);
+        Vector3 camForward = cameraObject.transform.forward;
+        Vector3 camRight = cameraObject.transform.right;
+
+        camForward = Vector3.ProjectOnPlane(camForward, up).normalized;
+        camRight = Vector3.ProjectOnPlane(camRight, up).normalized;
+
+        // This resets the velocity along the up axis, allowing for a consistent dash
+        rb.linearVelocity = Vector3.ProjectOnPlane(rb.linearVelocity, up);
+
+        // The forward dash logic (camera-relative input)
+        Vector3 dashDirection = camForward * movementInput.y + camRight * movementInput.x;
 
         // If there's no input, we can default to the current facing direction or forward
         if (dashDirection == Vector3.zero)
-            dashDirection = rb.linearVelocity.normalized;
+            dashDirection = Vector3.ProjectOnPlane(cameraObject.transform.forward, up).normalized;
         if (dashDirection == Vector3.zero)
-            dashDirection = Vector3.forward;
+            dashDirection = camForward;
 
         // Apply the forces for the dash
         rb.AddForce(dashDirection * dashPower, ForceMode.VelocityChange);
 
-        // Adding slight upward lift
-        rb.AddForce(Vector3.up * 3f, ForceMode.VelocityChange);
+        // Adding slight upward lift (relative to gravity)
+        rb.AddForce(up * 3f, ForceMode.VelocityChange);
 
         if (dashEffect != null)
         {
@@ -167,10 +185,17 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 movement = new Vector3(movementInput.x, 0.0f, movementInput.y);
-        
-        // change behavior of player movement if on ice (more slidey)
-        if(onIce)
+        Vector3 gravityDir = gravityControl.GetGravityDirection();
+        Vector3 up = -gravityDir;
+
+        Vector3 camForward = cameraObject.transform.forward;
+        Vector3 camRight = cameraObject.transform.right;
+
+        camForward = Vector3.ProjectOnPlane(camForward, up).normalized;
+        camRight = Vector3.ProjectOnPlane(camRight, up).normalized;
+
+        Vector3 move = camForward * movementInput.y + camRight * movementInput.x;
+        if (onIce)
         {
             rb.linearDamping = 0.05f; // very low = slidey
         }
@@ -178,8 +203,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearDamping = 1f; // normal
         }
-
-        rb.AddForce(movement * speed);
+        rb.AddForce(move * speed);
     }
 
     void OnTriggerEnter(Collider other)
@@ -194,17 +218,25 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        HandleGroundCollision(collision);
+
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            // Destroy the current object
             Destroy(gameObject);
             winTextObject.gameObject.SetActive(true);
             winTextObject.GetComponent<TextMeshProUGUI>().text =
                 "HAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHA";
         }
+    }
 
-        // Handle ground, ice, and rubber for landing particles
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Ice") || collision.gameObject.CompareTag("Rubber"))
+    private void OnCollisionStay(Collision collision)
+    {
+        HandleGroundCollision(collision);
+    }
+
+    private void HandleGroundCollision(Collision collision)
+    {
+    if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Ice") || collision.gameObject.CompareTag("Rubber"))
         {
             // Only show dust if we fall from a certain height/speed
             if (collision.relativeVelocity.magnitude > impactThreshold)
@@ -216,13 +248,24 @@ public class PlayerController : MonoBehaviour
                     Instantiate(landingVFXPrefab, spawnPos, Quaternion.identity);
                 }
             }
+       // if (!collision.gameObject.CompareTag("Ground"))
+          //  return;
 
-            Vector3 normal = collision.contacts[0].normal;
+        Vector3 gravityDir = gravityControl.GetGravityDirection();
+        Vector3 up = -gravityDir;
 
-            // Surface has to face up enough to be floor for now
-            if (normal.y > 0.5f)
+        float verticalVelocity = Vector3.Dot(rb.linearVelocity, up);
+
+        if (verticalVelocity > 0.1f)
+            return;
+
+        foreach (ContactPoint contact in collision.contacts)
+        {
+            if (Vector3.Dot(contact.normal, up) > 0.5f)
             {
                 isGrounded = true;
+                hasBurstCharge = true;
+                return;
             }
         }
 
@@ -256,17 +299,64 @@ public class PlayerController : MonoBehaviour
         {
             // Avoid double jump if we're still moving upwards from a jump
             if (rb.linearVelocity.y <= 0.1f)
+            if (collision.gameObject.CompareTag("Ground"))
             {
-                foreach (ContactPoint contact in collision.contacts)
+                Vector3 normal = collision.contacts[0].normal;
+
+                // Surface has to face up enough to be floor for now
+                if (normal.y > 0.5f)
+                {
+                    hasBurstCharge = true;
+                    isGrounded = true;
+                }
+            }
+            if (collision.gameObject.CompareTag("Ice"))
+            {
+                Vector3 normal = collision.contacts[0].normal;
+
+                onIce = true;
+                // Surface has to face up enough to be floor for now
+                if (normal.y > 0.5f)
                 {
                     if (contact.normal.y > 0.5f)
                     {
                         isGrounded = true;
-                        currentDashEnergy = maxDashEnergy;
+                        currentDashEnergy = maxDashEnergy;                   
+                        hasBurstCharge = true;
+
                         break;
                     }
                 }
+                Debug.Log("ice");
             }
+            if (collision.gameObject.CompareTag("Rubber"))
+            {
+                Vector3 normal = collision.contacts[0].normal;
+
+                onRubber = true;
+                // Surface has to face up enough to be floor for now
+                if (normal.y > 0.5f)
+                {
+                    hasBurstCharge = true;
+                    isGrounded = true;
+                }
+                //burst used to  be here
+                Debug.Log("rubber");
+            }
+        }
+    }
+
+    private int test = 0;
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ice"))
+        {
+            onIce = false;
+        }
+        if (collision.gameObject.CompareTag("Rubber"))
+        {
+            onRubber = false;
         }
     }
 }
