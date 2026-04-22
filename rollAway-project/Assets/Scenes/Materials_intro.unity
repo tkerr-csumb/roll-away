@@ -193,6 +193,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 822871925}
     - target: {fileID: 3395909343622468291, guid: bd0399c2b978c4365b119a0c6a892fca, type: 3}
+      propertyPath: cameraObject
+      value: 
+      objectReference: {fileID: 1757648670}
+    - target: {fileID: 3395909343622468291, guid: bd0399c2b978c4365b119a0c6a892fca, type: 3}
       propertyPath: winTextObject
       value: 
       objectReference: {fileID: 2002082564}
@@ -939,6 +943,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   player: {fileID: 141256904}
+  sensitivity: 2
+  distance: 7
+  alignmentSpeed: 10
+  mouseSmoothing: 0.08
 --- !u!114 &1757648672
 MonoBehaviour:
   m_ObjectHideFlags: 0
