@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(-stickyNormal * 20f, ForceMode.Force);
             // offset gravity while climbing (not all the way though)
             if (keyboard.wKey.isPressed)
-                rb.AddForce(Vector3.up * 16f, ForceMode.Force);
+                rb.AddForce(Vector3.up * 11f, ForceMode.Force);
             else
                 rb.AddForce(Vector3.up * 9.81f, ForceMode.Force);
             Vector3 climbDir = climbingMovement.normalized;
