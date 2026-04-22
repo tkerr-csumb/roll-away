@@ -35,7 +35,6 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private bool hasBurstCharge = true;
     private Vector2 movementInput;
-    private int count;
     private bool isGrounded = true;
     private bool onRubber = false;
     private Vector3 lastPosition;
@@ -45,10 +44,12 @@ public class PlayerController : MonoBehaviour
 
     public float stickyMoveMultiplier = 4f;
     public float stickyClimbForce = 25f;
-    [NonSerialized] public bool onIce = false;
+
+    [NonSerialized]
+    public bool onIce = false;
     private bool onSticky = false;
     private Vector3 stickyNormal;
-    
+
     void Awake()
     {
         Instance = this;
@@ -192,7 +193,6 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        
         Vector3 gravityDir = gravityControl.GetGravityDirection();
         Vector3 up = -gravityDir;
 
@@ -204,56 +204,59 @@ public class PlayerController : MonoBehaviour
 
         Vector3 move = camForward * movementInput.y + camRight * movementInput.x;
         if (onIce)
-        {if (onSticky){
-            rb.linearDamping = 2f;
-            rb.angularDamping = 2f;
-            // Wall climbing (no cielings)
-            if (stickyNormal.y < 0.5f && stickyNormal.y > -0.5f)
+        {
+            if (onSticky)
             {
-                Vector3 climbingMovement = Vector3.ProjectOnPlane(movement, stickyNormal);
-                //keep ball attached and not fall off
-                rb.AddForce(-stickyNormal*20f, ForceMode.Force);
-                // offset gravity while climbing (not all the way though)
-                rb.AddForce(Vector3.up *9.81f, ForceMode.Force);
-                Vector3 climbDir = climbingMovement.normalized;
-                // rb.AddForce(climbDir * stickyClimbForce, ForceMode.Acceleration);
-                rb.AddForce(climbingMovement * (speed * stickyMoveMultiplier), ForceMode.Force);
+                rb.linearDamping = 2f;
+                rb.angularDamping = 2f;
+                // Wall climbing (no cielings)
+                if (stickyNormal.y < 0.5f && stickyNormal.y > -0.5f)
+                {
+                    Vector3 climbingMovement = Vector3.ProjectOnPlane(move, stickyNormal);
+                    //keep ball attached and not fall off
+                    rb.AddForce(-stickyNormal * 20f, ForceMode.Force);
+                    // offset gravity while climbing (not all the way though)
+                    rb.AddForce(Vector3.up * 9.81f, ForceMode.Force);
+                    Vector3 climbDir = climbingMovement.normalized;
+                    // rb.AddForce(climbDir * stickyClimbForce, ForceMode.Acceleration);
+                    rb.AddForce(climbingMovement * (speed * stickyMoveMultiplier), ForceMode.Force);
+                    return;
+                }
+            }
+            else if (onIce)
+            {
+                speed += 0.1f * Time.deltaTime;
+
+                rb.linearDamping = 0.05f;
+                rb.angularDamping = 0.05f;
+                // Apply movement
+                rb.AddForce(move * speed, ForceMode.Force);
+
+                //clamp velocity
+                if (rb.linearVelocity.magnitude > maxSpeed)
+                {
+                    rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed);
+                }
+
                 return;
             }
-        }
-        else if (onIce)
-        {
-            speed += 0.1f * Time.deltaTime;
-
-            rb.linearDamping = 0.05f;
-            rb.angularDamping = 0.05f;
-            // Apply movement
-            rb.AddForce(movement * speed, ForceMode.Force);
-
-            //clamp velocity
-            if (rb.linearVelocity.magnitude > maxSpeed)
+            else
             {
-                rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed);
+                speed = 10f;
+                rb.linearDamping = 1f; // normal
+                // rb.angularDamping = 1f;
             }
-
-            return;
+            rb.AddForce(move * speed);
         }
-        else
-        {
-            speed = 10f;
-            rb.linearDamping = 1f; // normal
-            // rb.angularDamping = 1f;
-        }
-        rb.AddForce(move * speed);
-    }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("PickUp"))
+        void OnTriggerEnter(Collider other)
         {
-            other.gameObject.SetActive(false);
-            count = count + 1;
-            SetCountText();
+            if (other.gameObject.CompareTag("PickUp"))
+            {
+                other.gameObject.SetActive(false);
+                count = count + 1;
+                SetCountText();
+            }
         }
     }
 
@@ -269,8 +272,7 @@ public class PlayerController : MonoBehaviour
                 "HAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHA";
         }
         Vector3 normal = collision.contacts[0].normal;
-        if (collision.gameObject.CompareTag("Ground"))
-        {
+        if (collision.gameObject.CompareTag("Ground")) { }
     }
 
     private void HandleGroundCollision(Collision collision)
@@ -325,7 +327,7 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Flypaper"))
         {
-            //Vector3 normal = collision.contacts[0].normal;
+            Vector3 normal = collision.contacts[0].normal;
             stickyNormal = normal;
             onSticky = true;
             if (normal.y > 0.5f)
