@@ -29,7 +29,7 @@ public class TrapDoor : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {   
-        Debug.Log("Something hit me: " + collision.gameObject.name); // ADD THIS
+        Debug.Log("Something hit me: " + collision.gameObject.name); 
         // Check if it's the player and the trap isn't already running
         if (collision.gameObject.CompareTag("Player") && !isTriggered)
         {
@@ -41,17 +41,17 @@ public class TrapDoor : MonoBehaviour
     {
         isTriggered = true;
 
-        // 1. Give the player a 2-second warning
+        // Give the player a 2-second warning
         yield return new WaitForSeconds(fallDelay);
 
-        // 2. Open the hinge and disable the floor collider so they fall
+        // Open the hinge and disable the floor collider so they fall
         transform.parent.localRotation = openedRotation;
         if (platformCollider != null) platformCollider.enabled = false;
 
-        // 3. Keep it open for a few seconds
+        // Keep it open for a few seconds
         yield return new WaitForSeconds(resetDelay);
 
-        // 4. Reset the door to its original position
+        // Reset the door to its original position
         transform.parent.localRotation = closedRotation;
         if (platformCollider != null) platformCollider.enabled = true;
         
