@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; private set; }
+
     [Header("Movement Settings")]
     public float speed = 10f;
     public float jumpPower = 7f;
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Internal State")]
     private Rigidbody rb;
+    private bool hasBurstCharge = true;
     private Vector2 movementInput;
     private int count;
     private bool isGrounded = true;
@@ -68,7 +70,7 @@ public class PlayerController : MonoBehaviour
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
-    {   
+    {
         lastPosition = transform.position;
 
         rb = GetComponent<Rigidbody>();
@@ -85,12 +87,12 @@ public class PlayerController : MonoBehaviour
         Vector3 currentPosFlat = new Vector3(transform.position.x, 0, transform.position.z);
         Vector3 lastPosFlat = new Vector3(lastPosition.x, 0, lastPosition.z);
         float distanceMoved = Vector3.Distance(currentPosFlat, lastPosFlat);
-        
+
         // Only add energy if touching the ground
         if (isGrounded && currentDashEnergy < maxDashEnergy)
         {
             currentDashEnergy += distanceMoved * energyGainMultiplier;
-            
+
             // Keep it from going over the max
             currentDashEnergy = Mathf.Clamp(currentDashEnergy, 0, maxDashEnergy);
         }
@@ -116,11 +118,9 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                
-                    rb.AddForce(Vector3.up * bounceBoost, ForceMode.Impulse);
-                
+                rb.AddForce(Vector3.up * bounceBoost, ForceMode.Impulse);
             }
-             isGrounded = false;
+            isGrounded = false;
         }
     }
 
@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
         {
             ExecuteBurst();
             // Reset the energy so the bar empties
-            currentDashEnergy = 0f; 
+            currentDashEnergy = 0f;
         }
     }
 
@@ -166,7 +166,7 @@ public class PlayerController : MonoBehaviour
 
         if (dashEffect != null)
         {
-            dashEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); 
+            dashEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             dashEffect.Play();
         }
 
@@ -229,14 +229,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay(Collision collision)
-    {
-        HandleGroundCollision(collision);
-    }
-
     private void HandleGroundCollision(Collision collision)
     {
-    if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Ice") || collision.gameObject.CompareTag("Rubber"))
+        if (
+            collision.gameObject.CompareTag("Ground")
+            || collision.gameObject.CompareTag("Ice")
+            || collision.gameObject.CompareTag("Rubber")
+        )
         {
             // Only show dust if we fall from a certain height/speed
             if (collision.relativeVelocity.magnitude > impactThreshold)
@@ -248,36 +247,37 @@ public class PlayerController : MonoBehaviour
                     Instantiate(landingVFXPrefab, spawnPos, Quaternion.identity);
                 }
             }
-       // if (!collision.gameObject.CompareTag("Ground"))
-          //  return;
+            // if (!collision.gameObject.CompareTag("Ground"))
+            //  return;
 
-        Vector3 gravityDir = gravityControl.GetGravityDirection();
-        Vector3 up = -gravityDir;
+            Vector3 gravityDir = gravityControl.GetGravityDirection();
+            Vector3 up = -gravityDir;
 
-        float verticalVelocity = Vector3.Dot(rb.linearVelocity, up);
+            float verticalVelocity = Vector3.Dot(rb.linearVelocity, up);
 
-        if (verticalVelocity > 0.1f)
-            return;
-
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            if (Vector3.Dot(contact.normal, up) > 0.5f)
-            {
-                isGrounded = true;
-                hasBurstCharge = true;
+            if (verticalVelocity > 0.1f)
                 return;
-            }
-        }
 
-        if (collision.gameObject.CompareTag("Ice"))
-        {
-            onIce = true;
-            Debug.Log("ice");
-        }
-        if (collision.gameObject.CompareTag("Rubber"))
-        {
-            onRubber = true;
-            Debug.Log("rubber");
+            foreach (ContactPoint contact in collision.contacts)
+            {
+                if (Vector3.Dot(contact.normal, up) > 0.5f)
+                {
+                    isGrounded = true;
+                    hasBurstCharge = true;
+                    return;
+                }
+            }
+
+            if (collision.gameObject.CompareTag("Ice"))
+            {
+                onIce = true;
+                Debug.Log("ice");
+            }
+            if (collision.gameObject.CompareTag("Rubber"))
+            {
+                onRubber = true;
+                Debug.Log("rubber");
+            }
         }
     }
 
@@ -295,38 +295,44 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Ice") || collision.gameObject.CompareTag("Rubber"))
+        HandleGroundCollision(collision);
+        if (
+            collision.gameObject.CompareTag("Ground")
+            || collision.gameObject.CompareTag("Ice")
+            || collision.gameObject.CompareTag("Rubber")
+        )
         {
             // Avoid double jump if we're still moving upwards from a jump
             if (rb.linearVelocity.y <= 0.1f)
-            if (collision.gameObject.CompareTag("Ground"))
-            {
-                Vector3 normal = collision.contacts[0].normal;
-
-                // Surface has to face up enough to be floor for now
-                if (normal.y > 0.5f)
+                if (collision.gameObject.CompareTag("Ground"))
                 {
-                    hasBurstCharge = true;
-                    isGrounded = true;
+                    Vector3 normal = collision.contacts[0].normal;
+
+                    // Surface has to face up enough to be floor for now
+                    if (normal.y > 0.5f)
+                    {
+                        hasBurstCharge = true;
+                        isGrounded = true;
+                    }
                 }
-            }
             if (collision.gameObject.CompareTag("Ice"))
             {
                 Vector3 normal = collision.contacts[0].normal;
 
                 onIce = true;
                 // Surface has to face up enough to be floor for now
-                if (normal.y > 0.5f)
-                {
-                    if (contact.normal.y > 0.5f)
+                foreach (ContactPoint contact in collision.contacts)
+                    if (normal.y > 0.5f)
                     {
-                        isGrounded = true;
-                        currentDashEnergy = maxDashEnergy;                   
-                        hasBurstCharge = true;
+                        if (contact.normal.y > 0.5f)
+                        {
+                            isGrounded = true;
+                            currentDashEnergy = maxDashEnergy;
+                            hasBurstCharge = true;
 
-                        break;
+                            break;
+                        }
                     }
-                }
                 Debug.Log("ice");
             }
             if (collision.gameObject.CompareTag("Rubber"))
@@ -343,20 +349,6 @@ public class PlayerController : MonoBehaviour
                 //burst used to  be here
                 Debug.Log("rubber");
             }
-        }
-    }
-
-    private int test = 0;
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ice"))
-        {
-            onIce = false;
-        }
-        if (collision.gameObject.CompareTag("Rubber"))
-        {
-            onRubber = false;
         }
     }
 }
