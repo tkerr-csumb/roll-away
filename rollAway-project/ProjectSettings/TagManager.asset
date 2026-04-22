@@ -3,13 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags:
+  tags: 
   - Enemy
   - PickUp
   - Ground
   - Ice
   - Rubber
   - Flypaper
+  - OutOfBounds
   layers:
   - Default
   - TransparentFX
