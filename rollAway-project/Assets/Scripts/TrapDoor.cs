@@ -3,58 +3,74 @@ using UnityEngine;
 
 public class TrapDoor : MonoBehaviour
 {
-    [Header("Timing")]
-    public float fallDelay = 2.0f;      // How long the player can stand on it
-    public float resetDelay = 3.0f;     // How long before it closes back up
+    [Header("Settings")]
+    public float delayBeforeDrop = 1.0f;
+    public float shakeIntensity = 0.05f;
+    public Vector3 openAngleOffset = new Vector3(-90, 0, 0);
 
-    [Header("Rotation Settings")]
-    public float openAngle = -90f;      // -90 swings it downward
-    
+    private Vector3 originalChildPos;
     private Quaternion closedRotation;
-    private Quaternion openedRotation;
-    private BoxCollider platformCollider;
     private bool isTriggered = false;
+    private Transform meshChild;
 
     void Start()
     {
-        // Get the collider from the child mesh so we can disable it
-        platformCollider = GetComponentInChildren<BoxCollider>();
-        
-        // Store the starting rotation
         closedRotation = transform.localRotation;
-        
-        // Calculate the "Open" rotation (Rotating around the Z-axis hinge)
-        openedRotation = closedRotation * Quaternion.Euler(0, 0, openAngle);
+        // Grab the door mesh
+        meshChild = transform.GetChild(0);
+        originalChildPos = meshChild.localPosition;
     }
 
     private void OnCollisionEnter(Collision collision)
-    {   
-        Debug.Log("Something hit me: " + collision.gameObject.name); 
-        // Check if it's the player and the trap isn't already running
+    {
         if (collision.gameObject.CompareTag("Player") && !isTriggered)
         {
-            StartCoroutine(TrapRoutine());
+            StartCoroutine(ShakeAndDrop());
         }
     }
+    public void ResetDoor()
+    {
+        // Stop it from rotating/dropping
+        transform.localRotation = closedRotation;
 
-    IEnumerator TrapRoutine()
+        // Make sure the mesh is back in its original spot
+        if (meshChild != null)
+        {
+            meshChild.localPosition = originalChildPos;
+        }
+
+        // Allow the player to trigger it again
+        isTriggered = false;
+        
+        Debug.Log("Trap Door Reset");
+    }
+    IEnumerator ShakeAndDrop()
     {
         isTriggered = true;
+        float elapsed = 0f;
 
-        // Give the player a 2-second warning
-        yield return new WaitForSeconds(fallDelay);
+        // Shake effect
+        while (elapsed < delayBeforeDrop)
+        {
+            // Calculate a random offset
+            float xOffset = Random.Range(-1f, 1f) * shakeIntensity;
+            float zOffset = Random.Range(-1f, 1f) * shakeIntensity;
 
-        // Open the hinge and disable the floor collider so they fall
-        transform.parent.localRotation = openedRotation;
-        if (platformCollider != null) platformCollider.enabled = false;
+            // Apply the offset to the mesh's local position
+            meshChild.localPosition = new Vector3(originalChildPos.x + xOffset, originalChildPos.y, originalChildPos.z + zOffset);
 
-        // Keep it open for a few seconds
-        yield return new WaitForSeconds(resetDelay);
+            elapsed += Time.deltaTime;
+            yield return null; // Wait for next frame
+        }
 
-        // Reset the door to its original position
-        transform.parent.localRotation = closedRotation;
-        if (platformCollider != null) platformCollider.enabled = true;
+        // Reset child position before dropping
+        meshChild.localPosition = originalChildPos;
+
+        // Drops the door by rotating it open
+        transform.localRotation = closedRotation * Quaternion.Euler(openAngleOffset);
         
-        isTriggered = false;
+        // Resets after a few seconds
+        yield return new WaitForSeconds(3f);
+        ResetDoor();
     }
 }
