@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - PickUp
   - Ground
+  - Ice
+  - Rubber
   - OutOfBounds
   layers:
   - Default

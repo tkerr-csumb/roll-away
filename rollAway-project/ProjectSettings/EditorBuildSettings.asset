@@ -8,5 +8,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 45aabec2b7a76af4d85dc3d63933713e
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 17b6129fcc1b41e4eab5a97e95204aa2
+  - enabled: 1
+    path: Assets/Scenes/Minigame.unity
+    guid: 84c594eb68080534c937516716997b76
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
