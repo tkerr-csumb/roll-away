@@ -30,11 +30,10 @@ public class PlayerController : MonoBehaviour
     private int count;
     private float maxSpeed = 11.5f;
     public GameObject winTextObject;
-    private bool hasBurstCharge = true; 
-//     private InputActions inputActions;
 
     [Header("Internal State")]
     private Rigidbody rb;
+    private bool hasBurstCharge = true;
     private Vector2 movementInput;
     private bool isGrounded = true;
     private bool onRubber = false;
@@ -208,19 +207,21 @@ public class PlayerController : MonoBehaviour
         {
             if (onSticky)
             {
-                var keyboard = Keyboard.current;
-                Vector3 climbingMovement = Vector3.ProjectOnPlane(movement, stickyNormal);
-                //keep ball attached and not fall off
-                rb.AddForce(-stickyNormal*20f, ForceMode.Force);
-                // offset gravity while climbing (not all the way though)
-                if(keyboard.wKey.isPressed)
-                    rb.AddForce(Vector3.up * 16f, ForceMode.Force);
-                else
-                    rb.AddForce(Vector3.up *9.81f, ForceMode.Force);
-                Vector3 climbDir = climbingMovement.normalized;
-                // rb.AddForce(climbDir * stickyClimbForce, ForceMode.Acceleration);
-                rb.AddForce(climbingMovement * (speed * stickyMoveMultiplier), ForceMode.Force);
-                return;
+                rb.linearDamping = 2f;
+                rb.angularDamping = 2f;
+                // Wall climbing (no cielings)
+                if (stickyNormal.y < 0.5f && stickyNormal.y > -0.5f)
+                {
+                    Vector3 climbingMovement = Vector3.ProjectOnPlane(move, stickyNormal);
+                    //keep ball attached and not fall off
+                    rb.AddForce(-stickyNormal * 20f, ForceMode.Force);
+                    // offset gravity while climbing (not all the way though)
+                    rb.AddForce(Vector3.up * 9.81f, ForceMode.Force);
+                    Vector3 climbDir = climbingMovement.normalized;
+                    // rb.AddForce(climbDir * stickyClimbForce, ForceMode.Acceleration);
+                    rb.AddForce(climbingMovement * (speed * stickyMoveMultiplier), ForceMode.Force);
+                    return;
+                }
             }
             else if (onIce)
             {
