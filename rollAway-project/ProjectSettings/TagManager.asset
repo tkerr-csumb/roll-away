@@ -6,7 +6,11 @@ TagManager:
   tags:
   - Enemy
   - PickUp
+  - OutOfBounds
   - Ground
+  - Ice
+  - Rubber
+  - Flypaper
   layers:
   - Default
   - TransparentFX
