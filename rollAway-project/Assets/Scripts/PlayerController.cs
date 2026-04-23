@@ -30,10 +30,11 @@ public class PlayerController : MonoBehaviour
     private int count;
     private float maxSpeed = 11.5f;
     public GameObject winTextObject;
+    private bool hasBurstCharge = true; 
+//     private InputActions inputActions;
 
     [Header("Internal State")]
     private Rigidbody rb;
-    private bool hasBurstCharge = true;
     private Vector2 movementInput;
     private bool isGrounded = true;
     private bool onRubber = false;
@@ -43,7 +44,9 @@ public class PlayerController : MonoBehaviour
     private GravityControl gravityControl;
 
     public float stickyMoveMultiplier = 4f;
-    public float stickyClimbForce = 25f;
+    public float stickyClimbForce = 14f;
+    private float lastDustTime;
+    public float dustCooldown = 0.5f;
 
     [NonSerialized]
     public bool onIce = false;
@@ -212,7 +215,7 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(-stickyNormal * 20f, ForceMode.Force);
             // offset gravity while climbing (not all the way though)
             if (keyboard.wKey.isPressed)
-                rb.AddForce(Vector3.up * 16f, ForceMode.Force);
+                rb.AddForce(Vector3.up * stickyClimbForce, ForceMode.Force);
             else
                 rb.AddForce(Vector3.up * 9.81f, ForceMode.Force);
             Vector3 climbDir = climbingMovement.normalized;
@@ -261,6 +264,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         HandleGroundCollision(collision);
+        TriggerLandingVFX(collision);    
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -281,16 +285,6 @@ public class PlayerController : MonoBehaviour
             || collision.gameObject.CompareTag("Rubber")
         )
         {
-            // Only show dust if we fall from a certain height/speed
-            if (collision.relativeVelocity.magnitude > impactThreshold)
-            {
-                if (landingVFXPrefab != null)
-                {
-                    ContactPoint contact = collision.contacts[0];
-                    Vector3 spawnPos = contact.point + Vector3.up * 0.02f;
-                    Instantiate(landingVFXPrefab, spawnPos, Quaternion.identity);
-                }
-            }
             // if (!collision.gameObject.CompareTag("Ground"))
             //  return;
 
@@ -355,6 +349,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+private void TriggerLandingVFX(Collision collision)
+{
+    if (collision.relativeVelocity.magnitude > impactThreshold && Time.time > lastDustTime + dustCooldown)
+    {
+        if (landingVFXPrefab != null)
+        {
+            ContactPoint contact = collision.contacts[0];
+            Vector3 spawnPos = contact.point + Vector3.up * 0.02f;
+            Instantiate(landingVFXPrefab, spawnPos, Quaternion.identity);
+            lastDustTime = Time.time;
+        }
+    }
+}
     private void OnCollisionStay(Collision collision)
     {
         HandleGroundCollision(collision);
