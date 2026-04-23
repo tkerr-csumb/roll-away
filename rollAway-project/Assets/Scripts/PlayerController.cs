@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     private GravityControl gravityControl;
 
     public float stickyMoveMultiplier = 4f;
-    public float stickyClimbForce = 25f;
+    public float stickyClimbForce = 14f;
 
     [NonSerialized]
     public bool onIce = false;
@@ -204,7 +204,8 @@ public class PlayerController : MonoBehaviour
         camRight = Vector3.ProjectOnPlane(camRight, up).normalized;
 
         Vector3 move = camForward * movementInput.y + camRight * movementInput.x;
-
+        if(hasBurstCharge)
+            Debug.Log("Dash availible");
         if (onSticky)
         {
             var keyboard = Keyboard.current;
@@ -213,7 +214,7 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(-stickyNormal * 20f, ForceMode.Force);
             // offset gravity while climbing (not all the way though)
             if (keyboard.wKey.isPressed)
-                rb.AddForce(Vector3.up * 11f, ForceMode.Force);
+                rb.AddForce(Vector3.up * stickyClimbForce, ForceMode.Force);
             else
                 rb.AddForce(Vector3.up * 9.81f, ForceMode.Force);
             Vector3 climbDir = climbingMovement.normalized;
