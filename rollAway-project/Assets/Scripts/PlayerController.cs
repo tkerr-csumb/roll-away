@@ -45,6 +45,8 @@ public class PlayerController : MonoBehaviour
 
     public float stickyMoveMultiplier = 4f;
     public float stickyClimbForce = 14f;
+    private float lastDustTime;
+    public float dustCooldown = 0.5f;
 
     [NonSerialized]
     public bool onIce = false;
@@ -262,6 +264,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         HandleGroundCollision(collision);
+        TriggerLandingVFX(collision);    
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -282,16 +285,6 @@ public class PlayerController : MonoBehaviour
             || collision.gameObject.CompareTag("Rubber")
         )
         {
-            // Only show dust if we fall from a certain height/speed
-            if (collision.relativeVelocity.magnitude > impactThreshold)
-            {
-                if (landingVFXPrefab != null)
-                {
-                    ContactPoint contact = collision.contacts[0];
-                    Vector3 spawnPos = contact.point + Vector3.up * 0.02f;
-                    Instantiate(landingVFXPrefab, spawnPos, Quaternion.identity);
-                }
-            }
             // if (!collision.gameObject.CompareTag("Ground"))
             //  return;
 
@@ -356,6 +349,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+private void TriggerLandingVFX(Collision collision)
+{
+    if (collision.relativeVelocity.magnitude > impactThreshold && Time.time > lastDustTime + dustCooldown)
+    {
+        if (landingVFXPrefab != null)
+        {
+            ContactPoint contact = collision.contacts[0];
+            Vector3 spawnPos = contact.point + Vector3.up * 0.02f;
+            Instantiate(landingVFXPrefab, spawnPos, Quaternion.identity);
+            lastDustTime = Time.time;
+        }
+    }
+}
     private void OnCollisionStay(Collision collision)
     {
         HandleGroundCollision(collision);
