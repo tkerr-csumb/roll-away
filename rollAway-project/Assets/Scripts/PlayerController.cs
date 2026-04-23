@@ -206,7 +206,8 @@ public class PlayerController : MonoBehaviour
         camRight = Vector3.ProjectOnPlane(camRight, up).normalized;
 
         Vector3 move = camForward * movementInput.y + camRight * movementInput.x;
-
+        if(hasBurstCharge)
+            Debug.Log("Dash availible");
         if (onSticky)
         {
             var keyboard = Keyboard.current;
