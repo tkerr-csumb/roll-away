@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 30be27a76e62bdd44852752fc22b5a46
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Art/Materials/DrawColorSurface.mat
+  uploadId: 466768

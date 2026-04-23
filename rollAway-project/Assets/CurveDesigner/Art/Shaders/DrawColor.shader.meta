@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 7bcd9e07748d78046ba7c98e523e64a7
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Art/Shaders/DrawColor.shader
+  uploadId: 466768

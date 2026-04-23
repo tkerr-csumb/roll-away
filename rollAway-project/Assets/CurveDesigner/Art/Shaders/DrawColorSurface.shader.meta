@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 09b322453891bf342b554d6db0edcd5b
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Art/Shaders/DrawColorSurface.shader
+  uploadId: 466768

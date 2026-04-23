@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 671f6d39fa2e2f341a08ef7210d7b637
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Scripts/Core/Geometry/Segment.cs
+  uploadId: 466768

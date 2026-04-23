@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9deece8595ee7bb45b3aff0ab5caeb28
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Art/Materials/Concrete007.mat
+  uploadId: 466768

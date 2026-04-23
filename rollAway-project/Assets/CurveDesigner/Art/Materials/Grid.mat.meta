@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: dec0e751353225a4eaa1d8d26c481e60
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Art/Materials/Grid.mat
+  uploadId: 466768

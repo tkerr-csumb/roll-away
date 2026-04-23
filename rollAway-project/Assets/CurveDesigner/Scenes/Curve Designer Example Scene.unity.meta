@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 74b3b899c59d25144b72971a5cb7e77a
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 200130
+  packageName: Curve Designer
+  packageVersion: 1.0.3
+  assetPath: Assets/CurveDesigner/Scenes/Curve Designer Example Scene.unity
+  uploadId: 466768

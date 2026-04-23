@@ -43,7 +43,11 @@ public class CameraController : MonoBehaviour
 
         Vector3 targetUp = -gravityControl.GetGravityDirection();
 
-        thisSideUp = Vector3.Slerp(thisSideUp, targetUp, alignmentSpeed * Time.deltaTime);
+        thisSideUp = Vector3.Slerp(
+            thisSideUp,
+            targetUp,
+            alignmentSpeed * Time.deltaTime
+        );
 
         float mouseScale = sensitivity * 0.02f;
 
@@ -60,7 +64,8 @@ public class CameraController : MonoBehaviour
 
         transform.rotation = Quaternion.LookRotation(forward, thisSideUp);
 
-        Vector3 desiredPosition = player.transform.position - transform.forward * distance;
+        Vector3 desiredPosition =
+            player.transform.position - transform.forward * distance;
 
         transform.position = Vector3.SmoothDamp(
             transform.position,
