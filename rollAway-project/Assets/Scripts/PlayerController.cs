@@ -216,10 +216,18 @@ public class PlayerController : MonoBehaviour
                 //keep ball attached and not fall off
                 rb.AddForce(-stickyNormal * 20f, ForceMode.Force);
                 // offset gravity while climbing (not all the way though)
-                if (keyboard.wKey.isPressed)
-                    rb.AddForce(Vector3.up * stickyClimbForce, ForceMode.Force);
+                if (movementInput.y > 0.1f)
+                {
+                    rb.AddForce(up * stickyClimbForce, ForceMode.Force);
+                }
+                else if (movementInput.y < -0.1f)
+                {
+                    rb.AddForce(-up * stickyClimbForce, ForceMode.Force);
+                }
                 else
-                    rb.AddForce(Vector3.up * 9.81f, ForceMode.Force);
+                {
+                    rb.AddForce(up * 9.81f, ForceMode.Force);
+                }
                 Vector3 climbDir = climbingMovement.normalized;
                 // rb.AddForce(climbDir * stickyClimbForce, ForceMode.Acceleration);
                 rb.AddForce(climbingMovement * (speed * stickyMoveMultiplier), ForceMode.Force);
