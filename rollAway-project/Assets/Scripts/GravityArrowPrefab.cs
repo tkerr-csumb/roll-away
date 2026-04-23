@@ -1,15 +1,7 @@
 using UnityEngine;
 
 public class GravityArrowPrefab : MonoBehaviour {
-    public enum GravityDirections
-    {
-        Up,
-        Down,
-        Left,
-        Right,
-        Forward,
-        Backward,
-    }
+    public enum GravityDirections{ Up, Down, Left, Right, Forward, Backward,}
     
     [SerializeField] private GravityDirections direction;
     private float gravForce = 9.81f;
