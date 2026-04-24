@@ -622,6 +622,10 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6404614266022796030, guid: bd0399c2b978c4365b119a0c6a892fca, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 5fd053056f99f9a459b2992a3a0321c2, type: 2}
     - target: {fileID: 6888961590458320118, guid: bd0399c2b978c4365b119a0c6a892fca, type: 3}
       propertyPath: cameraObject
       value: 
@@ -909,7 +913,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineOrbitalFollow
   TargetOffset: {x: 0, y: 0, z: 0}
   TrackerSettings:
-    BindingMode: 1
+    BindingMode: 4
     PositionDamping: {x: 1, y: 1, z: 1}
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
