@@ -4,11 +4,20 @@ using UnityEngine.SceneManagement;
 
 public class CreditsScroller : MonoBehaviour
 {
-    [SerializeField] float normalSpeed = 80f;
-    [SerializeField] float fastSpeed = 300f;
-    [SerializeField] float endY = 1200f;
-    [SerializeField] string nextScene = "MainMenu";
-    [SerializeField] float fadeDuration = 1f;
+    [SerializeField]
+    float normalSpeed = 80f;
+
+    [SerializeField]
+    float fastSpeed = 300f;
+
+    [SerializeField]
+    float endY = 1200f;
+
+    [SerializeField]
+    string nextScene = "MainMenu";
+
+    [SerializeField]
+    float fadeDuration = 1f;
 
     CanvasGroup canvasGroup;
     bool scrolling = false;
@@ -33,9 +42,12 @@ public class CreditsScroller : MonoBehaviour
 
     void Update()
     {
-        if (!scrolling) return;
+        if (!scrolling)
+            return;
 
-        float speed = UnityEngine.InputSystem.Keyboard.current.spaceKey.isPressed ? fastSpeed : normalSpeed;
+        float speed = UnityEngine.InputSystem.Keyboard.current.spaceKey.isPressed
+            ? fastSpeed
+            : normalSpeed;
         transform.Translate(Vector3.up * speed * Time.deltaTime);
 
         if (transform.localPosition.y >= endY)
