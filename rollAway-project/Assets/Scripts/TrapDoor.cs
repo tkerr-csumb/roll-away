@@ -28,6 +28,7 @@ public class TrapDoor : MonoBehaviour
             StartCoroutine(ShakeAndDrop());
         }
     }
+
     public void ResetDoor()
     {
         // Stop it from rotating/dropping
@@ -41,9 +42,10 @@ public class TrapDoor : MonoBehaviour
 
         // Allow the player to trigger it again
         isTriggered = false;
-        
-        Debug.Log("Trap Door Reset");
+
+        // Debug.Log("Trap Door Reset");
     }
+
     IEnumerator ShakeAndDrop()
     {
         isTriggered = true;
@@ -57,7 +59,11 @@ public class TrapDoor : MonoBehaviour
             float zOffset = Random.Range(-1f, 1f) * shakeIntensity;
 
             // Apply the offset to the mesh's local position
-            meshChild.localPosition = new Vector3(originalChildPos.x + xOffset, originalChildPos.y, originalChildPos.z + zOffset);
+            meshChild.localPosition = new Vector3(
+                originalChildPos.x + xOffset,
+                originalChildPos.y,
+                originalChildPos.z + zOffset
+            );
 
             elapsed += Time.deltaTime;
             yield return null; // Wait for next frame
@@ -68,7 +74,7 @@ public class TrapDoor : MonoBehaviour
 
         // Drops the door by rotating it open
         transform.localRotation = closedRotation * Quaternion.Euler(openAngleOffset);
-        
+
         // Resets after a few seconds
         yield return new WaitForSeconds(3f);
         ResetDoor();

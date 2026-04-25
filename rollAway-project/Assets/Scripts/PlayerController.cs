@@ -30,8 +30,9 @@ public class PlayerController : MonoBehaviour
     private int count;
     private float maxSpeed = 11.5f;
     public GameObject winTextObject;
-    private bool hasBurstCharge = true; 
-//     private InputActions inputActions;
+    private bool hasBurstCharge = true;
+
+    //     private InputActions inputActions;
 
     [Header("Internal State")]
     private Rigidbody rb;
@@ -213,65 +214,73 @@ public class PlayerController : MonoBehaviour
         camRight = Vector3.ProjectOnPlane(camRight, up).normalized;
 
         Vector3 move = camForward * movementInput.y + camRight * movementInput.x;
-
-        if (onSticky)
-        {
-            var keyboard = Keyboard.current;
-            Vector3 climbingMovement = Vector3.ProjectOnPlane(move, stickyNormal);
-            //keep ball attached and not fall off
-            rb.AddForce(-stickyNormal * 20f, ForceMode.Force);
-            // offset gravity while climbing (not all the way though)
-            if (keyboard.wKey.isPressed)
-                rb.AddForce(Vector3.up * stickyClimbForce, ForceMode.Force);
-            else
-                rb.AddForce(Vector3.up * 9.81f, ForceMode.Force);
-            Vector3 climbDir = climbingMovement.normalized;
-            // rb.AddForce(climbDir * stickyClimbForce, ForceMode.Acceleration);
-            rb.AddForce(climbingMovement * (speed * stickyMoveMultiplier), ForceMode.Force);
-            return;
-        }
-        else if (onIce)
-        {
-            speed += 0.1f * Time.deltaTime;
-
-            rb.linearDamping = 0.05f;
-            rb.angularDamping = 0.05f;
-            // Apply movement
-            rb.AddForce(move * speed, ForceMode.Force);
-
-            //clamp velocity
-            if (rb.linearVelocity.magnitude > maxSpeed)
+        if (hasBurstCharge)
+            // Debug.Log("Dash available");
+            if (onSticky)
             {
-                rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed);
+                var keyboard = Keyboard.current;
+                Vector3 climbingMovement = Vector3.ProjectOnPlane(move, stickyNormal);
+                //keep ball attached and not fall off
+                rb.AddForce(-stickyNormal * 20f, ForceMode.Force);
+                // offset gravity while climbing (not all the way though)
+                if (movementInput.y > 0.1f)
+                {
+                    rb.AddForce(up * stickyClimbForce, ForceMode.Force);
+                }
+                else if (movementInput.y < -0.1f)
+                {
+                    rb.AddForce(-up * stickyClimbForce, ForceMode.Force);
+                }
+                else
+                {
+                    rb.AddForce(up * 9.81f, ForceMode.Force);
+                }
+                Vector3 climbDir = climbingMovement.normalized;
+                // rb.AddForce(climbDir * stickyClimbForce, ForceMode.Acceleration);
+                rb.AddForce(climbingMovement * (speed * stickyMoveMultiplier), ForceMode.Force);
+                return;
             }
+            else if (onIce)
+            {
+                speed += 0.1f * Time.deltaTime;
 
-            return;
-        }
-        else
-        {
-            speed = 10f;
-            rb.linearDamping = 1f; // normal
-            // rb.angularDamping = 1f;
-        }
+                rb.linearDamping = 0.05f;
+                rb.angularDamping = 0.05f;
+                // Apply movement
+                rb.AddForce(move * speed, ForceMode.Force);
+
+                //clamp velocity
+                if (rb.linearVelocity.magnitude > maxSpeed)
+                {
+                    rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed);
+                }
+
+                return;
+            }
+            else
+            {
+                speed = 10f;
+                rb.linearDamping = 1f; // normal
+                // rb.angularDamping = 1f;
+            }
 
         rb.AddForce(move * speed);
     }
 
     void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("PickUp"))
         {
-            if (other.gameObject.CompareTag("PickUp"))
-            {
-                other.gameObject.SetActive(false);
-                count = count + 1;
-                SetCountText();
-            }
+            other.gameObject.SetActive(false);
+            count = count + 1;
+            SetCountText();
         }
-    
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
         HandleGroundCollision(collision);
-        TriggerLandingVFX(collision);    
+        TriggerLandingVFX(collision);
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -356,19 +365,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-private void TriggerLandingVFX(Collision collision)
-{
-    if (collision.relativeVelocity.magnitude > impactThreshold && Time.time > lastDustTime + dustCooldown)
+    private void TriggerLandingVFX(Collision collision)
     {
-        if (landingVFXPrefab != null)
+        if (
+            collision.relativeVelocity.magnitude > impactThreshold
+            && Time.time > lastDustTime + dustCooldown
+        )
         {
-            ContactPoint contact = collision.contacts[0];
-            Vector3 spawnPos = contact.point + Vector3.up * 0.02f;
-            Instantiate(landingVFXPrefab, spawnPos, Quaternion.identity);
-            lastDustTime = Time.time;
+            if (landingVFXPrefab != null)
+            {
+                ContactPoint contact = collision.contacts[0];
+                Vector3 spawnPos = contact.point + Vector3.up * 0.02f;
+                Instantiate(landingVFXPrefab, spawnPos, Quaternion.identity);
+                lastDustTime = Time.time;
+            }
         }
     }
-}
+
     private void OnCollisionStay(Collision collision)
     {
         HandleGroundCollision(collision);
@@ -409,7 +422,7 @@ private void TriggerLandingVFX(Collision collision)
                             break;
                         }
                     }
-                Debug.Log("ice");
+                // Debug.Log("ice");
             }
             if (collision.gameObject.CompareTag("Rubber"))
             {
@@ -423,7 +436,7 @@ private void TriggerLandingVFX(Collision collision)
                     isGrounded = true;
                 }
                 //burst used to  be here
-                Debug.Log("rubber");
+                // Debug.Log("rubber");
             }
         }
     }
