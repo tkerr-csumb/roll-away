@@ -3,15 +3,17 @@ using UnityEngine;
 public class ApplySavedSkin : MonoBehaviour
 {
     public MeshRenderer ballRenderer;
-    public Material[] skins; // Same order as skinmanager
-
-    void Start()
+    public SkinDatabase skinDb;
+    void Awake()
     {
-        int savedSkinIndex = PlayerPrefs.GetInt("SelectedSkin", 0);
-
-        if (savedSkinIndex < skins.Length)
+        if (skinDb != null)
         {
-            ballRenderer.material = skins[savedSkinIndex];
+            int savedSkinIndex = PlayerPrefs.GetInt("SelectedSkin", 0);
+            
+            if (savedSkinIndex < skinDb.allSkins.Length)
+            {
+                ballRenderer.material = skinDb.allSkins[savedSkinIndex];
+            }
         }
     }
 }

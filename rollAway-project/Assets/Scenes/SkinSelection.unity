@@ -1169,10 +1169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkinManager
   ballRenderer: {fileID: 1132722790}
-  skins:
-  - {fileID: 2100000, guid: f4a7d7b9a57f35b4f8d4f62e0206cd9b, type: 2}
-  - {fileID: 2100000, guid: 280186f5aa5d4ff4ba884e9907ecf45c, type: 2}
-  - {fileID: 2100000, guid: 9043efa47d5e4994997fb569df31f476, type: 2}
+  skinDb: {fileID: 11400000, guid: 011a36ba0c8f1b340ba860fe2dc92b29, type: 2}
   selectButtonText: {fileID: 902817193}
   rollDuration: 0.6
   rollSpeed: 500

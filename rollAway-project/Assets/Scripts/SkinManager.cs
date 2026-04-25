@@ -6,7 +6,7 @@ public class SkinManager : MonoBehaviour
 {
     [Header("References")]
     public MeshRenderer ballRenderer;   
-    public Material[] skins;            
+    public SkinDatabase skinDb;           
     public TextMeshProUGUI selectButtonText; 
 
     [Header("Animation Settings")]
@@ -26,23 +26,21 @@ public class SkinManager : MonoBehaviour
 
     public void NextSkin()
     {
-        currentSkinIndex = (currentSkinIndex + 1) % skins.Length;
+        currentSkinIndex = (currentSkinIndex + 1) % skinDb.allSkins.Length;
         UpdatePreview(true);
     }
 
     public void PreviousSkin()
     {
         currentSkinIndex--;
-        if (currentSkinIndex < 0) currentSkinIndex = skins.Length - 1;
+        if (currentSkinIndex < 0) currentSkinIndex = skinDb.allSkins.Length - 1;
         UpdatePreview(true);
     }
 
     void UpdatePreview(bool animate)
     {
-        if (skins.Length > 0)
-        {
-            ballRenderer.material = skins[currentSkinIndex];
-
+        if (skinDb != null && skinDb.allSkins.Length > 0)        {
+            ballRenderer.material = skinDb.allSkins[currentSkinIndex];
             // Check if current matches saved
             int savedSkin = PlayerPrefs.GetInt("SelectedSkin", -1);
             selectButtonText.text = (currentSkinIndex == savedSkin) ? "SELECTED" : "SELECT";
