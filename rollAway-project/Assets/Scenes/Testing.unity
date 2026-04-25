@@ -137,7 +137,7 @@ PrefabInstance:
       objectReference: {fileID: 961739749}
     - target: {fileID: 3395909343622468291, guid: bd0399c2b978c4365b119a0c6a892fca, type: 3}
       propertyPath: impactThreshold
-      value: 8
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 3395909343622468291, guid: bd0399c2b978c4365b119a0c6a892fca, type: 3}
       propertyPath: landingVFXPrefab
@@ -201,8 +201,16 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4460607078573218159, guid: bd0399c2b978c4365b119a0c6a892fca, type: 3}
       insertIndex: 0
       addedObject: {fileID: 389225579}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3502436033441803403, guid: bd0399c2b978c4365b119a0c6a892fca, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1688414548}
   m_SourcePrefab: {fileID: 100100000, guid: bd0399c2b978c4365b119a0c6a892fca, type: 3}
+--- !u!1 &73016124 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3502436033441803403, guid: bd0399c2b978c4365b119a0c6a892fca, type: 3}
+  m_PrefabInstance: {fileID: 73016123}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &105523959
 GameObject:
   m_ObjectHideFlags: 0
@@ -1182,6 +1190,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!23 &1058731990 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3091365372047437383, guid: bd0399c2b978c4365b119a0c6a892fca, type: 3}
+  m_PrefabInstance: {fileID: 73016123}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1148969249
 GameObject:
   m_ObjectHideFlags: 0
@@ -1704,7 +1717,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3395909343622468291, guid: bd0399c2b978c4365b119a0c6a892fca, type: 3}
   m_PrefabInstance: {fileID: 73016123}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 73016124}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0edc5ac809aad0147b3d01f63f90b4d0, type: 3}
@@ -1715,6 +1728,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4460607078573218159, guid: bd0399c2b978c4365b119a0c6a892fca, type: 3}
   m_PrefabInstance: {fileID: 73016123}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1688414548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 73016124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b05ba31512618f34aa8fbffa34bdb51c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ApplySavedSkin
+  ballRenderer: {fileID: 1058731990}
+  skins:
+  - {fileID: 2100000, guid: f4a7d7b9a57f35b4f8d4f62e0206cd9b, type: 2}
+  - {fileID: 2100000, guid: 280186f5aa5d4ff4ba884e9907ecf45c, type: 2}
+  - {fileID: 2100000, guid: 9043efa47d5e4994997fb569df31f476, type: 2}
 --- !u!1 &1759718265
 GameObject:
   m_ObjectHideFlags: 0
