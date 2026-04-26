@@ -80,13 +80,13 @@ public class SkinManager : MonoBehaviour
         // Snap to perfect center
         ballRenderer.transform.position = centerPosition;
     }
-public void BackToMenu()
-{
-    if (SceneTransition.Instance != null)
+    public void BackToMenu()
     {
-        SceneTransition.Instance.LoadScene("MainMenu"); 
+        if (SceneTransition.Instance != null)
+        {
+            SceneTransition.Instance.LoadScene("MainMenu"); 
+        }
     }
-}
     public void SelectSkin()
     {
         PlayerPrefs.SetInt("SelectedSkin", currentSkinIndex);

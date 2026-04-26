@@ -328,8 +328,16 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3502436033441803403, guid: bd0399c2b978c4365b119a0c6a892fca, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1603340242}
   m_SourcePrefab: {fileID: 100100000, guid: bd0399c2b978c4365b119a0c6a892fca, type: 3}
+--- !u!23 &50884054 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3091365372047437383, guid: bd0399c2b978c4365b119a0c6a892fca, type: 3}
+  m_PrefabInstance: {fileID: 50884053}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &114044247
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,7 +850,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 004fa139a21b6452f93d9efd897afa15, type: 3}
---- !u!43 &354728946
+--- !u!43 &418337581
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1083,16 +1091,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1665348783178141464, guid: faa3b8f37b55d444a9ec0f15c0e24153, type: 3}
       propertyPath: displayMeshCreatorId
-      value: -74472
+      value: -421166
       objectReference: {fileID: 0}
     - target: {fileID: 2009012357529342391, guid: faa3b8f37b55d444a9ec0f15c0e24153, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 354728946}
+      objectReference: {fileID: 418337581}
     - target: {fileID: 2477315194685231013, guid: faa3b8f37b55d444a9ec0f15c0e24153, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 354728946}
+      objectReference: {fileID: 418337581}
     - target: {fileID: 3995795733133562000, guid: faa3b8f37b55d444a9ec0f15c0e24153, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12
@@ -5348,6 +5356,20 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3502436033441803403, guid: bd0399c2b978c4365b119a0c6a892fca, type: 3}
   m_PrefabInstance: {fileID: 50884053}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1603340242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603340241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b05ba31512618f34aa8fbffa34bdb51c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ApplySavedSkin
+  ballRenderer: {fileID: 50884054}
+  skinDb: {fileID: 11400000, guid: 011a36ba0c8f1b340ba860fe2dc92b29, type: 2}
 --- !u!1001 &1716124818
 PrefabInstance:
   m_ObjectHideFlags: 0

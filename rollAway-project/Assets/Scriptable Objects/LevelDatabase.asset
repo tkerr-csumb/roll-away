@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 485c9993e98075a4c9b38364f6d98e20, type: 3}
+  m_Name: LevelDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::LevelDatabase
+  allLevels:
+  - sceneName: Testing
+    displayName: Level 1
+    previewImage: {fileID: -1728596223, guid: efc827932cf1ace4daea36ae72892bf7, type: 3}
+  - sceneName: Liam_Level_Chunk
+    displayName: Level 2
+    previewImage: {fileID: 1634244418, guid: 0bdf6f2e419d2904c94e2e3d0db63102, type: 3}

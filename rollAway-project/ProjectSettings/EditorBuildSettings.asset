@@ -20,5 +20,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SkinSelection.unity
     guid: 36035e3d3a142354cb8b5a9d550c3efc
+  - enabled: 1
+    path: Assets/Scenes/Archived/Testing.unity
+    guid: 0d3515a4f218b4346b5012d30f6de68c
+  - enabled: 1
+    path: Assets/Scenes/LevelSelect.unity
+    guid: e3376c68c44e97a4db6d4197a2e7711c
+  - enabled: 1
+    path: Assets/Scenes/Archived/Liam_Level_Chunk.unity
+    guid: cf34297a2f5ff4053813733bad58d259
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
