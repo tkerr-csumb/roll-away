@@ -636,6 +636,7 @@ GameObject:
   - component: {fileID: 334308047}
   - component: {fileID: 334308046}
   - component: {fileID: 334308045}
+  - component: {fileID: 334308048}
   m_Layer: 5
   m_Name: DoneButton
   m_TagString: Untagged
@@ -706,19 +707,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 334308046}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 586382922}
-        m_TargetAssemblyTypeName: SkinManager, Assembly-CSharp
-        m_MethodName: BackToMenu
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: MainMenu
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &334308046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -757,6 +746,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 334308043}
   m_CullTransparentMesh: 1
+--- !u!114 &334308048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334308043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffeea7a9404a1a54fbeca33d2b4d799c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonScript
+  sceneToLoad: MainMenu
 --- !u!1 &404771494
 GameObject:
   m_ObjectHideFlags: 0
@@ -773,7 +775,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &404771495
 MonoBehaviour:
   m_ObjectHideFlags: 0
