@@ -85,10 +85,10 @@ public class PlayerController : MonoBehaviour
     {
 
         // Hides the mouse cursor
-       // Cursor.visible = false;
+        //Cursor.visible = false;
 
-        // Locks the cursor to the center of the game window so it doesn't click outside
-      //  Cursor.lockState = CursorLockMode.Locked;
+    // Locks the cursor to the center of the game window so it doesn't click outside
+        //Cursor.lockState = CursorLockMode.Locked;
     
         lastPosition = transform.position;
 
