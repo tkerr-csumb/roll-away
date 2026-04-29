@@ -83,6 +83,13 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
+        // Hides the mouse cursor
+        //Cursor.visible = false;
+
+    // Locks the cursor to the center of the game window so it doesn't click outside
+        //Cursor.lockState = CursorLockMode.Locked;
+    
         lastPosition = transform.position;
 
         rb = GetComponent<Rigidbody>();
