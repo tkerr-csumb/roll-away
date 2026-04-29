@@ -5,17 +5,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class _backUpController : MonoBehaviour
 {
-    public static PlayerController Instance { get; private set; }
-    
-    public enum SurfaceType 
-    {
-        Normal,
-        Ice,
-        Rubber,
-        Sticky
-    }
+    public static _backUpController Instance { get; private set; }
 
     [Header("Movement Settings")]
     public float speed = 10f;
@@ -34,8 +26,10 @@ public class PlayerController : MonoBehaviour
     public float impactThreshold = 8.5f;
 
     [Header("UI References")]
+    public TextMeshProUGUI countText;
     private int count;
     private float maxSpeed = 11.5f;
+    public GameObject winTextObject;
     private bool hasBurstCharge = true;
 
     //     private InputActions inputActions;
@@ -95,6 +89,8 @@ public class PlayerController : MonoBehaviour
         gravityControl = GetComponent<GravityControl>();
 
         count = 0;
+        SetCountText();
+        winTextObject.SetActive(false);
     }
 
     void Update()
@@ -189,16 +185,15 @@ public class PlayerController : MonoBehaviour
         // sound would go here
     }
 
-    //PREPARE TO DELETE
-    // void SetCountText()
-    // {
-    //     countText.text = "Polyhedrons: " + count.ToString();
-    //     if (count >= 12)
-    //     {
-    //         winTextObject.SetActive(true);
-    //         Destroy(GameObject.FindGameObjectWithTag("Enemy"));
-    //     }
-    // }
+    void SetCountText()
+    {
+        countText.text = "Polyhedrons: " + count.ToString();
+        if (count >= 12)
+        {
+            winTextObject.SetActive(true);
+            Destroy(GameObject.FindGameObjectWithTag("Enemy"));
+        }
+    }
 
     void FixedUpdate()
     {
@@ -264,7 +259,16 @@ public class PlayerController : MonoBehaviour
 
         rb.AddForce(move * speed);
     }
-    
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("PickUp"))
+        {
+            other.gameObject.SetActive(false);
+            count = count + 1;
+            SetCountText();
+        }
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -274,6 +278,9 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Destroy(gameObject);
+            winTextObject.gameObject.SetActive(true);
+            winTextObject.GetComponent<TextMeshProUGUI>().text =
+                "HAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHA";
         }
         Vector3 normal = collision.contacts[0].normal;
         if (collision.gameObject.CompareTag("Ground")) { }
