@@ -224,6 +224,7 @@ MonoBehaviour:
   impactThreshold: 8.5
   countText: {fileID: 0}
   winTextObject: {fileID: 0}
+  onIce: 0
   cameraObject: {fileID: 0}
   stickyMoveMultiplier: 4
   stickyClimbForce: 14
