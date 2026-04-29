@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: you win yayyy
+  m_text: Level Complete!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -406,23 +406,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseManager
   pausePanel: {fileID: 7425772376203856551}
-  pauseAction:
-    m_Name: Pause
-    m_Type: 1
-    m_ExpectedControlType: 
-    m_Id: a7301c41-d48b-4aeb-acb8-f61e2032c66d
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: c06113b5-a936-40b8-89f2-4944e7b05960
-      m_Path: <Keyboard>/escape
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Pause
-      m_Flags: 0
-    m_Flags: 0
 --- !u!1 &4209213714964181847
 GameObject:
   m_ObjectHideFlags: 0
