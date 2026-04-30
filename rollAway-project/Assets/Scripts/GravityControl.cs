@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class GravityControl : MonoBehaviour
 {
+    public static event System.Action OnGravityFlipped;
+
     private Rigidbody rb;
     private Vector3 currentGravity;
 
@@ -39,9 +41,11 @@ public class GravityControl : MonoBehaviour
         }
 
         bool previousUpsideDown = isUpsideDown;
+        Vector3 previousGravity = currentGravity;
         currentGravity = newGravity;
 
         bool currentIsVertical = Mathf.Abs(currentGravity.normalized.y) > 0.9f;
+        bool previousIsVertical = Mathf.Abs(previousGravity.normalized.y) > 0.9f;
 
         if (currentIsVertical)
         {
@@ -60,6 +64,12 @@ public class GravityControl : MonoBehaviour
             // Keep camera orientation while sideways and only widen the lower/upper
             // edge by 10 degrees until gravity becomes vertical again.
             ApplySidewaysVerticalAxisRange();
+        }
+
+        // Fire event if gravity direction meaningfully changed
+        if (Vector3.Dot(previousGravity.normalized, currentGravity.normalized) < 0.9f)
+        {
+            OnGravityFlipped?.Invoke();
         }
     }
 
