@@ -3,9 +3,12 @@ using UnityEngine;
 public class OutOfBounds : MonoBehaviour
 {
     private Transform respawnPoint;
+    [SerializeField] private AudioClip respawnClip;
+    private AudioSource _source;
 
     private void Start()
     {
+        _source = GetComponent<AudioSource>();
         CheckpointMarker[] checkpoints = FindObjectsByType<CheckpointMarker>();
 
         if (checkpoints.Length == 0)
@@ -41,6 +44,8 @@ public class OutOfBounds : MonoBehaviour
                 playerGravity.SetGravity(savedGravity, true);
             }
             
+            if (respawnClip != null) _source.PlayOneShot(respawnClip);
         }
+        
     }
 }
