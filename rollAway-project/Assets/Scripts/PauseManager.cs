@@ -8,44 +8,50 @@ public class PauseManager : MonoBehaviour
     public static bool IsPaused { get; private set; }
 
     [Header("UI")]
-    [SerializeField] private GameObject pausePanel;
+    [SerializeField]
+    private GameObject pausePanel;
 
-    [Header("Input (New Input System)")]
-    [SerializeField] private InputAction pauseAction = new InputAction(
-        "Pause",
-        InputActionType.Button,
-        "<Keyboard>/escape"
-    );
+    private InputActions inputActions;
 
     private void Awake()
     {
+        inputActions = new InputActions();
+
         if (pausePanel != null)
             pausePanel.SetActive(false);
     }
 
     private void OnEnable()
     {
-        pauseAction.Enable();
-        pauseAction.performed += _ => Toggle();
+        inputActions.Player.Pause.performed += OnPausePerformed;
+        inputActions.Enable();
     }
 
     private void OnDisable()
     {
-        pauseAction.performed -= _ => Toggle();
-        pauseAction.Disable();
+        inputActions.Player.Pause.performed -= OnPausePerformed;
+        inputActions.Disable();
+    }
+
+    private void OnPausePerformed(InputAction.CallbackContext context)
+    {
+        Toggle();
     }
 
     public void Toggle()
     {
-        if (IsPaused) Resume();
-        else          Pause();
+        if (IsPaused)
+            Resume();
+        else
+            Pause();
     }
 
     public void Pause()
     {
-        if (IsPaused) return;
+        if (IsPaused)
+            return;
 
-        IsPaused       = true;
+        IsPaused = true;
         Time.timeScale = 0f;
 
         if (pausePanel != null)
@@ -56,9 +62,10 @@ public class PauseManager : MonoBehaviour
 
     public void Resume()
     {
-        if (!IsPaused) return;
+        if (!IsPaused)
+            return;
 
-        IsPaused       = false;
+        IsPaused = false;
         Time.timeScale = 1f;
 
         if (pausePanel != null)
