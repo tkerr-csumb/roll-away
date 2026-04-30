@@ -14,6 +14,7 @@ public class GravityControl : MonoBehaviour {
     public float flipDuration = 1.75f;
 
     private bool isFlipping = false;
+    public static event System.Action OnGravityFlipped;
     public CinemachineOrbitalFollow orbitalFollow;
     private bool isUpsideDown;
 
@@ -30,6 +31,7 @@ public class GravityControl : MonoBehaviour {
     public void InvertGravity() {
         currentGravity = -currentGravity;
         isUpsideDown = !isUpsideDown;
+        OnGravityFlipped?.Invoke();
 
         ApplyVerticalAxisRange();
         if (virtualCamera != null) {

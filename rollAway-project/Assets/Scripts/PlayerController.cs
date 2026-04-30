@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     [Header("References")] private Rigidbody rb;
     public GameObject cameraObject;
     private GravityControl gravityControl;
+    private BallAudio ballAudio;
     private PlayerDashEnergy dashEnergy;
 
     [Header("Movement Settings")] [SerializeField]
@@ -86,6 +87,7 @@ public class PlayerController : MonoBehaviour
             dashEnergy = GetComponent<PlayerDashEnergy>();
         inputActions = new InputActions();
         gravityControl = GetComponent<GravityControl>();
+        ballAudio = GetComponent<BallAudio>();
     }
 
     void OnEnable()
@@ -264,7 +266,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(up * jumpPower, ForceMode.Impulse);
         }
-
+        ballAudio?.PlayJump();
         isGrounded = false;
     }
 
@@ -278,6 +280,7 @@ public class PlayerController : MonoBehaviour
         if (dashDirection.sqrMagnitude < 0.01f)
             dashDirection = transform.forward;
         rb.AddForce(dashDirection * dashPower, ForceMode.Impulse);
+        ballAudio?.PlayDash();
         hasBurstCharge = false;
         if (dashEnergy != null)
         {
