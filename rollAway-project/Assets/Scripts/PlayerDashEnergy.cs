@@ -3,20 +3,27 @@ using UnityEngine;
 
 public class PlayerDashEnergy : MonoBehaviour
 {
-    [Header("Dash Energy")] 
-    [NonSerialized] public float maxDashEnergy = 100f;
-    [NonSerialized] public float currentDashEnergy = 0f;
-    [NonSerialized] public float energyGainMultiplier = 2f;
+    [Header("Dash Energy")]
+    [NonSerialized]
+    public float maxDashEnergy = 100f;
 
-    [Header("Grounding")] [SerializeField] private PlayerController playerController;
+    [NonSerialized]
+    public float currentDashEnergy = 0f;
+
+    [NonSerialized]
+    public float energyGainMultiplier = 2f;
+
+    [Header("Grounding")]
+    [SerializeField]
+    private PlayerController playerController;
 
     private Vector3 lastPosition;
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         lastPosition = transform.position;
-        if(playerController == null)
+        if (playerController == null)
             playerController = GetComponent<PlayerController>();
     }
 
@@ -25,14 +32,13 @@ public class PlayerDashEnergy : MonoBehaviour
     {
         float distanceMoved = Vector3.Distance(transform.position, lastPosition);
         lastPosition = transform.position;
-        
+
         //gain dash energy from movement
         currentDashEnergy += distanceMoved * energyGainMultiplier;
         currentDashEnergy = Mathf.Clamp(currentDashEnergy, 0f, maxDashEnergy);
-        
-        Debug.Log($"Grounded: {playerController?.IsGrounded}, Energy: {currentDashEnergy}");
+
+        // Debug.Log($"Grounded: {playerController?.IsGrounded}, Energy: {currentDashEnergy}");
     }
-    
 
     public bool HasEnergy()
     {
@@ -43,7 +49,7 @@ public class PlayerDashEnergy : MonoBehaviour
     {
         currentDashEnergy = 0f;
     }
-    
+
     public float GetCurrentDashEnergy()
     {
         return currentDashEnergy;
@@ -51,7 +57,7 @@ public class PlayerDashEnergy : MonoBehaviour
 
     public float GetNormalizedEnergy()
     {
-        if(maxDashEnergy<=0f)
+        if (maxDashEnergy <= 0f)
             return 0f;
         return currentDashEnergy / maxDashEnergy;
     }
