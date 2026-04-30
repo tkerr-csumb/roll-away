@@ -22,6 +22,10 @@ public class CheckPointUpdate : MonoBehaviour
             {
                 checkpoints[0].transform.position = relocationPoint.position;
                 checkpoints[0].transform.rotation = relocationPoint.rotation;
+
+                other.TryGetComponent<GravityControl>(out GravityControl playerGravity);
+                Vector3 fullGravity = playerGravity.GetGravityVector();
+                checkpoints[0].SetSavedGravity(fullGravity);
             }
         }
     }
