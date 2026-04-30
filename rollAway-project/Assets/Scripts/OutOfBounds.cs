@@ -38,7 +38,7 @@ public class OutOfBounds : MonoBehaviour
 
             if (other.TryGetComponent<GravityControl>(out GravityControl playerGravity))
             {
-                playerGravity.SetGravity(savedGravity, false);
+                playerGravity.SetGravity(savedGravity, true);
             }
             
         }
