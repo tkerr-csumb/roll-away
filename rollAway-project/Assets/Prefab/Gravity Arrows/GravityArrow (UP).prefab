@@ -355,6 +355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7a9cf99970de1d43bd9e527586efc9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GravityArrowPrefab
+  direction: 0
 --- !u!1 &5314757241867431463
 GameObject:
   m_ObjectHideFlags: 0
