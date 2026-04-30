@@ -14,59 +14,77 @@ public class PlayerController : MonoBehaviour
         Normal,
         Ice,
         Rubber,
-        Sticky
+        Sticky,
     }
 
     private SurfaceType currentSurface = SurfaceType.Normal;
 
-    [Header("References")] private Rigidbody rb;
+    [Header("References")]
+    private Rigidbody rb;
     public GameObject cameraObject;
     private GravityControl gravityControl;
     private BallAudio ballAudio;
     private PlayerDashEnergy dashEnergy;
 
-    [Header("Movement Settings")] [SerializeField]
+    [Header("Movement Settings")]
+    [SerializeField]
     private float speed = 10f;
 
-    [SerializeField] private float jumpPower = 7f;
-    [SerializeField] private float dashPower = 5f;
-    [SerializeField] private float bounceBoost = 10f;
-    [SerializeField] private float maxSpeed = 11.5f;
+    [SerializeField]
+    private float jumpPower = 7f;
+
+    [SerializeField]
+    private float dashPower = 5f;
+
+    [SerializeField]
+    private float bounceBoost = 10f;
+
+    [SerializeField]
+    private float maxSpeed = 11.5f;
     private float currentMoveSpeed;
 
-    [Header("Surface Movement")] [SerializeField]
+    [Header("Surface Movement")]
+    [SerializeField]
     private float normalLinearDamping = 1f;
 
-    [SerializeField] private float normalAngularDamping = 1f;
+    [SerializeField]
+    private float normalAngularDamping = 1f;
 
-    [SerializeField] private float iceLinearDamping = 0.05f;
-    [SerializeField] private float iceAngularDamping = 0.05f;
-    [SerializeField] private float iceAccelerationBoost = 0.1f;
+    [SerializeField]
+    private float iceLinearDamping = 0.05f;
+
+    [SerializeField]
+    private float iceAngularDamping = 0.05f;
+
+    [SerializeField]
+    private float iceAccelerationBoost = 0.1f;
     public SurfaceType CurrentSurface => currentSurface;
     public bool IsOnIce => currentSurface == SurfaceType.Ice;
 
-    [SerializeField] private float stickyHoldForce = 20f;
-    [SerializeField] private float stickyMoveMultiplier = 4f;
-    [SerializeField] private float stickyClimbForce = 14f;
+    [SerializeField]
+    private float stickyHoldForce = 20f;
+
+    [SerializeField]
+    private float stickyMoveMultiplier = 4f;
+
+    [SerializeField]
+    private float stickyClimbForce = 14f;
     private static float gravConst = 9.81f;
     private Vector3 stickyNormal = Vector3.zero;
-    
-    
 
-
-    [Header("Dash & Energy System")] public float maxDashEnergy = 100f;
+    [Header("Dash & Energy System")]
+    public float maxDashEnergy = 100f;
     public float currentDashEnergy = 0f;
     public float energyGainMultiplier = 2f;
     private bool hasBurstCharge = true;
     public bool IsGrounded => isGrounded;
 
-    [Header("Visual Effects")] public ParticleSystem dashEffect;
+    [Header("Visual Effects")]
+    public ParticleSystem dashEffect;
     public GameObject landingVFXPrefab;
     public float impactThreshold = 8.5f;
     private float lastDustTime;
     public float dustCooldown = 0.5f;
-
-
 
     private InputActions inputActions;
     private Vector2 movementInput;
@@ -76,7 +94,8 @@ public class PlayerController : MonoBehaviour
 
     // public SurfaceType CurrentSurface => currentSurface;
     // public bool IsOnIce => currentSurface == SurfaceType.Ice;
-    [NonSerialized] public bool onIce = false;
+    [NonSerialized]
+    public bool onIce = false;
     private bool onSticky = false;
 
     void Awake()
@@ -97,7 +116,6 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.Move.canceled += HandleMoveInput;
         inputActions.Player.Jump.performed += OnJumpPerformed;
         inputActions.Player.Dash.performed += OnDashPerformed;
-
     }
 
     void OnDisable()
@@ -115,7 +133,6 @@ public class PlayerController : MonoBehaviour
         currentMoveSpeed = speed;
         lastPosition = transform.position;
     }
-
 
     void FixedUpdate()
     {
@@ -163,8 +180,6 @@ public class PlayerController : MonoBehaviour
             return Vector3.up;
         return -gravityControl.GetGravityDirection();
     }
-
-
 
     private Vector3 GetCameraRelativeMove(Vector3 up)
     {
@@ -270,7 +285,6 @@ public class PlayerController : MonoBehaviour
         isGrounded = false;
     }
 
-
     void ExecuteBurst()
     {
         Vector3 gravityDir = gravityControl.GetGravityDirection();
@@ -288,9 +302,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-
-
     private void OnCollisionEnter(Collision collision)
     {
         HandleEnemyCollision(collision);
@@ -303,7 +314,7 @@ public class PlayerController : MonoBehaviour
     {
         UpdateGroundedState(collision);
     }
-    
+
     private void OnCollisionExit(Collision collision)
     {
         HandleSurfaceExit(collision);
@@ -311,7 +322,8 @@ public class PlayerController : MonoBehaviour
 
     private void HandleEnemyCollision(Collision collision)
     {
-        if(!collision.gameObject.CompareTag("Enemy")) return;
+        if (!collision.gameObject.CompareTag("Enemy"))
+            return;
         Destroy(gameObject);
         // need to add losing state here
     }
@@ -340,9 +352,10 @@ public class PlayerController : MonoBehaviour
     private void HandleSurfaceExit(Collision collision)
     {
         if (
-            collision.gameObject.CompareTag("Ice") ||
-            collision.gameObject.CompareTag("Rubber") ||
-            collision.gameObject.CompareTag("Flypaper"))
+            collision.gameObject.CompareTag("Ice")
+            || collision.gameObject.CompareTag("Rubber")
+            || collision.gameObject.CompareTag("Flypaper")
+        )
         {
             currentSurface = SurfaceType.Normal;
             stickyNormal = Vector3.zero;
@@ -354,7 +367,7 @@ public class PlayerController : MonoBehaviour
         Vector3 up = GetUpDirection();
         return Vector3.Dot(normal, up) > 0.5f;
     }
-    
+
     private void HandleGroundingOnEnter(Collision collision)
     {
         Vector3 normal = collision.contacts[0].normal;
@@ -385,7 +398,7 @@ public class PlayerController : MonoBehaviour
             stickyNormal = normal;
         }
     }
-    
+
     private void TriggerLandingVFX(Collision collision)
     {
         if (
@@ -403,4 +416,3 @@ public class PlayerController : MonoBehaviour
         }
     }
 }
-

@@ -265,7 +265,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BallAudio
   rollNormal: {fileID: 8300000, guid: 832e2316bcade0242933a9a0566f1914, type: 3}
   rollIce: {fileID: 8300000, guid: 6dd70b9adeb1b0a4c86dd0ece2e60bfc, type: 3}
-  rollRubber: {fileID: 8300000, guid: 3bcbcf379ed155d4c820f5d1924a04ff, type: 3}
+  rollRubber: {fileID: 8300000, guid: d5f6b6408fb91244f96028e4836655be, type: 3}
   rollSticky: {fileID: 8300000, guid: f63888ea1d5a865478c9e8efd4a38976, type: 3}
   landingClip: {fileID: 8300000, guid: 61bd3f47e4ed9384b960da00998d7367, type: 3}
   jumpClip: {fileID: 8300000, guid: 485daa23da17c9a4a94746712e840ddc, type: 3}
