@@ -389,7 +389,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6375963583575717477}
   m_Layer: 0
-  m_Name: SwingingObstacle
+  m_Name: SwingingObstacleFunnyTry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -411,7 +411,6 @@ Transform:
   - {fileID: 4926861891147328492}
   - {fileID: 689035647328081941}
   - {fileID: 5055196673661506873}
-  - {fileID: 8234196746896279325}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6989863999042351389
@@ -568,14 +567,13 @@ GameObject:
   - component: {fileID: 1267419963215491426}
   - component: {fileID: 2936538732786353952}
   - component: {fileID: 5033331456646452692}
-  - component: {fileID: 9193223922028246344}
   m_Layer: 0
   m_Name: PivotTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5055196673661506873
 Transform:
   m_ObjectHideFlags: 0
@@ -677,7 +675,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7126750666120180115}
   serializedVersion: 5
-  m_Mass: 10
+  m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -720,14 +718,14 @@ HingeJoint:
     targetVelocity: 0
     force: 0
     freeSpin: 0
-  m_UseLimits: 1
+  m_UseLimits: 0
   m_ExtendedLimits: 0
   m_UseAcceleration: 0
   m_Limits:
-    min: -50
-    max: 50
+    min: 0
+    max: 0
     bounciness: 0
-    bounceMinVelocity: 0
+    bounceMinVelocity: 0.2
     contactDistance: 0
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -735,20 +733,6 @@ HingeJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &9193223922028246344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7126750666120180115}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba850bde93d19004489324c1b0260cf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ObstacleSwingDriverUpsideDownTry
-  swingSpeed: 1.85
-  centerBoost: 1.75
 --- !u!1 &7284394094035982623
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,7 +765,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 8.5, z: 0}
   m_LocalScale: {x: 2, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8234196746896279325}
   m_Father: {fileID: 6375963583575717477}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1195967570131546630
@@ -1040,13 +1025,14 @@ GameObject:
   - component: {fileID: 8234196746896279325}
   - component: {fileID: 2741383746894379590}
   - component: {fileID: 703754423110913131}
+  - component: {fileID: 8088131734214288334}
   m_Layer: 0
   m_Name: Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8234196746896279325
 Transform:
   m_ObjectHideFlags: 0
@@ -1056,8 +1042,8 @@ Transform:
   m_GameObject: {fileID: 7652068306711752969}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 8, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalScale: {x: 0.5, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3395147356890034023}
@@ -1065,7 +1051,7 @@ Transform:
   - {fileID: 2143792168110716753}
   - {fileID: 1409205594257013052}
   - {fileID: 950750209892169820}
-  m_Father: {fileID: 6375963583575717477}
+  m_Father: {fileID: 4926861891147328492}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &2741383746894379590
 Rigidbody:
@@ -1077,7 +1063,7 @@ Rigidbody:
   serializedVersion: 5
   m_Mass: 1
   m_LinearDamping: 0
-  m_AngularDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1091,7 +1077,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
 --- !u!59 &703754423110913131
@@ -1133,6 +1119,21 @@ HingeJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &8088131734214288334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7652068306711752969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b54c676fc08ee3e43806ce6774c2988e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleSwingDriverFunnyTry
+  angleLimit: 45
+  motorSpeed: 200
+  motorForce: 1000
 --- !u!1 &9119136966672741627
 GameObject:
   m_ObjectHideFlags: 0
