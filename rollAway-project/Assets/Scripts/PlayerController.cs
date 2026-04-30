@@ -345,12 +345,18 @@ public class PlayerController : MonoBehaviour
             stickyNormal = Vector3.zero;
         }
     }
+
+    private bool IsFloorNormal(Vector3 normal)
+    {
+        Vector3 up = GetUpDirection();
+        return Vector3.Dot(normal, up) > 0.5f;
+    }
     
     private void HandleGroundingOnEnter(Collision collision)
     {
         Vector3 normal = collision.contacts[0].normal;
 
-        if (normal.y > 0.5f)
+        if (IsFloorNormal(normal))
         {
             isGrounded = true;
             hasBurstCharge = true;
@@ -361,11 +367,12 @@ public class PlayerController : MonoBehaviour
             stickyNormal = normal;
         }
     }
+
     private void UpdateGroundedState(Collision collision)
     {
         Vector3 normal = collision.contacts[0].normal;
 
-        if (normal.y > 0.5f)
+        if (IsFloorNormal(normal))
         {
             isGrounded = true;
         }
