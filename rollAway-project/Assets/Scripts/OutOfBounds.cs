@@ -30,7 +30,7 @@ public class OutOfBounds : MonoBehaviour
             player.transform.rotation = respawnPoint.rotation;
             
             Rigidbody rb = player.GetComponent<Rigidbody>();
-            rb.velocity = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
     }
