@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class CheckpointMarker : MonoBehaviour
 {
-    private Vector3 gravityDirection = Vector3.down;
+    private Vector3 savedGravity = Vector3.down * 9.81f;
 
-    public void SetGravityDirection(Vector3 newGravityDirection) {
-        gravityDirection = newGravityDirection;
+    public void SetSavedGravity(Vector3 newGravityDirection) {
+        savedGravity = newGravityDirection;
     }
 
-    public Vector3 GetGravityDirection() {
-        return gravityDirection;
+    public Vector3 GetSavedGravity() {
+        return savedGravity;
     }
 }
