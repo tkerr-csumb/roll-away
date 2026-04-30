@@ -47,16 +47,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float stickyHoldForce = 20f;
     [SerializeField] private float stickyMoveMultiplier = 4f;
     [SerializeField] private float stickyClimbForce = 14f;
-    
-    
     private static float gravConst = 9.81f;
     private Vector3 stickyNormal = Vector3.zero;
+    
+    
 
 
     [Header("Dash & Energy System")] public float maxDashEnergy = 100f;
     public float currentDashEnergy = 0f;
     public float energyGainMultiplier = 2f;
     private bool hasBurstCharge = true;
+    public bool IsGrounded => isGrounded;
 
     [Header("Visual Effects")] public ParticleSystem dashEffect;
     public GameObject landingVFXPrefab;

@@ -1,11 +1,12 @@
+using System;
 using UnityEngine;
 
 public class PlayerDashEnergy : MonoBehaviour
 {
     [Header("Dash Energy")] 
-    [SerializeField] private float maxDashEnergy = 100f;
-    [SerializeField] private float currentDashEnergy = 0f;
-    [SerializeField] private float energyGainMultiplier = 2f;
+    [NonSerialized] public float maxDashEnergy = 100f;
+    [NonSerialized] public float currentDashEnergy = 0f;
+    [NonSerialized] public float energyGainMultiplier = 2f;
 
     [Header("Grounding")] [SerializeField] private PlayerController playerController;
 
@@ -28,25 +29,10 @@ public class PlayerDashEnergy : MonoBehaviour
         //gain dash energy from movement
         currentDashEnergy += distanceMoved * energyGainMultiplier;
         currentDashEnergy = Mathf.Clamp(currentDashEnergy, 0f, maxDashEnergy);
+        
+        Debug.Log($"Grounded: {playerController?.IsGrounded}, Energy: {currentDashEnergy}");
     }
     
-    // void Update()
-    // {
-    //     // Calculate the distance covered (ignoring vertical movement)
-    //     Vector3 currentPosFlat = new Vector3(transform.position.x, 0, transform.position.z);
-    //     Vector3 lastPosFlat = new Vector3(lastPosition.x, 0, lastPosition.z);
-    //     float distanceMoved = Vector3.Distance(currentPosFlat, lastPosFlat);
-    //     // Only add energy if touching the ground
-    //     if (isGrounded && currentDashEnergy < maxDashEnergy)
-    //     {
-    //         currentDashEnergy += distanceMoved * energyGainMultiplier;
-    //
-    //         // Keep it from going over the max
-    //         currentDashEnergy = Mathf.Clamp(currentDashEnergy, 0, maxDashEnergy);
-    //     }
-    //
-    //     lastPosition = transform.position;
-    // }
 
     public bool HasEnergy()
     {

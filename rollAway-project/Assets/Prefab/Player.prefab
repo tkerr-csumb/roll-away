@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 6367469034074124760}
   - component: {fileID: 3395909343622468291}
   - component: {fileID: 6905217508349050701}
+  - component: {fileID: 54009224039938924}
+  - component: {fileID: 7865453097437245727}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -105,20 +107,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0edc5ac809aad0147b3d01f63f90b4d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  cameraObject: {fileID: 0}
   speed: 10
   jumpPower: 7
   dashPower: 5
   bounceBoost: 10
+  maxSpeed: 11.5
+  normalLinearDamping: 1
+  normalAngularDamping: 1
+  iceLinearDamping: 0.05
+  iceAngularDamping: 0.05
+  iceAccelerationBoost: 0.1
+  stickyHoldForce: 20
+  stickyMoveMultiplier: 4
+  stickyClimbForce: 14
   maxDashEnergy: 100
   currentDashEnergy: 0
   energyGainMultiplier: 2
   dashEffect: {fileID: 0}
   landingVFXPrefab: {fileID: 0}
   impactThreshold: 8.5
-  countText: {fileID: 0}
-  winTextObject: {fileID: 0}
-  onIce: 0
-  cameraObject: {fileID: 0}
+  dustCooldown: 0.5
 --- !u!114 &6905217508349050701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,6 +140,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b4c274bbde1954297d98a7f526ec01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GravityControl
+--- !u!114 &54009224039938924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3502436033441803403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af593c7bc08034f91804944cc1763e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCollector
+  countText: {fileID: 0}
+  winTextObject: {fileID: 0}
+  targetPickupCount: 12
+  pickupTag: PickUp
+  enemyTag: Enemy
+--- !u!114 &7865453097437245727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3502436033441803403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ff383ce47a9c404dbbe57e8cc175c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDashEnergy
+  playerController: {fileID: 0}
 --- !u!1 &4255447103114164844
 GameObject:
   m_ObjectHideFlags: 0
