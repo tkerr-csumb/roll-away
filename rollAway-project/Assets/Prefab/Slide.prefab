@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5765821457478207665}
   m_Layer: 0
   m_Name: Slide
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -970,7 +970,7 @@ MonoBehaviour:
   _filter: {fileID: 205018570302639426}
   _renderer: {fileID: 6279064686756334853}
   displayMesh: {fileID: 0}
-  displayMeshCreatorId: 53648
+  displayMeshCreatorId: 51126
   isInitialized: 1
   old_constSize: 0.2
   old_constRotation: 0
