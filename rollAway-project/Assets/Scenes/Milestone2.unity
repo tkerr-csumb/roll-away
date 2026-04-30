@@ -5642,6 +5642,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1665348783178141464, guid: faa3b8f37b55d444a9ec0f15c0e24153, type: 3}
+      propertyPath: old_constArcOfTube
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1665348783178141464, guid: faa3b8f37b55d444a9ec0f15c0e24153, type: 3}
       propertyPath: displayMeshCreatorId
       value: -1646
       objectReference: {fileID: 0}
@@ -5652,6 +5656,10 @@ PrefabInstance:
     - target: {fileID: 1665348783178141464, guid: faa3b8f37b55d444a9ec0f15c0e24153, type: 3}
       propertyPath: old_rotationUseKeyframes
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1665348783178141464, guid: faa3b8f37b55d444a9ec0f15c0e24153, type: 3}
+      propertyPath: arcOfTubeSampler.constValue
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 1665348783178141464, guid: faa3b8f37b55d444a9ec0f15c0e24153, type: 3}
       propertyPath: previousRotations.Array.size
@@ -7066,3 +7074,4 @@ SceneRoots:
   - {fileID: 783586843}
   - {fileID: 1371305542}
   - {fileID: 885224567}
+  - {fileID: 702290540}

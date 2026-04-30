@@ -4,7 +4,7 @@ public class MeterBar : MonoBehaviour
 {
    public Image dashFillImage; 
     
-    public PlayerController player; 
+    public PlayerDashEnergy player; 
 
     void Update()
     {
