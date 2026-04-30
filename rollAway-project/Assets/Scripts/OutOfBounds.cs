@@ -32,6 +32,15 @@ public class OutOfBounds : MonoBehaviour
             Rigidbody rb = player.GetComponent<Rigidbody>();
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
+
+            CheckpointMarker activeCheckpoint = respawnPoint.GetComponent<CheckpointMarker>();
+            Vector3 savedGravity = activeCheckpoint.GetSavedGravity();
+
+            if (other.TryGetComponent<GravityControl>(out GravityControl playerGravity))
+            {
+                playerGravity.SetGravity(savedGravity, false);
+            }
+            
         }
     }
 }
