@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     public GameObject cameraObject;
     private GravityControl gravityControl;
-    private SideGravityControl sideGravityControl;
     private PlayerDashEnergy dashEnergy;
 
     [Header("Movement Settings")]
