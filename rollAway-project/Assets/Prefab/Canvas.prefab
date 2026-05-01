@@ -1099,6 +1099,7 @@ GameObject:
   - component: {fileID: 1110265987361304531}
   - component: {fileID: 4879735527472332270}
   - component: {fileID: 1509055669223304071}
+  - component: {fileID: 7525149462126111817}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1210,6 +1211,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PauseManager
   pausePanel: {fileID: 4074303606981157158}
 --- !u!114 &1509055669223304071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531882838142104304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c51e8178d04eb3746a0c86bacffabd6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HUD
+  scoreText: {fileID: 4563464218146358633}
+  timeText: {fileID: 2224396295021098497}
+  winText: {fileID: 8690864417943029607}
+  elapsedTime: 0
+--- !u!114 &7525149462126111817
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2807,7 +2824,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 114, y: -11.1}
+  m_AnchoredPosition: {x: 114, y: -11.099976}
   m_SizeDelta: {x: 30, y: 50}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1599828832609625479
@@ -5188,11 +5205,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4429987401151753283}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 279, y: 220}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 1}
 --- !u!222 &5791637032201363002
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5661,8 +5678,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GoalArrow
   player: {fileID: 0}
   goal: {fileID: 0}
-  gameCamera: {fileID: 0}
-  arrowRect: {fileID: 0}
 --- !u!1 &7410936647404713125
 GameObject:
   m_ObjectHideFlags: 0
