@@ -3017,7 +3017,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4074303606981157158, guid: 6fef5bb262809374e93b20c27269a2e6, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fef5bb262809374e93b20c27269a2e6, type: 3}
@@ -3111,7 +3112,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCollector
   countText: {fileID: 1819768295}
   winTextObject: {fileID: 1819768294}
-  targetPickupCount: 5
   pickupTag: PickUp
   enemyTag: Enemy
 --- !u!114 &1861299137 stripped
