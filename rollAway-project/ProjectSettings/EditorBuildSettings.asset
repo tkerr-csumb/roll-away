@@ -27,6 +27,12 @@ EditorBuildSettings:
     path: Assets/Scenes/LevelSelect.unity
     guid: e3376c68c44e97a4db6d4197a2e7711c
   - enabled: 1
+    path: Assets/Scenes/Level3.unity
+    guid: a607d3cf51d74294fb3b7074f9b55a85
+  - enabled: 1
+    path: Assets/Scenes/Level2.unity
+    guid: 08ab170574578a346922978ac5234b03
+  - enabled: 1
     path: Assets/Scenes/Archived/Liam_Level_Chunk.unity
     guid: cf34297a2f5ff4053813733bad58d259
   m_configObjects:
