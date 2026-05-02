@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5434133675472988316
+--- !u!1 &2288329416603523487
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8395145874496019450}
-  - component: {fileID: 205018570302639426}
-  - component: {fileID: 6279064686756334853}
-  - component: {fileID: 5741396311180941420}
-  - component: {fileID: 5765821457478207665}
+  - component: {fileID: 8623614401049161717}
+  - component: {fileID: 1085808788763887371}
+  - component: {fileID: 3651100966174033052}
+  - component: {fileID: -9139600121681663893}
+  - component: {fileID: 9005837090672198933}
   m_Layer: 0
-  m_Name: Slide
-  m_TagString: Ground
+  m_Name: rail
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8395145874496019450
+--- !u!4 &8623614401049161717
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5434133675472988316}
+  m_GameObject: {fileID: 2288329416603523487}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.051048394, y: 0.0000006919681, z: -4.0584407}
-  m_LocalScale: {x: 4, y: 4, z: 4}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.26, y: -4.26, z: 2.5}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!33 &205018570302639426
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &1085808788763887371
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5434133675472988316}
+  m_GameObject: {fileID: 2288329416603523487}
   m_Mesh: {fileID: 0}
---- !u!23 &6279064686756334853
+--- !u!23 &3651100966174033052
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5434133675472988316}
+  m_GameObject: {fileID: 2288329416603523487}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -68,10 +68,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
-  - {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
-  - {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
-  - {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
+  - {fileID: 2100000, guid: a815cdbac26110f45b0bdcc7359db7b3, type: 2}
+  - {fileID: 2100000, guid: a815cdbac26110f45b0bdcc7359db7b3, type: 2}
+  - {fileID: 2100000, guid: a815cdbac26110f45b0bdcc7359db7b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -95,19 +94,42 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5741396311180941420
+--- !u!64 &-9139600121681663893
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2288329416603523487}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
+--- !u!114 &9005837090672198933
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5434133675472988316}
+  m_GameObject: {fileID: 2288329416603523487}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85850b8b95539404a8db8795f4a6083e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChaseMacMillan.CurveDesigner.Curve3D
-  selectedPoints: []
+  selectedPoints:
+  - id: 2
   shiftControlState: 0
   centeredStyle:
     m_Name: label
@@ -855,7 +877,7 @@ MonoBehaviour:
   placeLockedPoints: 1
   splitInsertionBehaviour: 0
   guidFactory:
-    currentGUID: 5
+    currentGUID: 8
   sizeSampler:
     points: []
     fieldDisplayName: 
@@ -870,7 +892,7 @@ MonoBehaviour:
     fieldDisplayName: 
     label: Arc
     editMode: 5
-    constValue: 180
+    constValue: 360
     _useKeyframes: 0
     minValue: 0
     maxValue: 360
@@ -919,7 +941,7 @@ MonoBehaviour:
           segmentIndex: 1
         dimensionLockMode: 3
         normalGenerationMode: 0
-        owner: {fileID: 5741396311180941420}
+        owner: {fileID: 9005837090672198933}
         isClosedLoop: 0
         automaticTangents: 0
         automaticTangentSmoothing: 0.35
@@ -936,24 +958,24 @@ MonoBehaviour:
   positionCurve:
     PointGroups:
     - isPointLocked: 1
-      leftTangent: {x: -1, y: -0, z: -0}
-      rightTangent: {x: 1, y: 0, z: 0}
-      position: {x: 0, y: 0, z: 0}
+      leftTangent: {x: -0.15332615, y: -0, z: 40.26001}
+      rightTangent: {x: 0.15332615, y: 0, z: -40.26001}
+      position: {x: 0.56166023, y: 0, z: 115.02779}
       guid:
         id: 1
       segmentIndex: 0
     - isPointLocked: 1
-      leftTangent: {x: -1, y: -0, z: -0}
-      rightTangent: {x: 1, y: 0, z: 0}
-      position: {x: 1, y: 1, z: 0}
+      leftTangent: {x: -0.15332615, y: -0, z: 40.26001}
+      rightTangent: {x: 0.15332615, y: 0, z: -40.26001}
+      position: {x: 0.999735, y: 0, z: -0.00081300735}
       guid:
         id: 2
       segmentIndex: 1
     dimensionLockMode: 0
     normalGenerationMode: 0
-    owner: {fileID: 5741396311180941420}
+    owner: {fileID: 9005837090672198933}
     isClosedLoop: 0
-    automaticTangents: 0
+    automaticTangents: 1
     automaticTangentSmoothing: 0.35
   showPositionHandles: 1
   showPointSelectionWindow: 1
@@ -961,21 +983,21 @@ MonoBehaviour:
   showTangents: 0
   mainCategoryExpanded: 1
   meshGenerationCategoryExpanded: 0
-  textureCategoryExpanded: 0
+  textureCategoryExpanded: 1
   preferencesCategoryExpanded: 0
   advancedCategoryExpanded: 0
   editMode: 0
   _settings: {fileID: 11400000, guid: 8871c79c537415748bb7ba49f5fcb187, type: 2}
-  collider: {fileID: 5765821457478207665}
-  _filter: {fileID: 205018570302639426}
-  _renderer: {fileID: 6279064686756334853}
+  collider: {fileID: 0}
+  _filter: {fileID: 1085808788763887371}
+  _renderer: {fileID: 3651100966174033052}
   displayMesh: {fileID: 0}
-  displayMeshCreatorId: 57612
+  displayMeshCreatorId: 75414
   isInitialized: 1
   old_constSize: 0.2
   old_constRotation: 0
   old_constColor: {r: 1, g: 1, b: 1, a: 1}
-  old_constArcOfTube: 180
+  old_constArcOfTube: 360
   old_constThickness: 0.05
   old_sizeUseKeyframes: 0
   old_rotationUseKeyframes: 0
@@ -996,84 +1018,62 @@ MonoBehaviour:
   old_flatPointCount: 3
   ringPointCount: 8
   old_ringPointCount: 8
-  type: 0
-  old_type: 0
+  type: 4
+  old_type: 4
   closeTilableMeshGap: 0
   old_closeTilableMeshGap: 0
   meshToTile: {fileID: 0}
   old_meshToTile: {fileID: 0}
   old_isClosedLoop: 0
-  old_automaticTangents: 0
+  old_automaticTangents: 1
   old_automaticTangentSmoothing: 0.35
   meshPrimaryAxis: 0
   old_meshPrimaryAxis: 0
   mainTextureLayer:
-    material: {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
+    material: {fileID: 2100000, guid: a815cdbac26110f45b0bdcc7359db7b3, type: 2}
     settings:
       textureGenMode: 2
       textureDirection: 0
       scale: 1
   old_mainTextureLayer:
-    material: {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
+    material: {fileID: 2100000, guid: a815cdbac26110f45b0bdcc7359db7b3, type: 2}
     settings:
       textureGenMode: 2
       textureDirection: 0
       scale: 1
   backTextureLayer:
-    material: {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
+    material: {fileID: 2100000, guid: a815cdbac26110f45b0bdcc7359db7b3, type: 2}
     settings:
       textureGenMode: 2
       textureDirection: 0
       scale: 1
   old_backTextureLayer:
-    material: {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
+    material: {fileID: 2100000, guid: a815cdbac26110f45b0bdcc7359db7b3, type: 2}
     settings:
       textureGenMode: 2
       textureDirection: 0
       scale: 1
   endTextureLayer:
-    material: {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
+    material: {fileID: 2100000, guid: a815cdbac26110f45b0bdcc7359db7b3, type: 2}
     settings:
       textureGenMode: 2
       textureDirection: 0
       scale: 1
   old_endTextureLayer:
-    material: {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
+    material: {fileID: 2100000, guid: a815cdbac26110f45b0bdcc7359db7b3, type: 2}
     settings:
       textureGenMode: 2
       textureDirection: 0
       scale: 1
   edgeTextureLayer:
-    material: {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
+    material: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
     settings:
       textureGenMode: 2
       textureDirection: 0
       scale: 1
   old_edgeTextureLayer:
-    material: {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
+    material: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
     settings:
       textureGenMode: 2
       textureDirection: 0
       scale: 1
---- !u!64 &5765821457478207665
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5434133675472988316}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}

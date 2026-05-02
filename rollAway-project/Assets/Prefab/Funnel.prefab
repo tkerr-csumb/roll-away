@@ -68,8 +68,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
-  - {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
+  - {fileID: 2100000, guid: d26bcd944d436d84899da7c0b27cec30, type: 2}
+  - {fileID: 2100000, guid: d26bcd944d436d84899da7c0b27cec30, type: 2}
   - {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
   - {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
   m_StaticBatchInfo:
@@ -973,8 +973,8 @@ MonoBehaviour:
   showNormals: 0
   showTangents: 0
   mainCategoryExpanded: 1
-  meshGenerationCategoryExpanded: 0
-  textureCategoryExpanded: 0
+  meshGenerationCategoryExpanded: 1
+  textureCategoryExpanded: 1
   preferencesCategoryExpanded: 0
   advancedCategoryExpanded: 0
   editMode: 2
@@ -983,7 +983,7 @@ MonoBehaviour:
   _filter: {fileID: 2009012357529342391}
   _renderer: {fileID: 7452253199148073632}
   displayMesh: {fileID: 0}
-  displayMeshCreatorId: 51108
+  displayMeshCreatorId: 57502
   isInitialized: 1
   old_constSize: 0.2
   old_constRotation: 0
@@ -1021,25 +1021,25 @@ MonoBehaviour:
   meshPrimaryAxis: 0
   old_meshPrimaryAxis: 0
   mainTextureLayer:
-    material: {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
+    material: {fileID: 2100000, guid: d26bcd944d436d84899da7c0b27cec30, type: 2}
     settings:
       textureGenMode: 2
       textureDirection: 0
       scale: 1
   old_mainTextureLayer:
-    material: {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
+    material: {fileID: 2100000, guid: d26bcd944d436d84899da7c0b27cec30, type: 2}
     settings:
       textureGenMode: 2
       textureDirection: 0
       scale: 1
   backTextureLayer:
-    material: {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
+    material: {fileID: 2100000, guid: d26bcd944d436d84899da7c0b27cec30, type: 2}
     settings:
       textureGenMode: 2
       textureDirection: 0
       scale: 1
   old_backTextureLayer:
-    material: {fileID: 2100000, guid: 714155f3afe93e146a9086823f45e8ac, type: 2}
+    material: {fileID: 2100000, guid: d26bcd944d436d84899da7c0b27cec30, type: 2}
     settings:
       textureGenMode: 2
       textureDirection: 0
