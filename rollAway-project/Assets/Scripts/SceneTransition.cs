@@ -5,8 +5,11 @@ using UnityEngine.UI;
 
 public class SceneTransition : MonoBehaviour
 {
-    [SerializeField] Image fadeImage;
-    [SerializeField] float fadeDuration = 1f;
+    [SerializeField]
+    Image fadeImage;
+
+    [SerializeField]
+    float fadeDuration = 1f;
     public static SceneTransition Instance;
 
     void Awake()

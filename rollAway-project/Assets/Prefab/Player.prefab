@@ -123,6 +123,8 @@ GameObject:
   - component: {fileID: 7507351050986997984}
   - component: {fileID: 6121414845230292707}
   - component: {fileID: 415865287835122839}
+  - component: {fileID: 6023118844945698034}
+  - component: {fileID: 171082449567718503}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -471,6 +473,35 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6023118844945698034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3580862948015345829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af593c7bc08034f91804944cc1763e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCollector
+  countText: {fileID: 0}
+  winTextObject: {fileID: 0}
+  pickupTag: PickUp
+  enemyTag: Enemy
+--- !u!114 &171082449567718503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3580862948015345829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ff383ce47a9c404dbbe57e8cc175c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDashEnergy
+  playerController: {fileID: 6759410101996130800}
 --- !u!1 &7821840681070202349
 GameObject:
   m_ObjectHideFlags: 0

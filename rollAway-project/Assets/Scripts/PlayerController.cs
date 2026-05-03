@@ -132,6 +132,7 @@ public class PlayerController : MonoBehaviour
     {
         currentMoveSpeed = speed;
         lastPosition = transform.position;
+        Time.timeScale = 2f;
     }
 
     void FixedUpdate()
