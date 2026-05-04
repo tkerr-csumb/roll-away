@@ -36,7 +36,17 @@ public class ObstacleSwingDriver : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (rb == null || hinge == null)
+        {
+            return;
+        }
+
         float currentAngle = hinge.angle;
+
+        if (float.IsNaN(currentAngle) || float.IsInfinity(currentAngle))
+        {
+            return;
+        }
 
         if (direction == 1 && currentAngle >= hinge.limits.max - 0.5f)
         {
@@ -50,6 +60,7 @@ public class ObstacleSwingDriver : MonoBehaviour
         float speedFactor = Mathf.Cos(currentAngle * Mathf.Deg2Rad);
         float targetVelocity = direction * swingSpeed * (speedFactor * centerBoost);
 
-        rb.angularVelocity = transform.TransformDirection(Vector3.forward) * targetVelocity;
+        Vector3 worldAxis = transform.TransformDirection(hinge.axis.normalized);
+        rb.angularVelocity = worldAxis * targetVelocity;
     }
 }

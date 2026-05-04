@@ -3,6 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class SideGravityControl : MonoBehaviour
 {
+    public static event System.Action OnGravityFlipped;
+
     private Rigidbody rb;
     private Vector3 currentGravity;
 
@@ -20,6 +22,10 @@ public class SideGravityControl : MonoBehaviour
 
     public void SetGravity(Vector3 newGravity)
     {
+        if (Vector3.Dot(currentGravity.normalized, newGravity.normalized) < 0.9f)
+        {
+            OnGravityFlipped?.Invoke();
+        }
         currentGravity = newGravity;
     }
 

@@ -8,18 +8,19 @@ public class PlayerCollector : MonoBehaviour
     [SerializeField] private GameObject winTextObject;
 
     [Header("Win Settings")] 
-    [SerializeField] private int targetPickupCount = 12;
-
     [SerializeField] private string pickupTag = "PickUp";
     [SerializeField] private string enemyTag = "Enemy";
-    
+    private int targetPickupCount;
     private int count = 0;
+    public int GetCount() => count;
+    public int GetTargetCount() => targetPickupCount;
     
         
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        targetPickupCount = GameObject.FindGameObjectsWithTag("PickUp").Length;
         UpdateCountUI();
         if(winTextObject != null)
                 winTextObject.SetActive(false);
@@ -39,7 +40,7 @@ public class PlayerCollector : MonoBehaviour
     private void UpdateCountUI()
     {
         if (countText != null)
-            countText.text = "Polyhedrons: " + count.ToString();
+            countText.text = count.ToString();
         
     }
 
