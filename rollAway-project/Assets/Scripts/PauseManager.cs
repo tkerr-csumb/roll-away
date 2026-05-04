@@ -66,7 +66,7 @@ public class PauseManager : MonoBehaviour
             return;
 
         IsPaused = false;
-        Time.timeScale = 1f;
+        Time.timeScale = 2f;
 
         if (pausePanel != null)
             pausePanel.SetActive(false);
