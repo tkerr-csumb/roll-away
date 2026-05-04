@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private float maxSpeed = 11.5f;
+    [SerializeField]
     private float currentMoveSpeed;
 
     [Header("Surface Movement")]
