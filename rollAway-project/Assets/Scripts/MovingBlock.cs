@@ -7,6 +7,9 @@ public class MovingBlock : MonoBehaviour
 
     [SerializeField]
     private float amplitude;
+
+    [SerializeField]
+    private float offset;
     private Rigidbody rigidbody;
 
     [SerializeField]
@@ -21,7 +24,7 @@ public class MovingBlock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float newX = Mathf.Cos(Time.time * speed) * amplitude + center.position.x;
+        float newX = Mathf.Cos(offset + Time.time * speed) * amplitude + center.position.x;
         rigidbody.MovePosition(new Vector3(newX, rigidbody.position.y, rigidbody.position.z));
     }
 }

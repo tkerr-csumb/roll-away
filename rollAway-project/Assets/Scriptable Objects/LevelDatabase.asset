@@ -24,4 +24,4 @@ MonoBehaviour:
   - sceneName: Level3
     displayName: Level 3
     previewImage: {fileID: -701371775, guid: 8aa61a85ba14b4145b0fb4406bb2eeb6, type: 3}
-    parTime: 0
+    parTime: 150
