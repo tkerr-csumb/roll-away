@@ -194,8 +194,8 @@ GameObject:
   - component: {fileID: 3323132638758192086}
   - component: {fileID: 5235700720196161374}
   - component: {fileID: 8561769447630028812}
-  - component: {fileID: 4751442426945274537}
   - component: {fileID: 6283839378238923065}
+  - component: {fileID: 8610180464661220923}
   m_Layer: 0
   m_Name: CheckPointTrigger
   m_TagString: Untagged
@@ -212,7 +212,7 @@ Transform:
   m_GameObject: {fileID: 4001655306588971498}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.75, z: 0}
+  m_LocalPosition: {x: 0, y: 1.52, z: 0}
   m_LocalScale: {x: 0.1, y: 1.8, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -275,8 +275,21 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &4751442426945274537
-CapsuleCollider:
+--- !u!114 &6283839378238923065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4001655306588971498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50ffa3ca5edb5c44c80a313ecd103e63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CheckPointUpdate
+  relocationPoint: {fileID: 5342729992565523756}
+--- !u!65 &8610180464661220923
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -293,24 +306,9 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &6283839378238923065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4001655306588971498}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50ffa3ca5edb5c44c80a313ecd103e63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CheckPointUpdate
-  relocationPoint: {fileID: 5342729992565523756}
+  serializedVersion: 3
+  m_Size: {x: 25, y: 1.58, z: 0.3}
+  m_Center: {x: 0.000000059604645, y: 0.07, z: -0.00000008940697}
 --- !u!1 &5041230160731649662
 GameObject:
   m_ObjectHideFlags: 0
