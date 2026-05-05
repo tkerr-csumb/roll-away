@@ -7,6 +7,7 @@ public class LevelScript : MonoBehaviour
     public LevelDatabase levelDb;
     public Image previewDisplay;
     public TextMeshProUGUI nameDisplay;
+    [SerializeField] TMP_Text parTimeText;
     
     private int currentLevelIndex = 0;
     [SerializeField] TMP_Text bestTimeText;
@@ -51,6 +52,20 @@ public class LevelScript : MonoBehaviour
         int bestPickups = PlayerPrefs.GetInt(pickupKey, -1);
         int totalPickups = PlayerPrefs.GetInt(totalKey, 0);
         bestPickupsText.text = bestPickups < 0 ? "Pickups: -/-" : $"{bestPickups}/{totalPickups}";
+        if (parTimeText != null)
+        {
+            float par = level.parTime;
+            if (par > 0f)
+            {
+                int pMin = (int)(par / 60f);
+                int pSec = (int)(par % 60f);
+                parTimeText.text = string.Format("Par: {0:00}:{1:00}", pMin, pSec);
+            }
+            else
+            {
+                parTimeText.text = "Par: --:--";
+            }
+        }
     }
 
     public void PlayLevel()

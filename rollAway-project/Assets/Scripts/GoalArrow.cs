@@ -4,24 +4,26 @@ public class GoalArrow : MonoBehaviour
 {
     [SerializeField] private Transform player;
     [SerializeField] private Transform goal;
-    private Camera gameCamera;
-    private RectTransform arrowRect;
+    [SerializeField] private GravityControl gravityControl;
 
-    void Awake()
-    {
-        arrowRect = GetComponent<RectTransform>();
-        gameCamera = Camera.main;
-    }
+    [Header("Positioning")]
+    [SerializeField] private float heightOffset = 2f;
+    [SerializeField] private float rotateSpeed  = 8f;
+
     void Update()
     {
-        if (player == null || goal == null || gameCamera == null) return;
+        if (player == null || goal == null) return;
 
-        Vector3 toGoal = goal.position - player.position;
+        Vector3 up = gravityControl != null
+            ? -gravityControl.GetGravityDirection()
+            : Vector3.up;
 
-        float x = Vector3.Dot(toGoal, gameCamera.transform.right);
-        float y = Vector3.Dot(toGoal, gameCamera.transform.up);
+        transform.position = player.position + up * heightOffset;
 
-        float angle = Mathf.Atan2(y, x) * Mathf.Rad2Deg - 90f;
-        arrowRect.rotation = Quaternion.Euler(0f, 0f, angle);
+        Vector3 toGoal = goal.position - transform.position;
+        if (toGoal.sqrMagnitude < 0.01f) return;
+
+        Quaternion targetRotation = Quaternion.LookRotation(toGoal, up);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
     }
 }
