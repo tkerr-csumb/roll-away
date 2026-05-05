@@ -1099,7 +1099,6 @@ GameObject:
   - component: {fileID: 1110265987361304531}
   - component: {fileID: 4879735527472332270}
   - component: {fileID: 1509055669223304071}
-  - component: {fileID: 7525149462126111817}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1211,22 +1210,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PauseManager
   pausePanel: {fileID: 4074303606981157158}
 --- !u!114 &1509055669223304071
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1531882838142104304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c51e8178d04eb3746a0c86bacffabd6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HUD
-  scoreText: {fileID: 4563464218146358633}
-  timeText: {fileID: 2224396295021098497}
-  winText: {fileID: 8690864417943029607}
-  elapsedTime: 0
---- !u!114 &7525149462126111817
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
