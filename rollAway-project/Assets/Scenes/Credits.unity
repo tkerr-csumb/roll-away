@@ -678,7 +678,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CreditsScroller
   normalSpeed: 80
   fastSpeed: 300
-  endY: 1200
+  endY: 2100
   nextScene: MainMenu
   fadeDuration: 1
 --- !u!225 &1676621386
@@ -887,6 +887,10 @@ MonoBehaviour:
 
 
 
+
+
+
+
     Tom Kerr
 
     Alexis Tornero
@@ -902,7 +906,23 @@ MonoBehaviour:
 
     James Fisher
 
-'
+
+
+    Game
+    Dev Professors
+
+
+    Prof. Guerrero
+
+    Prof. Graeme Devine
+
+
+
+    TA
+
+
+    Rudy
+    Cancho Hernandez'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -929,14 +949,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 46.78
+  m_fontSizeBase: 46.78
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -968,7 +988,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -216.35522, y: 0, z: -242.46143, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
