@@ -8,18 +8,10 @@ public class ObstacleSwingDriver : MonoBehaviour
     public float startingAngle = 0f;
 
     [Header("Speed Settings")]
-    public float swingSpeed = 4.05f;
-    public float centerBoost = 1.875f;
+    public float swingSpeed = 2.05f;
+    public float centerBoost = 1.6f;
 
     private int direction = 1;
-
-    // void Awake()
-    // {
-    //     rb = GetComponent<Rigidbody>();
-    //     hinge = GetComponent<HingeJoint>();
-
-    //     transform.localRotation = Quaternion.AngleAxis(startingAngle, hinge.axis);
-    // }
 
     void Awake()
     {
