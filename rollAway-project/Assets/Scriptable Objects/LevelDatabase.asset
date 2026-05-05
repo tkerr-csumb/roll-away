@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: LevelDatabase
   m_EditorClassIdentifier: Assembly-CSharp::LevelDatabase
   allLevels:
-  - sceneName: Level3
+  - sceneName: Level1
     displayName: Level 1
-    previewImage: {fileID: -1728596223, guid: efc827932cf1ace4daea36ae72892bf7, type: 3}
+    previewImage: {fileID: 1957015723, guid: e896c066945c226429f4d51953d23b99, type: 3}
   - sceneName: Level2
     displayName: Level 2
     previewImage: {fileID: 1634244418, guid: 0bdf6f2e419d2904c94e2e3d0db63102, type: 3}
+  - sceneName: Level3
+    displayName: Level 3
+    previewImage: {fileID: -701371775, guid: 8aa61a85ba14b4145b0fb4406bb2eeb6, type: 3}
