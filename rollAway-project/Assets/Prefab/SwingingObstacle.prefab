@@ -503,7 +503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleSwingDriverUpsideDownTry
   startingAngle: 0
-  swingSpeed: 2.05
+  swingSpeed: 1.8
   centerBoost: 1.6
 --- !u!136 &5841225322368470496
 CapsuleCollider:
