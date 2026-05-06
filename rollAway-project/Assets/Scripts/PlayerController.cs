@@ -119,6 +119,7 @@ public class PlayerController : MonoBehaviour
 
     void OnEnable()
     {
+        RollawayInputRemapManager.OnBindingsChanged += RefreshBindings;
         inputActions.Player.Enable();
         inputActions.Player.Move.performed += HandleMoveInput;
         inputActions.Player.Move.canceled += HandleMoveInput;
@@ -128,6 +129,7 @@ public class PlayerController : MonoBehaviour
 
     void OnDisable()
     {
+        RollawayInputRemapManager.OnBindingsChanged -= RefreshBindings;
         inputActions.Player.Move.performed -= HandleMoveInput;
         inputActions.Player.Move.canceled -= HandleMoveInput;
         inputActions.Player.Jump.performed -= OnJumpPerformed;
@@ -138,6 +140,7 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        RollawayInputRemapManager.Instance?.ApplyOverridesTo(inputActions.asset);
         currentMoveSpeed = speed;
         lastPosition = transform.position;
         Time.timeScale = 2f;
@@ -477,5 +480,9 @@ public class PlayerController : MonoBehaviour
                 lastDustTime = Time.time;
             }
         }
+    }
+    private void RefreshBindings()
+    {
+        RollawayInputRemapManager.Instance?.ApplyOverridesTo(inputActions.asset);
     }
 }

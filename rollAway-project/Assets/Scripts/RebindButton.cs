@@ -24,7 +24,7 @@ public class RebindButton : MonoBehaviour
         if (rebindButton != null) rebindButton.onClick.AddListener(StartRebind);
         if (resetButton  != null) resetButton.onClick.AddListener(ResetBinding);
 
-        InputRemapManager.OnBindingsChanged += RefreshLabel;
+        RollawayInputRemapManager.OnBindingsChanged += RefreshLabel;
         RefreshLabel();
     }
 
@@ -33,17 +33,17 @@ public class RebindButton : MonoBehaviour
         if (rebindButton != null) rebindButton.onClick.RemoveListener(StartRebind);
         if (resetButton  != null) resetButton.onClick.RemoveListener(ResetBinding);
 
-        InputRemapManager.OnBindingsChanged -= RefreshLabel;
+        RollawayInputRemapManager.OnBindingsChanged -= RefreshLabel;
         _currentOp?.Cancel();
     }
 
     private void StartRebind()
     {
-        if (InputRemapManager.Instance == null) return;
+        if (RollawayInputRemapManager.Instance == null) return;
 
         SetListeningState(true);
 
-        _currentOp = InputRemapManager.Instance.StartRebind(
+        _currentOp = RollawayInputRemapManager.Instance.StartRebind(
             actionName,
             bindingIndex,
             success => SetListeningState(false));
@@ -51,13 +51,13 @@ public class RebindButton : MonoBehaviour
 
     private void ResetBinding()
     {
-        InputRemapManager.Instance?.ResetBinding(actionName, bindingIndex);
+        RollawayInputRemapManager.Instance?.ResetBinding(actionName, bindingIndex);
     }
 
     private void RefreshLabel()
     {
-        if (bindingLabel == null || InputRemapManager.Instance == null) return;
-        bindingLabel.text = InputRemapManager.Instance
+        if (bindingLabel == null || RollawayInputRemapManager.Instance == null) return;
+        bindingLabel.text = RollawayInputRemapManager.Instance
             .GetBindingDisplayString(actionName, bindingIndex);
     }
 
@@ -67,6 +67,6 @@ public class RebindButton : MonoBehaviour
         if (resetButton  != null) resetButton.interactable  = !listening;
         if (bindingLabel != null) bindingLabel.text = listening
             ? waitingText
-            : InputRemapManager.Instance?.GetBindingDisplayString(actionName, bindingIndex);
+            : RollawayInputRemapManager.Instance?.GetBindingDisplayString(actionName, bindingIndex);
     }
 }
