@@ -34,7 +34,9 @@ public class PlayerController : MonoBehaviour {
 
     [SerializeField]
     private float maxSpeed = 11.5f;
+    [SerializeField]
     private float currentMoveSpeed;
+    [SerializeField] private float speedometer;
 
     [Header("Surface Movement")]
     [SerializeField]
@@ -48,9 +50,14 @@ public class PlayerController : MonoBehaviour {
 
     [SerializeField]
     private float iceAngularDamping = 0.05f;
+    
 
     [SerializeField]
     private float iceAccelerationBoost = 0.1f;
+    [SerializeField] private float iceSlopeAcceleration = 25f;
+    [SerializeField] private float iceDownhillMaxSpeed = 50f;
+    private Vector3 iceNormal = Vector3.up;
+    private bool jumpedFromIce;
     public SurfaceType CurrentSurface => currentSurface;
     public bool IsOnIce => currentSurface == SurfaceType.Ice;
 
@@ -60,6 +67,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     private float stickyMoveMultiplier = 4f;
 
+    [SerializeField] private float stickyMaxSpeed = 3.5f;
     [SerializeField]
     private float stickyClimbForce = 14f;
     private static float gravConst = 9.81f;
@@ -129,7 +137,9 @@ public class PlayerController : MonoBehaviour {
         Vector3 move = GetCameraRelativeMove(up);
 
         ApplySurfaceDamping();
-
+        Vector3 flatVelocity = Vector3.ProjectOnPlane(rb.linearVelocity, up);
+        speedometer = flatVelocity.magnitude;
+        Debug.Log($"Current speed: {speedometer}");
         switch (currentSurface)
         {
             case SurfaceType.Sticky:
@@ -204,14 +214,25 @@ public class PlayerController : MonoBehaviour {
         return camForward * inputY + camRight * movementInput.x;
     }
 
-    private void ApplySurfaceDamping() {
-        switch (currentSurface) {
+    private void ApplySurfaceDamping()
+    {
+        // If we jumped from ice, keep ice damping while airborne
+        if (!isGrounded && jumpedFromIce)
+        {
+            rb.linearDamping = iceLinearDamping;
+            rb.angularDamping = iceAngularDamping;
+            return;
+        }
+
+        switch (currentSurface)
+        {
             case SurfaceType.Ice:
                 rb.linearDamping = iceLinearDamping;
                 rb.angularDamping = iceAngularDamping;
                 break;
             case SurfaceType.Sticky:
                 //placeholder in case we want custom damping for flypaper
+                // rb.linearDamping = 2f;
                 break;
             default:
                 rb.linearDamping = normalLinearDamping;
@@ -225,17 +246,41 @@ public class PlayerController : MonoBehaviour {
         rb.AddForce(move * currentMoveSpeed, ForceMode.Force);
     }
 
-    private void HandleIceMovement(Vector3 move) {
+    private void HandleIceMovement(Vector3 move)
+    {
+        Vector3 gravityDir = gravityControl.GetGravityDirection();
+
+        // Gravity projected onto the ice surface = downhill direction
+        Vector3 downhillDir = Vector3.ProjectOnPlane(gravityDir, iceNormal);
+
+        float slopeAmount = downhillDir.magnitude;
+
+        if (slopeAmount > 0.01f)
+        {
+            downhillDir.Normalize();
+
+            rb.AddForce(
+                downhillDir * (iceSlopeAcceleration * slopeAmount),
+                ForceMode.Acceleration
+            );
+        }
+
         currentMoveSpeed += iceAccelerationBoost * Time.fixedDeltaTime;
         currentMoveSpeed = Mathf.Min(currentMoveSpeed, maxSpeed);
+
         rb.AddForce(move * currentMoveSpeed, ForceMode.Force);
-        if (rb.linearVelocity.magnitude > maxSpeed) {
-            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed);
+
+        float speedCap = Mathf.Lerp(maxSpeed, iceDownhillMaxSpeed, slopeAmount);
+
+        if (rb.linearVelocity.magnitude > speedCap)
+        {
+            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, speedCap);
         }
     }
 
-    private void HandleStickyMovement(Vector3 move, Vector3 up) {
-        bool onWall = stickyNormal.y < 0.5f && stickyNormal.y > -0.5f;
+    private void HandleStickyMovement(Vector3 move, Vector3 up)
+    {
+        bool onWall = Mathf.Abs(Vector3.Dot(stickyNormal, up)) < 0.5f;
         var keyboard = Keyboard.current;
         if (onWall) {
             Vector3 climbingMovement = Vector3.ProjectOnPlane(move, stickyNormal);
@@ -252,6 +297,14 @@ public class PlayerController : MonoBehaviour {
             }
 
             rb.AddForce(climbingMovement * (speed * stickyMoveMultiplier), ForceMode.Force);
+            Vector3 wallVelocity = Vector3.ProjectOnPlane(rb.linearVelocity, stickyNormal);
+            Vector3 intoWallVelocity = rb.linearVelocity - wallVelocity;
+
+            if (wallVelocity.magnitude > stickyMaxSpeed)
+            {
+                wallVelocity = Vector3.ClampMagnitude(wallVelocity, stickyMaxSpeed);
+                rb.linearVelocity = wallVelocity + intoWallVelocity;
+            }
             return;
         }
     }
@@ -267,11 +320,21 @@ public class PlayerController : MonoBehaviour {
     void ExecuteJump() {
         Vector3 up = GetUpDirection();
 
-        if (currentSurface == SurfaceType.Rubber) {
+        if (currentSurface == SurfaceType.Ice)
+        {
+            return;
+        }
+        else if (currentSurface == SurfaceType.Rubber)
+        {
+            jumpedFromIce = false;
             rb.AddForce(up * bounceBoost, ForceMode.Impulse);
-        } else {
+        }
+        else
+        {
+            jumpedFromIce = false;
             rb.AddForce(up * jumpPower, ForceMode.Impulse);
         }
+
         ballAudio?.PlayJump();
         isGrounded = false;
     }
@@ -316,7 +379,10 @@ public class PlayerController : MonoBehaviour {
     private void HandleSurfaceEnter(Collision collision) {
         if (collision.gameObject.CompareTag("Ice")) {
             currentSurface = SurfaceType.Ice;
-        } else if (collision.gameObject.CompareTag("Rubber")) {
+            iceNormal = collision.contacts[0].normal;
+        }
+        else if (collision.gameObject.CompareTag("Rubber"))
+        {
             currentSurface = SurfaceType.Rubber;
         } else if (collision.gameObject.CompareTag("Flypaper")) {
             currentSurface = SurfaceType.Sticky;
@@ -349,6 +415,7 @@ public class PlayerController : MonoBehaviour {
         if (IsFloorNormal(normal)) {
             isGrounded = true;
             hasBurstCharge = true;
+            jumpedFromIce = false;
         }
 
         if (currentSurface == SurfaceType.Sticky) {
@@ -365,6 +432,11 @@ public class PlayerController : MonoBehaviour {
 
         if (currentSurface == SurfaceType.Sticky) {
             stickyNormal = normal;
+        }
+        
+        if (currentSurface == SurfaceType.Ice)
+        {
+            iceNormal = collision.contacts[0].normal;
         }
     }
 

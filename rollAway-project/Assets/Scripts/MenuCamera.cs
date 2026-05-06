@@ -6,6 +6,11 @@ public class MenuCamera : MonoBehaviour
     [SerializeField] Vector3 offset = new Vector3(-8, 4, 0);
     [SerializeField] float smoothSpeed = 3f;
 
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
     void LateUpdate()
     {
         Vector3 targetPos = ball.position + offset;

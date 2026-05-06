@@ -223,13 +223,18 @@ MonoBehaviour:
   dashPower: 5
   bounceBoost: 10
   maxSpeed: 11.5
+  currentMoveSpeed: 0
+  speedometer: 0
   normalLinearDamping: 1
   normalAngularDamping: 1
   iceLinearDamping: 0.05
   iceAngularDamping: 0.05
   iceAccelerationBoost: 0.1
+  iceSlopeAcceleration: 25
+  iceDownhillMaxSpeed: 50
   stickyHoldForce: 20
   stickyMoveMultiplier: 4
+  stickyMaxSpeed: 3.5
   stickyClimbForce: 14
   maxDashEnergy: 100
   currentDashEnergy: 0
@@ -271,7 +276,7 @@ MonoBehaviour:
   rollSticky: {fileID: 8300000, guid: f63888ea1d5a865478c9e8efd4a38976, type: 3}
   landingClip: {fileID: 8300000, guid: 61bd3f47e4ed9384b960da00998d7367, type: 3}
   jumpClip: {fileID: 8300000, guid: 485daa23da17c9a4a94746712e840ddc, type: 3}
-  dashClip: {fileID: 0}
+  dashClip: {fileID: 8300000, guid: 9113a422ca12aa84f81a5309066acd13, type: 3}
   gravityFlipClip: {fileID: 8300000, guid: e0e402d1058bb3b479c54e96c1bd096a, type: 3}
   rollSpeedMin: 0.5
   rollSpeedMax: 12
@@ -288,7 +293,7 @@ AudioSource:
   m_GameObject: {fileID: 3580862948015345829}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 9091387188900863760, guid: 65393851255e64dcb8e036172371d68d, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -385,7 +390,7 @@ AudioSource:
   m_GameObject: {fileID: 3580862948015345829}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 9091387188900863760, guid: 65393851255e64dcb8e036172371d68d, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1

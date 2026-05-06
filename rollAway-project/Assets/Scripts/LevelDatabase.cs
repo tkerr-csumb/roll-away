@@ -9,6 +9,7 @@ public class LevelDatabase : ScriptableObject
         public string sceneName;     // Scene you want to load
         public string displayName;   // Display level name
         public Sprite previewImage;  // Thumbnail for the level
+        public float  parTime;
     }
 
     public LevelInfo[] allLevels;

@@ -16,8 +16,8 @@ public class HUD : MonoBehaviour
 
     void Update()
     {
-        elapsedTime += Time.deltaTime / Time.timeScale;
-        // Adjust for the time scale change in PlayerController
+        if (Time.timeScale > 0f)
+            elapsedTime += Time.deltaTime / Time.timeScale;
         int minutes = (int)(elapsedTime / 60f);
         int seconds = (int)(elapsedTime % 60f);
         timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
