@@ -51,6 +51,7 @@ MonoBehaviour:
   pointB: {fileID: 4059107025832649500}
   moveSpeed: 2
   delay: 1
+  slowDownThreshold: 2
   platform: {fileID: 3184320859976990085}
 --- !u!1 &3184320859976990085
 GameObject:
@@ -119,7 +120,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4355d57a8c978284e9451d7c7fb83ba8, type: 2}
+  - {fileID: 2100000, guid: baecfd35ff13645348a172a74a047aa2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

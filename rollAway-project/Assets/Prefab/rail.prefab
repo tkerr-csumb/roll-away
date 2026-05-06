@@ -217,7 +217,7 @@ MonoBehaviour:
     m_Focused:
       m_Background: {fileID: 0}
       m_ScaledBackgrounds: []
-      m_TextColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+      m_TextColor: {r: 0.8235294, g: 0.8235294, b: 0.8235294, a: 1}
     m_OnNormal:
       m_Background: {fileID: 0}
       m_ScaledBackgrounds:
@@ -231,11 +231,11 @@ MonoBehaviour:
       m_Background: {fileID: 0}
       m_ScaledBackgrounds:
       - {fileID: 1411127090212124673, guid: 0000000000000000d000000000000000, type: 0}
-      m_TextColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+      m_TextColor: {r: 0.8235294, g: 0.8235294, b: 0.8235294, a: 1}
     m_OnFocused:
       m_Background: {fileID: 0}
       m_ScaledBackgrounds: []
-      m_TextColor: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
+      m_TextColor: {r: 0.8235294, g: 0.8235294, b: 0.8235294, a: 1}
     m_Border:
       m_Left: 6
       m_Right: 6
@@ -282,7 +282,7 @@ MonoBehaviour:
     m_Active:
       m_Background: {fileID: 0}
       m_ScaledBackgrounds: []
-      m_TextColor: {r: 0.76862746, g: 0.76862746, b: 0.76862746, a: 1}
+      m_TextColor: {r: 0.29803923, g: 0.49411765, b: 1, a: 1}
     m_Focused:
       m_Background: {fileID: 0}
       m_ScaledBackgrounds: []
@@ -298,11 +298,11 @@ MonoBehaviour:
     m_OnActive:
       m_Background: {fileID: 0}
       m_ScaledBackgrounds: []
-      m_TextColor: {r: 0.76862746, g: 0.76862746, b: 0.76862746, a: 1}
+      m_TextColor: {r: 0.29803923, g: 0.49411765, b: 1, a: 1}
     m_OnFocused:
       m_Background: {fileID: 0}
       m_ScaledBackgrounds: []
-      m_TextColor: {r: 0.5058824, g: 0.7058824, b: 1, a: 1}
+      m_TextColor: {r: 0.29803923, g: 0.49411765, b: 1, a: 1}
     m_Border:
       m_Left: 0
       m_Right: 0
@@ -558,7 +558,7 @@ MonoBehaviour:
     m_OnNormal:
       m_Background: {fileID: 0}
       m_ScaledBackgrounds: []
-      m_TextColor: {r: 0.76862746, g: 0.76862746, b: 0.76862746, a: 1}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_OnHover:
       m_Background: {fileID: 0}
       m_ScaledBackgrounds: []
@@ -824,7 +824,7 @@ MonoBehaviour:
     m_Focused:
       m_Background: {fileID: 0}
       m_ScaledBackgrounds: []
-      m_TextColor: {r: 0.8235294, g: 0.8235294, b: 0.8235294, a: 1}
+      m_TextColor: {r: 0.9019608, g: 0.9019608, b: 0.9019608, a: 1}
     m_OnNormal:
       m_Background: {fileID: 0}
       m_ScaledBackgrounds: []
@@ -840,7 +840,7 @@ MonoBehaviour:
     m_OnFocused:
       m_Background: {fileID: 0}
       m_ScaledBackgrounds: []
-      m_TextColor: {r: 0.8235294, g: 0.8235294, b: 0.8235294, a: 1}
+      m_TextColor: {r: 0.9019608, g: 0.9019608, b: 0.9019608, a: 1}
     m_Border:
       m_Left: 3
       m_Right: 10
@@ -965,8 +965,8 @@ MonoBehaviour:
         id: 1
       segmentIndex: 0
     - isPointLocked: 1
-      leftTangent: {x: -0.15332615, y: -0, z: 40.26001}
-      rightTangent: {x: 0.15332615, y: 0, z: -40.26001}
+      leftTangent: {x: -0.15332615, y: 0, z: 40.26001}
+      rightTangent: {x: 0.15332615, y: -0, z: -40.26001}
       position: {x: 0.999735, y: 0, z: -0.00081300735}
       guid:
         id: 2
@@ -988,11 +988,11 @@ MonoBehaviour:
   advancedCategoryExpanded: 0
   editMode: 0
   _settings: {fileID: 11400000, guid: 8871c79c537415748bb7ba49f5fcb187, type: 2}
-  collider: {fileID: 0}
+  collider: {fileID: -9139600121681663893}
   _filter: {fileID: 1085808788763887371}
   _renderer: {fileID: 3651100966174033052}
   displayMesh: {fileID: 0}
-  displayMeshCreatorId: 75414
+  displayMeshCreatorId: 51492
   isInitialized: 1
   old_constSize: 0.2
   old_constRotation: 0

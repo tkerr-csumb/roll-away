@@ -983,7 +983,7 @@ MonoBehaviour:
   _filter: {fileID: 2009012357529342391}
   _renderer: {fileID: 7452253199148073632}
   displayMesh: {fileID: 0}
-  displayMeshCreatorId: 51238
+  displayMeshCreatorId: 51430
   isInitialized: 1
   old_constSize: 0.2
   old_constRotation: 0
