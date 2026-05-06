@@ -76,7 +76,7 @@ AudioSource:
   m_GameObject: {fileID: 7231297077105365768}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 9091387188900863760, guid: 65393851255e64dcb8e036172371d68d, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66d6194028384468a9c20e752b13f43a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
-  mixer: {fileID: 0}
+  mixer: {fileID: 24100000, guid: 65393851255e64dcb8e036172371d68d, type: 2}
   musicParam: MusicVolume
   sfxParam: SFXVolume
 --- !u!1 &8141173870848616696
@@ -235,7 +235,7 @@ AudioSource:
   m_GameObject: {fileID: 8141173870848616696}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 2156582099633655254, guid: 65393851255e64dcb8e036172371d68d, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1

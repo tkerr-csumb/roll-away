@@ -45,9 +45,13 @@ public class CreditsScroller : MonoBehaviour
         if (!scrolling)
             return;
 
-        float speed = UnityEngine.InputSystem.Keyboard.current.spaceKey.isPressed
-            ? fastSpeed
-            : normalSpeed;
+        float speed =
+            (
+                UnityEngine.InputSystem.Keyboard.current.spaceKey.isPressed
+                || UnityEngine.InputSystem.Gamepad.current?.buttonSouth.isPressed == true
+            )
+                ? fastSpeed
+                : normalSpeed;
         transform.Translate(Vector3.up * speed * Time.deltaTime);
 
         if (transform.localPosition.y >= endY)

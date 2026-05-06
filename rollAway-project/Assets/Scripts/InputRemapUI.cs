@@ -27,16 +27,19 @@ public class InputRemapUI : MonoBehaviour
 
     private void OpenPanel()
     {
+        UIAudio.Instance?.PlayClick();
         if (remapPanel != null) remapPanel.SetActive(true);
     }
 
     private void ClosePanel()
     {
+        UIAudio.Instance?.PlayClick();
         if (remapPanel != null) remapPanel.SetActive(false);
     }
 
     private void ResetAll()
     {
-        InputRemapManager.Instance?.ResetAllBindings();
+        UIAudio.Instance?.PlayClick();
+        RollawayInputRemapManager.Instance?.ResetAllBindings();
     }
 }
