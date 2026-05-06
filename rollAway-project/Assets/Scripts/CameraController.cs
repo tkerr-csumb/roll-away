@@ -16,8 +16,7 @@ public class CameraController : MonoBehaviour
         gravityControl = player.GetComponent<GravityControl>();
         thisSideUp = Vector3.up;
 
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+
     }
 
     void LateUpdate() {

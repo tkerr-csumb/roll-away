@@ -1,23 +1,19 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Goal : MonoBehaviour
 {
-    public TextMeshProUGUI winText;
-    public SceneTransition sceneTransition;
+    [SerializeField] private WinScreen winScreen;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            winText.gameObject.SetActive(true);
-            StartCoroutine(LoadCredits());
+            StartCoroutine(HandleGoalReached());
         }
     }
 
-    IEnumerator LoadCredits()
+    IEnumerator HandleGoalReached()
     {
         Time.timeScale = 0f;
 
@@ -30,10 +26,12 @@ public class Goal : MonoBehaviour
             PlayerPrefs.SetFloat(timeKey, currentTime);
         }
         PlayerCollector collector = FindFirstObjectByType<PlayerCollector>();
+        int currentCount = 0;
+        int total = 0;
         if (collector != null)
         {
-            int currentCount = collector.GetCount();
-            int total = collector.GetTargetCount();
+            currentCount = collector.GetCount();
+            total = collector.GetTargetCount();
             string pickupKey = "BestPickups_" + sceneName;
             string totalKey = "TotalPickups_" + sceneName;
             if (currentCount > PlayerPrefs.GetInt(pickupKey, 0))
@@ -43,8 +41,8 @@ public class Goal : MonoBehaviour
 
         PlayerPrefs.Save();
 
-        yield return new WaitForSecondsRealtime(3f);
-        Time.timeScale = 1f;
-        SceneTransition.Instance.LoadScene("Credits");
+        yield return new WaitForSecondsRealtime(1f);
+        if (winScreen != null)
+            winScreen.Show(currentTime, currentCount, total);
     }
 }

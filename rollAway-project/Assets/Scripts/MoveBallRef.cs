@@ -2,18 +2,20 @@ using UnityEngine;
 
 public class MoveBallRef : MonoBehaviour
 {
+    Rigidbody rb;
     Transform parentTransform;
 
-    void Start()
+    void Awake()
     {
+        rb = GetComponent<Rigidbody>();
         parentTransform = transform.parent;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (parentTransform != null)
+        if (rb != null && parentTransform != null)
         {
-            transform.position = parentTransform.position;
+            rb.MovePosition(parentTransform.position);
         }
     }
 }

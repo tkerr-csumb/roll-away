@@ -10,6 +10,7 @@ public class CursorLock : MonoBehaviour
 
     private void Update()
     {
+        if (PauseManager.IsPaused || WinScreen.IsShowing) return;
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             LockCursor();

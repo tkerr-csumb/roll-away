@@ -5,18 +5,25 @@ public class ObstacleSwingDriver : MonoBehaviour
     private Rigidbody rb;
     private HingeJoint hinge;
 
+    public float startingAngle = 0f;
+
     [Header("Speed Settings")]
-    public float swingSpeed = 1.85f;
-    public float centerBoost = 1.75f;
+    public float swingSpeed = 2.05f;
+    public float centerBoost = 1.6f;
 
     private int direction = 1;
 
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
         hinge = GetComponent<HingeJoint>();
 
-        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        Quaternion spawnRotation = Quaternion.AngleAxis(startingAngle, hinge.axis);
+        
+        rb.position = transform.position; 
+        rb.rotation = transform.rotation * spawnRotation;
+
+        direction = (startingAngle >= 0) ? -1 : 1;
     }
 
     void FixedUpdate()
