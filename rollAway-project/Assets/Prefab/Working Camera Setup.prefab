@@ -353,14 +353,17 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1013209938947778442, guid: 664ce5dc15cf8fb4a93c2d768f80217b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7256794966304596555}
   m_SourcePrefab: {fileID: 100100000, guid: 664ce5dc15cf8fb4a93c2d768f80217b, type: 3}
 --- !u!114 &2088854249210088977 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7922897174303285940, guid: 664ce5dc15cf8fb4a93c2d768f80217b, type: 3}
   m_PrefabInstance: {fileID: 8146678436013845669}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 9151725444747234095}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b5d7c088409d9a40b7b09aa707777f8, type: 3}
@@ -371,7 +374,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5979618161792646699, guid: 664ce5dc15cf8fb4a93c2d768f80217b, type: 3}
   m_PrefabInstance: {fileID: 8146678436013845669}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 9151725444747234095}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
@@ -387,3 +390,47 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3145021835987245322, guid: 664ce5dc15cf8fb4a93c2d768f80217b, type: 3}
   m_PrefabInstance: {fileID: 8146678436013845669}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &9151725444747234095 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1013209938947778442, guid: 664ce5dc15cf8fb4a93c2d768f80217b, type: 3}
+  m_PrefabInstance: {fileID: 8146678436013845669}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7256794966304596555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9151725444747234095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe43d662878a7c43bcd44d43c9e2094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineDeoccluder
+  CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 1
+  IgnoreTag: 
+  TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  MinimumDistanceFromTarget: 0.5
+  AvoidObstacles:
+    Enabled: 1
+    DistanceLimit: 0
+    MinimumOcclusionTime: 0
+    CameraRadius: 0.4
+    UseFollowTarget:
+      Enabled: 0
+      YOffset: 0
+    Strategy: 0
+    MaximumEffort: 4
+    SmoothingTime: 0
+    Damping: 0.4
+    DampingWhenOccluded: 0.2
+  ShotQualityEvaluation:
+    Enabled: 0
+    OptimalDistance: 10
+    NearLimit: 5
+    FarLimit: 30
+    MaxQualityBoost: 0.2
