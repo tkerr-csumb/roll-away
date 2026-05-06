@@ -153,12 +153,12 @@ public class GravityControl : MonoBehaviour
 
         if (!isUpsideDown)
         {
-            orbitalFollow.VerticalAxis.Range = new Vector2(-10f, 45f);
+            orbitalFollow.VerticalAxis.Range = new Vector2(-35f, 45f);
             orbitalFollow.VerticalAxis.Center = 17.5f;
         }
         else
         {
-            orbitalFollow.VerticalAxis.Range = new Vector2(-45f, 10f);
+            orbitalFollow.VerticalAxis.Range = new Vector2(-45f, 35f);
             orbitalFollow.VerticalAxis.Center = -17.5f;
         }
     }
