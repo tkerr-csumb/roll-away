@@ -58,6 +58,10 @@ public class SceneTransition : MonoBehaviour
 
     public void QuitGame()
     {
+        UIAudio.Instance?.PlayClick();
         Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 }
