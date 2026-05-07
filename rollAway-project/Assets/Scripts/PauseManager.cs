@@ -16,6 +16,7 @@ public class PauseManager : MonoBehaviour
     private void Awake()
     {
         inputActions = new InputActions();
+        RollawayInputRemapManager.Instance?.ApplyOverridesTo(inputActions.asset);
 
         if (pausePanel != null)
             pausePanel.SetActive(false);
@@ -23,12 +24,14 @@ public class PauseManager : MonoBehaviour
 
     private void OnEnable()
     {
+        RollawayInputRemapManager.OnBindingsChanged += RefreshBindings;
         inputActions.Player.Pause.performed += OnPausePerformed;
         inputActions.Enable();
     }
 
     private void OnDisable()
     {
+        RollawayInputRemapManager.OnBindingsChanged -= RefreshBindings;
         inputActions.Player.Pause.performed -= OnPausePerformed;
         inputActions.Disable();
     }
@@ -72,5 +75,9 @@ public class PauseManager : MonoBehaviour
             pausePanel.SetActive(false);
 
         OnResumed?.Invoke();
+    }
+    private void RefreshBindings()
+    {
+        RollawayInputRemapManager.Instance?.ApplyOverridesTo(inputActions.asset);
     }
 }

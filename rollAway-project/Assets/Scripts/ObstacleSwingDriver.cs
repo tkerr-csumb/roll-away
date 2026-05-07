@@ -8,7 +8,7 @@ public class ObstacleSwingDriver : MonoBehaviour
     public float startingAngle = 0f;
 
     [Header("Speed Settings")]
-    public float swingSpeed = 2.05f;
+    public float swingSpeed = 1.8f;
     public float centerBoost = 1.6f;
 
     private int direction = 1;

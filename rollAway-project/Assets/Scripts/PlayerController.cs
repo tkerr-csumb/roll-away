@@ -41,9 +41,12 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private float maxSpeed = 11.5f;
+
     [SerializeField]
     private float currentMoveSpeed;
-    [SerializeField] private float speedometer;
+
+    [SerializeField]
+    private float speedometer;
 
     [Header("Surface Movement")]
     [SerializeField]
@@ -57,12 +60,15 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private float iceAngularDamping = 0.05f;
-    
 
     [SerializeField]
     private float iceAccelerationBoost = 0.1f;
-    [SerializeField] private float iceSlopeAcceleration = 25f;
-    [SerializeField] private float iceDownhillMaxSpeed = 50f;
+
+    [SerializeField]
+    private float iceSlopeAcceleration = 25f;
+
+    [SerializeField]
+    private float iceDownhillMaxSpeed = 50f;
     private Vector3 iceNormal = Vector3.up;
     private bool jumpedFromIce;
     public SurfaceType CurrentSurface => currentSurface;
@@ -74,7 +80,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float stickyMoveMultiplier = 4f;
 
-    [SerializeField] private float stickyMaxSpeed = 3.5f;
+    [SerializeField]
+    private float stickyMaxSpeed = 3.5f;
+
     [SerializeField]
     private float stickyClimbForce = 14f;
     private static float gravConst = 9.81f;
@@ -119,6 +127,7 @@ public class PlayerController : MonoBehaviour
 
     void OnEnable()
     {
+        RollawayInputRemapManager.OnBindingsChanged += RefreshBindings;
         inputActions.Player.Enable();
         inputActions.Player.Move.performed += HandleMoveInput;
         inputActions.Player.Move.canceled += HandleMoveInput;
@@ -128,6 +137,7 @@ public class PlayerController : MonoBehaviour
 
     void OnDisable()
     {
+        RollawayInputRemapManager.OnBindingsChanged -= RefreshBindings;
         inputActions.Player.Move.performed -= HandleMoveInput;
         inputActions.Player.Move.canceled -= HandleMoveInput;
         inputActions.Player.Jump.performed -= OnJumpPerformed;
@@ -138,6 +148,7 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        RollawayInputRemapManager.Instance?.ApplyOverridesTo(inputActions.asset);
         currentMoveSpeed = speed;
         lastPosition = transform.position;
         Time.timeScale = 2f;
@@ -151,7 +162,7 @@ public class PlayerController : MonoBehaviour
         ApplySurfaceDamping();
         Vector3 flatVelocity = Vector3.ProjectOnPlane(rb.linearVelocity, up);
         speedometer = flatVelocity.magnitude;
-        Debug.Log($"Current speed: {speedometer}");
+        // Debug.Log($"Current speed: {speedometer}");
         switch (currentSurface)
         {
             case SurfaceType.Sticky:
@@ -204,7 +215,34 @@ public class PlayerController : MonoBehaviour
 
         camForward = Vector3.ProjectOnPlane(camForward, up).normalized;
         camRight = Vector3.ProjectOnPlane(camRight, up).normalized;
-        return camForward * movementInput.y + camRight * movementInput.x;
+
+        float inputY = movementInput.y;
+
+        // Detect camera pitch
+        float pitch = cameraObject.transform.eulerAngles.x;
+
+        // If camera is tilted downward past horizontal, flip vertical input
+        bool lookingDown = pitch > 90f && pitch < 270f;
+        if (lookingDown)
+        {
+            inputY *= -1f;
+        }
+
+        Vector3 gravDirection = gravityControl.GetGravityDirection().normalized;
+        bool gravIsSideways = Mathf.Abs(gravDirection.y) < 0.1f;
+
+        if (!isGrounded && gravIsSideways)
+        {
+            Vector3 move = Vector3.zero;
+            Vector3 flatCamRight = cameraObject.transform.right;
+            flatCamRight.y = 0f;
+            flatCamRight.Normalize();
+
+            move += flatCamRight * movementInput.x;
+            move += Vector3.up * inputY;
+            return move;
+        }
+        return camForward * inputY + camRight * movementInput.x;
     }
 
     private void ApplySurfaceDamping()
@@ -253,10 +291,7 @@ public class PlayerController : MonoBehaviour
         {
             downhillDir.Normalize();
 
-            rb.AddForce(
-                downhillDir * (iceSlopeAcceleration * slopeAmount),
-                ForceMode.Acceleration
-            );
+            rb.AddForce(downhillDir * (iceSlopeAcceleration * slopeAmount), ForceMode.Acceleration);
         }
 
         currentMoveSpeed += iceAccelerationBoost * Time.fixedDeltaTime;
@@ -455,7 +490,7 @@ public class PlayerController : MonoBehaviour
         {
             stickyNormal = normal;
         }
-        
+
         if (currentSurface == SurfaceType.Ice)
         {
             iceNormal = collision.contacts[0].normal;
@@ -477,5 +512,10 @@ public class PlayerController : MonoBehaviour
                 lastDustTime = Time.time;
             }
         }
+    }
+
+    private void RefreshBindings()
+    {
+        RollawayInputRemapManager.Instance?.ApplyOverridesTo(inputActions.asset);
     }
 }

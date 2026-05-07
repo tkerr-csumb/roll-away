@@ -33,6 +33,9 @@ public class AudioManager : MonoBehaviour
         MusicEnabled = PlayerPrefs.GetInt(MusicPrefKey, 1) == 1;
         SFXEnabled   = PlayerPrefs.GetInt(SFXPrefKey,   1) == 1;
 
+    }
+    private void Start()
+    {
         ApplyMusic(MusicEnabled);
         ApplySFX(SFXEnabled);
     }
