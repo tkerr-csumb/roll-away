@@ -11,6 +11,7 @@ TagManager:
   - Ice
   - Rubber
   - Flypaper
+  - CameraIgnore
   layers:
   - Default
   - TransparentFX
