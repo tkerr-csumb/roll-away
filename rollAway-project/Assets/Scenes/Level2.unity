@@ -4287,6 +4287,10 @@ PrefabInstance:
       propertyPath: cameraObject
       value: 
       objectReference: {fileID: 1599375630}
+    - target: {fileID: 6759410101996130800, guid: df26dad1e0da82249905ec69285ed71c, type: 3}
+      propertyPath: iceJumpPower
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7507351050986997984, guid: df26dad1e0da82249905ec69285ed71c, type: 3}
       propertyPath: landingClip
       value: 
