@@ -2056,6 +2056,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7023247756672867345, guid: 79485bf77d409fd488faccadd765cf50, type: 3}
   m_PrefabInstance: {fileID: 204713969}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &213475449 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8268927148767116199, guid: be8aa1b636063d6419c46046d8f0a2bc, type: 3}
+  m_PrefabInstance: {fileID: 1466756115}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &230491101
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14125,7 +14130,7 @@ PrefabInstance:
     - target: {fileID: 8740900291985380604, guid: 42fbc4d89f76033448d2b93810b33734, type: 3}
       propertyPath: goal
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 213475449}
     - target: {fileID: 8740900291985380604, guid: 42fbc4d89f76033448d2b93810b33734, type: 3}
       propertyPath: player
       value: 
