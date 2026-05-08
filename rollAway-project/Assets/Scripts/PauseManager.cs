@@ -76,6 +76,7 @@ public class PauseManager : MonoBehaviour
 
         OnResumed?.Invoke();
     }
+
     private void RefreshBindings()
     {
         RollawayInputRemapManager.Instance?.ApplyOverridesTo(inputActions.asset);
