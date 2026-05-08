@@ -178,7 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIAudio
   clickClip: {fileID: 8300000, guid: f134a7bc95b1d24489974723a712108a, type: 3}
   hoverClip: {fileID: 0}
-  volume: 1
+  volume: 0.5
 --- !u!114 &1850771889053273436
 MonoBehaviour:
   m_ObjectHideFlags: 0
