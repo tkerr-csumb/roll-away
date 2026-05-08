@@ -24,7 +24,7 @@ public class MovingBlock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float newX = Mathf.Cos(offset + Time.time * speed) * amplitude + center.position.x;
-        rigidbody.MovePosition(new Vector3(newX, rigidbody.position.y, rigidbody.position.z));
+        float cos = Mathf.Cos(offset + Time.time * speed) * amplitude + center.position.z;
+        rigidbody.MovePosition(new Vector3(rigidbody.position.x, rigidbody.position.y, cos));
     }
 }

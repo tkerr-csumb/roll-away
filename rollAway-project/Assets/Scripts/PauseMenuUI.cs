@@ -3,31 +3,60 @@ using UnityEngine.UI;
 
 public class PauseMenuUI : MonoBehaviour
 {
+    public static PauseMenuUI Instance { get; private set; }
+
     [Header("Buttons")]
-    [SerializeField] private Button resumeButton;
-    [SerializeField] private Button mainMenuButton;
-    [SerializeField] private Button quitButton;
-    [SerializeField] private Button restartButton;
+    [SerializeField]
+    public Button resumeButton;
+
+    [SerializeField]
+    private Button mainMenuButton;
+
+    [SerializeField]
+    private Button quitButton;
+
+    [SerializeField]
+    private Button restartButton;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
 
     private void OnEnable()
     {
-        if (restartButton != null) restartButton.onClick.AddListener(OnRestart);
-        if (resumeButton   != null) resumeButton.onClick.AddListener(OnResume);
-        if (mainMenuButton != null) mainMenuButton.onClick.AddListener(OnMainMenu);
-        if (quitButton     != null) quitButton.onClick.AddListener(OnQuit);
+        if (restartButton != null)
+            restartButton.onClick.AddListener(OnRestart);
+        if (resumeButton != null)
+            resumeButton.onClick.AddListener(OnResume);
+        if (mainMenuButton != null)
+            mainMenuButton.onClick.AddListener(OnMainMenu);
+        if (quitButton != null)
+            quitButton.onClick.AddListener(OnQuit);
 
         Cursor.lockState = CursorLockMode.None;
-        Cursor.visible   = true;
+        Cursor.visible = true;
+        resumeButton.Select();
     }
 
     private void OnDisable()
     {
-        if (restartButton != null) restartButton.onClick.RemoveListener(OnRestart);
-        if (resumeButton   != null) resumeButton.onClick.RemoveListener(OnResume);
-        if (mainMenuButton != null) mainMenuButton.onClick.RemoveListener(OnMainMenu);
-        if (quitButton     != null) quitButton.onClick.RemoveListener(OnQuit);
+        if (restartButton != null)
+            restartButton.onClick.RemoveListener(OnRestart);
+        if (resumeButton != null)
+            resumeButton.onClick.RemoveListener(OnResume);
+        if (mainMenuButton != null)
+            mainMenuButton.onClick.RemoveListener(OnMainMenu);
+        if (quitButton != null)
+            quitButton.onClick.RemoveListener(OnQuit);
         Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible   = false;
+        Cursor.visible = false;
     }
 
     private void OnResume()
@@ -51,11 +80,13 @@ public class PauseMenuUI : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
     }
+
     private void OnRestart()
     {
         UIAudio.Instance?.PlayClick();
         FindFirstObjectByType<PauseManager>()?.Resume();
         SceneTransition.Instance?.LoadScene(
-            UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
+        );
     }
 }
